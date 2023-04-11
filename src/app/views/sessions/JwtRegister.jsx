@@ -7,6 +7,7 @@ import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import UserTypeAutocompleteCombo from '../material-kit/auto-complete/UserTypeAutocompleteCombo'
 import * as Yup from 'yup';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
@@ -24,7 +25,7 @@ const JWTRegister = styled(JustifyBox)(() => ({
   minHeight: '100vh !important',
   '& .card': {
     maxWidth: 800,
-    minHeight: 400,
+    minHeight: 1000,
     margin: '1rem',
     display: 'flex',
     borderRadius: 12,
@@ -74,7 +75,8 @@ const JwtRegister = () => {
           <Grid item sm={6} xs={12}>
             <ContentBox>
               <img
-                width="100%"
+                width="50%"
+                alignItems
                 alt="Register"
                 src="/assets/images/illustrations/posting_photo.svg"
               />
@@ -90,18 +92,33 @@ const JwtRegister = () => {
               >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
+
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type="text"
+                        name="firstName"
+                        label="First Name"
+                        variant="outlined"
+                        onBlur={handleBlur}
+                        value={values.firstName}
+                        onChange={handleChange}
+                        helperText={touched.firstName && errors.firstName}
+                        error={Boolean(errors.firstName && touched.firstName)}
+                        sx={{ mb: 3 }}
+                      />
                     <TextField
                       fullWidth
                       size="small"
                       type="text"
-                      name="username"
-                      label="Username"
+                      name="lastName"
+                      label="Last Name"
                       variant="outlined"
                       onBlur={handleBlur}
-                      value={values.username}
+                      value={values.lastName}
                       onChange={handleChange}
-                      helperText={touched.username && errors.username}
-                      error={Boolean(errors.username && touched.username)}
+                      helperText={touched.lastName && errors.lastName}
+                      error={Boolean(errors.lastName && touched.lastName)}
                       sx={{ mb: 3 }}
                     />
 
@@ -122,6 +139,133 @@ const JwtRegister = () => {
                     <TextField
                       fullWidth
                       size="small"
+                      type="number"
+                      name="phone"
+                      label="Phone"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.phone}
+                      onChange={handleChange}
+                      helperText={touched.phone && errors.phone}
+                      error={Boolean(errors.phone && touched.phone)}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="streetAddress"
+                      label="Street Address"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.streetAddress}
+                      onChange={handleChange}
+                      helperText={touched.streetAddress && errors.streetAddress}
+                      error={Boolean(errors.streetAddress && touched.streetAddress)}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="streetAddress"
+                      label="Street Address"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.streetAddress}
+                      onChange={handleChange}
+                      helperText={touched.streetAddress && errors.streetAddress}
+                      error={Boolean(errors.streetAddress && touched.streetAddress)}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="streetAddressLine2"
+                      label="Street Address Line 2"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.streetAddressLine2}
+                      onChange={handleChange}
+                      helperText={touched.streetAddressLine2 && errors.streetAddressLine2}
+                      error={Boolean(errors.streetAddressLine2 && touched.streetAddressLine2)}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="city"
+                      label="City"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.city}
+                      onChange={handleChange}
+                      helperText={touched.city && errors.city}
+                      error={Boolean(errors.city && touched.city)}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="region"
+                      label="Region"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.region}
+                      onChange={handleChange}
+                      helperText={touched.region && errors.region}
+                      error={Boolean(errors.region && touched.region)}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="number"
+                      name="zipCode"
+                      label="Postal/Zip Code"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.zipCode}
+                      onChange={handleChange}
+                      helperText={touched.zipCode && errors.zipCode}
+                      error={Boolean(errors.zipCode && touched.zipCode)}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="country"
+                      label="Country"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.country}
+                      onChange={handleChange}
+                      helperText={touched.country && errors.country}
+                      error={Boolean(errors.country && touched.country)}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="parentId"
+                      label="Parent ID"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.parentId}
+                      onChange={handleChange}
+                      helperText={touched.parentId && errors.parentId}
+                      error={Boolean(errors.parentId && touched.parentId)}
+                      sx={{ mb: 3 }}
+                    />
+                    <UserTypeAutocompleteCombo />
+                    <TextField
+                      fullWidth
+                      size="small"
                       name="password"
                       type="password"
                       label="Password"
@@ -131,6 +275,20 @@ const JwtRegister = () => {
                       onChange={handleChange}
                       helperText={touched.password && errors.password}
                       error={Boolean(errors.password && touched.password)}
+                      sx={{ mb: 2 }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      name="confirmPassword"
+                      type="password"
+                      label="Confirm Password"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.confirmPassword}
+                      onChange={handleChange}
+                      helperText={touched.confirmPassword && errors.confirmPassword}
+                      error={Boolean(errors.confirmPassword && touched.confirmPassword)}
                       sx={{ mb: 2 }}
                     />
 
