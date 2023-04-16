@@ -1,18 +1,5 @@
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-  Grid,
-  Icon,
-  Paper,
-  Radio,
-  RadioGroup,
-  styled,
-  Switch,
-  Tooltip
-} from '@mui/material';
+import { Box, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Icon,
+  Paper, Radio, RadioGroup, styled, Switch, Tooltip  } from '@mui/material';
 import { get } from 'lodash';
 import { Fragment } from 'react';
 import BadgeSelected from './BadgeSelected';

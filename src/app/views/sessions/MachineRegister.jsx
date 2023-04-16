@@ -76,9 +76,6 @@ const MachineRegister = () => {
     <MachineRoot>
       <Card className="card">
         <Grid container>
-
-
-
             <ContentBox>
               <Formik
                 onSubmit={handleFormSubmit}
@@ -120,7 +117,7 @@ const MachineRegister = () => {
                    <TextField
                      fullWidth
                      size="small"
-                     type="number"
+                     type="string"
                      name="building"
                      label="Building"
                      variant="outlined"

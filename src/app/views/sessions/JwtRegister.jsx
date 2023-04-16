@@ -16,7 +16,7 @@ const JustifyBox = styled(FlexBox)(() => ({ justifyContent: 'center' }));
 
 const ContentBox = styled(JustifyBox)(() => ({
   height: '100%',
-  padding: '32px',
+  padding: '22px',
   background: 'rgba(0, 0, 0, 0.01)'
 }));
 
@@ -75,7 +75,7 @@ const JwtRegister = () => {
           <Grid item sm={6} xs={12}>
             <ContentBox>
               <img
-                width="50%"
+                width="100%"
                 alignItems
                 alt="Register"
                 src="/assets/images/illustrations/posting_photo.svg"
