@@ -1,7 +1,6 @@
 import { useTheme } from '@emotion/react';
 import { LoadingButton } from '@mui/lab';
-import { Card, Checkbox, Grid, TextField } from '@mui/material';
-import { Box, styled } from '@mui/material';
+import { Card, Checkbox, Grid, TextField, Box, styled  } from '@mui/material';
 import { Paragraph } from 'app/components/Typography';
 import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
@@ -44,7 +43,7 @@ const initialValues = {
 // form field validation schema
 const validationSchema = Yup.object().shape({
   password: Yup.string()
-    .min(6, 'Password must be 6 character length')
+    .min(8, 'Password must be 8 character length')
     .required('Password is required!'),
   email: Yup.string().email('Invalid Email address').required('Email is required!')
 });
@@ -59,7 +58,9 @@ const JwtRegister = () => {
     setLoading(true);
 
     try {
-      register(values.email, values.username, values.password);
+      register( values.firstName,values.lastName,values.email, values.password, values.phone,
+      values.streetAddress,values.city,values.region,values.zipCode,values.country,values.parentId,
+      values.UserTypeAutocompleteCombo);
       navigate('/');
       setLoading(false);
     } catch (e) {

@@ -1,14 +1,12 @@
 import { useTheme } from '@emotion/react';
 import { LoadingButton } from '@mui/lab';
-import { Card, Checkbox, Grid, TextField,Typography } from '@mui/material';
-import { Box, styled } from '@mui/material';
-import { Paragraph } from 'app/components/Typography';
+import { Card, Grid, TextField,Typography,Box, styled } from '@mui/material';
 import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import PositionAutocompleteCombo from '../material-kit/auto-complete/PositionAutocompleteCombo'
-import * as Yup from 'yup';
+import firebase from '../../../fake-db/db/firebasekey';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -40,7 +38,7 @@ const initialValues = {
    machineName: '',
    building: '',
    floor: '',
-   are:'',
+   area:'',
    position:'',
    description:'',
    parentId: '',
@@ -64,13 +62,29 @@ const MachineRegister = () => {
 
   const handleFormSubmit = async (values) => {
     setLoading(true);
-    try {
-      await login(values.email, values.password);
-      navigate('/');
-    } catch (e) {
-      setLoading(false);
-    }
-  };
+      try {
+        const ref = firebase.database().ref('machines');
+        const newMachineRef = ref.push();
+        await newMachineRef.set({
+          machineid: values.machineid,
+          machineName: values.machineName,
+          building: values.building,
+          floor: values.floor,
+          area: values.area,
+          position: values.position,
+          description: values.description,
+          parentId: values.parentId,
+          note: values.note,
+        });
+        alert('Machine registered successfully!');
+        navigate('/');
+      } catch (error) {
+        console.error('Error in Machine Registering :', error);
+        alert('Error registering machine. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <MachineRoot>
