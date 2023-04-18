@@ -1,16 +1,7 @@
 import { DatePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  Icon,
-  Radio,
-  RadioGroup,
-  styled,
-} from "@mui/material";
+import {Button, Checkbox,FormControlLabel,Grid, Icon, Radio, RadioGroup,styled,} from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -68,7 +59,7 @@ const SimpleForm = () => {
               value={username || ""}
               onChange={handleChange}
               errorMessages={["this field is required"]}
-              label="Username (Min length 4, Max length 9)"
+              label="username"
               validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
             />
 
@@ -91,21 +82,6 @@ const SimpleForm = () => {
               validators={["required", "isEmail"]}
               errorMessages={["this field is required", "email is not valid"]}
             />
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                value={date}
-                onChange={handleDateChange}
-                renderInput={(props) => (
-                  <TextField
-                    {...props}
-                    label="Date picker"
-                    id="mui-pickers-date"
-                    sx={{ mb: 2, width: "100%" }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
 
             <TextField
               sx={{ mb: 4 }}
@@ -147,39 +123,7 @@ const SimpleForm = () => {
               validators={["required", "isPasswordMatch"]}
               errorMessages={["this field is required", "password didn't match"]}
             />
-            <RadioGroup
-              row
-              name="gender"
-              sx={{ mb: 2 }}
-              value={gender || ""}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Male"
-                label="Male"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
 
-              <FormControlLabel
-                value="Female"
-                label="Female"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-
-              <FormControlLabel
-                value="Others"
-                label="Others"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-            </RadioGroup>
-
-            <FormControlLabel
-              control={<Checkbox />}
-              label="I have read and agree to the terms of service."
-            />
           </Grid>
         </Grid>
 

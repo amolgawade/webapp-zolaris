@@ -8,6 +8,15 @@ import {  useNavigate } from 'react-router-dom';
 import PositionAutocompleteCombo from '../material-kit/auto-complete/PositionAutocompleteCombo'
 import firebase from '../../../fake-db/db/firebasekey';
 
+const Container = styled("div")(({ theme }) => ({
+  margin: "30px",
+  [theme.breakpoints.down("sm")]: { margin: "16px" },
+  "& .breadcrumb": {
+    marginBottom: "30px",
+    [theme.breakpoints.down("sm")]: { marginBottom: "16px" },
+  },
+}));
+
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
 const JustifyBox = styled(FlexBox)(() => ({ justifyContent: 'center' }));
@@ -45,13 +54,7 @@ const initialValues = {
    note:'',
 };
 
-// form field validation schema
-// const validationSchema = Yup.object().shape({
-//   machineid: Yup.string()
-//     .min(6, 'machineid must be 6 character length')
-//     .required('machineid is required!'),
-//   parentId: Yup.string().parentId('Invalid parentId').required('parentId is required!')
-// });
+
 
 const MachineRegister = () => {
   const theme = useTheme();
@@ -91,11 +94,7 @@ const MachineRegister = () => {
       <Card className="card">
         <Grid container>
             <ContentBox>
-              <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={initialValues}
-//                 validationSchema={validationSchema}
-              >
+              <Formik onSubmit={handleFormSubmit} initialValues={initialValues} >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
                    <TextField
