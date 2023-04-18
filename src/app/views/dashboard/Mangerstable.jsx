@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState,useEffect } from "react";
 import useAuth from 'app/hooks/useAuth';
 import { Breadcrumb, SimpleCard } from 'app/components';
@@ -43,6 +44,7 @@ const Mangerstable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userList, setUserList] = useState([]);
+  const navigate = useNavigate();
 
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -94,7 +96,8 @@ const Mangerstable = () => {
     };
 
     const dashboardClick = (id) => {
-      alert("view dashboard click");
+
+      navigate('/charts/echarts');
     };
 
     const loadCurrentUserData = (id) => {
