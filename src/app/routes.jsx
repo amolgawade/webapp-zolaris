@@ -17,7 +17,7 @@ const MRegister = Loadable(lazy(() => import('app/views/pages/machineregister/MR
 const AppEchart = Loadable(lazy(() => import('app/views/charts/echarts/AppEchart')));
 
 // dashboard page
-const Analytics = Loadable(lazy(() => import('app/views/dashboard/Analytics')));
+const FrontDashboard = Loadable(lazy(() => import('app/views/dashboard/FrontDashboard')));
 
 const routes = [
   {
@@ -31,7 +31,7 @@ const routes = [
       // dashboard route
       {
         path: '/dashboard/default',
-        element: <Analytics />,
+        element: <FrontDashboard />,
         auth: authRoles.admin
       },
 
