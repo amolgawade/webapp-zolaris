@@ -29,7 +29,7 @@ const Container = styled('div')(({ theme }) => ({
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
   "& thead": {
-    "& tr": { "& th": { paddingLeft: 0, paddingRight: 0 } },
+    "& tr": { "& th": { paddingLeft: 10, paddingRight: 10, backgroundColor: "#6082B6", color: "#ffffff", textAlign: "center" } },
   },
   "& tbody": {
     "& tr": { "& td": { paddingLeft: 0, textTransform: "capitalize" } },
