@@ -10,7 +10,8 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { useState,useEffect } from "react";
 import useAuth from 'app/hooks/useAuth';
 import { Breadcrumb, SimpleCard } from 'app/components';
@@ -107,14 +108,15 @@ const Mangerstable = () => {
 
   return (
     <Container>
-     <Typography
-       variant="button"
+    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+     <IconButton
        color="primary"
-       onClick={() => loadCurrentUserData(loggedInUser.id)}
+       onClick={() => loadCurrentUserData(loggedInUser?.id)}
        sx={{ mb: 2, mt: 3, cursor: 'pointer' }}
-        >
-       {loggedInUser?.email}
-     </Typography>
+     >
+       <RefreshIcon />
+     </IconButton>
+     </Box>
     <Box width="100%" overflow="auto">
       <StyledTable>
         <TableHead>
