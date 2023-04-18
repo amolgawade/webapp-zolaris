@@ -34,8 +34,7 @@ const FrontDashboard = () => {
   return (
     <Fragment>
       <ContentBox className="FrontDashboard">
-      <Title>Welcome to Zolaris </Title>
-      <SimpleCard title="Simple Table">
+      <SimpleCard title="">
         <Mangerstable />
       </SimpleCard>
 

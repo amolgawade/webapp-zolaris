@@ -1,6 +1,6 @@
 export const navigations = [
   { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
-  { name: 'Device Registration', icon: 'dashboard', path: '/pages/machineregister/mregister' },
+  { name: 'Machine Registration', icon: 'dashboard', path: '/pages/machineregister/mregister' },
 //  { label: 'PAGES', type: 'label' },
 //  {
 //    name: 'Sessions',
