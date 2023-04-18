@@ -10,10 +10,20 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+import Typography from '@mui/material/Typography';
 import { useState,useEffect } from "react";
 import useAuth from 'app/hooks/useAuth';
+import { Breadcrumb, SimpleCard } from 'app/components';
 import firebase from '../../../fake-db/db/firebasekey';
 
+const Container = styled('div')(({ theme }) => ({
+  margin: '30px',
+  [theme.breakpoints.down('sm')]: { margin: '16px' },
+  '& .breadcrumb': {
+    marginBottom: '30px',
+    [theme.breakpoints.down('sm')]: { marginBottom: '16px' }
+  }
+}));
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
@@ -33,17 +43,25 @@ const Mangerstable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userList, setUserList] = useState([]);
 
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
   useEffect(() => {
       const usersRef = firebase.database().ref('users');
 
-      const loggedInUser = usersRef.orderByChild('email').equalTo(user?.name ?? '')
-       loggedInUser.on('value', (snapshot) => {
+      const userRefRes = usersRef.orderByChild('email').equalTo(user?.name ?? '')
+       userRefRes.on('value', (snapshot) => {
        const userData = snapshot.val();
        if(userData === null) {
        return
        }
+
        const keys = Object.keys(userData);
        const firstKey = keys[0];
+
+       const temp = userData[firstKey];
+       temp.id = firstKey;
+       console.log(temp);
+       setLoggedInUser(temp);
        fetchData(firstKey);
        });
 
@@ -74,6 +92,10 @@ const Mangerstable = () => {
       fetchData(id);
     };
 
+    const loadCurrentUserData = (id) => {
+      fetchData(id);
+    };
+
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
@@ -84,6 +106,15 @@ const Mangerstable = () => {
   };
 
   return (
+    <Container>
+     <Typography
+       variant="button"
+       color="primary"
+       onClick={() => loadCurrentUserData(loggedInUser.id)}
+       sx={{ mb: 2, mt: 3, cursor: 'pointer' }}
+        >
+       {loggedInUser?.email}
+     </Typography>
     <Box width="100%" overflow="auto">
       <StyledTable>
         <TableHead>
@@ -129,6 +160,7 @@ const Mangerstable = () => {
         backIconButtonProps={{ "aria-label": "Previous Page" }}
       />
     </Box>
+    </Container>
   );
 };
 
