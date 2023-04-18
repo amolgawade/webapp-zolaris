@@ -93,6 +93,10 @@ const Mangerstable = () => {
       fetchData(id);
     };
 
+    const dashboardClick = (id) => {
+      alert("view dashboard click");
+    };
+
     const loadCurrentUserData = (id) => {
       fetchData(id);
     };
@@ -137,10 +141,14 @@ const Mangerstable = () => {
                 <TableCell align="center">{user.email}</TableCell>
                 <TableCell align="center">{user.userType}</TableCell>
                 <TableCell align="center">
-                  <Button type="submit" color="primary" variant="contained" onClick={() => rawClick(user.id)}
+                  { user.userType !== 'Technical Incharge' ? (<Button type="submit" color="primary" variant="contained" onClick={() => rawClick(user.id)}
                     sx={{ mb: 2, mt: 3 }} >
-                    View
-                  </Button>
+                    View Reportees
+                  </Button> ) :
+                  (<Button type="submit" color="secondary" variant="contained" onClick={() => dashboardClick(user.id)}
+                    sx={{ mb: 2, mt: 3 }} >
+                    View Dashboard
+                  </Button>) }
                 </TableCell>
               </TableRow>
             ))}
