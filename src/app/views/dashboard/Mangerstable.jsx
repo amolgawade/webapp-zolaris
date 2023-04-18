@@ -112,7 +112,6 @@ const Mangerstable = () => {
      <IconButton
        color="primary"
        onClick={() => loadCurrentUserData(loggedInUser?.id)}
-       sx={{ mb: 2, mt: 3, cursor: 'pointer' }}
      >
        <RefreshIcon />
      </IconButton>
