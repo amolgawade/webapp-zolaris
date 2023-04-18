@@ -10,7 +10,9 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import firebase from '../../../fake-db/db/firebasekey';
+
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
@@ -22,75 +24,41 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const subscribarList = [
-  {
-    name: "john doe",
-    date: "18 january, 2019",
-    amount: 1000,
-    status: "close",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD.",
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD.",
-  },
-  {
-    name: "james cassegne",
-    date: "8 january, 2019",
-    amount: 5000,
-    status: "close",
-    company: "Collboy Tech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-];
+
 
 const Mangerstable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [userList, setUserList] = useState([]);
+
+  useEffect(() => {
+    fetchData('-NSdkVWsY7LUrp88Gf0v');
+  }, []);
+
+  function fetchData(id) {
+      const usersRef = firebase.database().ref('users').orderByChild('parentId').equalTo(id);;
+      usersRef.on('value', (snapshot) => {
+        const users = snapshot.val();
+        const userList = [];
+
+          for (let key in users) {
+            if (users.hasOwnProperty(key)) {
+              const row = {
+                id: key,
+                firstName: users[key].firstName,
+                email: users[key].email,
+                userType: users[key].userType,
+              };
+              userList.push(row);
+            }
+            }
+        setUserList(userList);
+      });
+  }
+
+    const rawClick = (id) => {
+      fetchData(id);
+    };
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -106,7 +74,7 @@ const Mangerstable = () => {
       <StyledTable>
         <TableHead>
           <TableRow>
-            <TableCell align="left">Parent Id</TableCell>
+            <TableCell align="left">Id</TableCell>
             <TableCell align="center">First Name</TableCell>
             <TableCell align="center">Email</TableCell>
             <TableCell align="center">User Type</TableCell>
@@ -114,23 +82,24 @@ const Mangerstable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {subscribarList
+          {userList
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((subscriber, index) => (
+            .map((user, index) => (
               <TableRow key={index}>
-                <TableCell align="left">{subscriber.name}</TableCell>
-                <TableCell align="center">{subscriber.company}</TableCell>
-                <TableCell align="center">{subscriber.date}</TableCell>
-                <TableCell align="center">{subscriber.status}</TableCell>
+                <TableCell align="left">{user.id}</TableCell>
+                <TableCell align="center">{user.firstName}</TableCell>
+                <TableCell align="center">{user.email}</TableCell>
+                <TableCell align="center">{user.userType}</TableCell>
                 <TableCell align="center">
-                 <Button type="submit" color="primary" variant="contained"
-                  sx={{ mb: 2, mt: 3 }} >
-                  View
-                </Button>
+                  <Button type="submit" color="primary" variant="contained" onClick={() => rawClick(user.id)}
+                    sx={{ mb: 2, mt: 3 }} >
+                    View
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
         </TableBody>
+
       </StyledTable>
 
       <TablePagination
@@ -138,7 +107,7 @@ const Mangerstable = () => {
         page={page}
         component="div"
         rowsPerPage={rowsPerPage}
-        count={subscribarList.length}
+        count={userList.length}
         onPageChange={handleChangePage}
         rowsPerPageOptions={[5, 10, 25]}
         onRowsPerPageChange={handleChangeRowsPerPage}
