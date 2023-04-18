@@ -17,6 +17,7 @@ import { useState,useEffect } from "react";
 import useAuth from 'app/hooks/useAuth';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import firebase from '../../../fake-db/db/firebasekey';
+import { DataGrid } from "@mui/x-data-grid";
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -45,6 +46,24 @@ const Mangerstable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userList, setUserList] = useState([]);
   const navigate = useNavigate();
+
+  const columns = [
+      { field: 'id', headerName: 'Id', width: 200, headerClassName: 'header'  },
+      { field: 'firstName', headerName: 'First Name', width: 200, headerClassName: 'header'  },
+      { field: 'email', headerName: 'Email', width: 200, headerClassName: 'header'  },
+      { field: 'userType', headerName: 'User Type', width: 200, headerClassName: 'header' },
+      {
+          field: 'action',
+          headerName: 'Action',
+          width: 150,
+          headerClassName: 'header',
+          renderCell: (params) => (
+            <Button variant="contained" color="primary" onClick={() => rawClick(params.row.id)}>
+              View
+            </Button>
+          ),
+        },
+    ];
 
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -171,6 +190,9 @@ const Mangerstable = () => {
         nextIconButtonProps={{ "aria-label": "Next Page" }}
         backIconButtonProps={{ "aria-label": "Previous Page" }}
       />
+    </Box>
+    <Box sx={{ height: 400, width: '100%', mb:8 }}>
+    <DataGrid rows={userList} columns={columns} />
     </Box>
     </Container>
   );
