@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { useState,useEffect } from "react";
+import useAuth from 'app/hooks/useAuth';
 import firebase from '../../../fake-db/db/firebasekey';
 
 
@@ -27,12 +28,25 @@ const StyledTable = styled(Table)(() => ({
 
 
 const Mangerstable = () => {
+  const { logout, user } = useAuth();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    fetchData('-NSdkVWsY7LUrp88Gf0v');
+      const usersRef = firebase.database().ref('users');
+
+      const loggedInUser = usersRef.orderByChild('email').equalTo(user?.name ?? '')
+       loggedInUser.on('value', (snapshot) => {
+       const userData = snapshot.val();
+       if(userData === null) {
+       return
+       }
+       const keys = Object.keys(userData);
+       const firstKey = keys[0];
+       fetchData(firstKey);
+       });
+
   }, []);
 
   function fetchData(id) {
