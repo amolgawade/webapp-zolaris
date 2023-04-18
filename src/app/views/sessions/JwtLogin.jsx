@@ -34,9 +34,9 @@ const JWTRoot = styled(JustifyBox)(() => ({
 
 // inital login credentials
 const initialValues = {
-  email: 'jason@ui-lib.com',
-  password: 'dummyPass',
-  remember: true
+  email: '',
+  password: '',
+  remember: false
 };
 
 // form field validation schema
@@ -58,7 +58,7 @@ const JwtLogin = () => {
     setLoading(true);
     try {
       await login(values.email, values.password);
-      navigate('/');
+      navigate('/dashboard/default');
     } catch (e) {
       setLoading(false);
     }

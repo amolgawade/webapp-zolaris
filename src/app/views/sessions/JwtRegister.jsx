@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import UserTypeAutocompleteCombo from '../material-kit/auto-complete/UserTypeAutocompleteCombo'
 import * as Yup from 'yup';
+import firebase from '../../../fake-db/db/firebasekey';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -36,7 +37,16 @@ const JWTRegister = styled(JustifyBox)(() => ({
 const initialValues = {
   email: '',
   password: '',
-  username: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+  streetAddress: '',
+  city: '',
+  region: '',
+  zipCode: '',
+  country: '',
+  parentId: '',
+  UserTypeAutocompleteCombo: '',
   remember: true
 };
 
@@ -53,21 +63,55 @@ const JwtRegister = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [values, setValues] = useState({ userType: '' });
 
-  const handleFormSubmit = (values) => {
+
+
+    const handleAutocompleteChange = (selectedValue) => {
+      // Do something with the selected value
+      console.log(selectedValue);
+      setValues({ ...values, userType: selectedValue });
+    };
+
+  const handleFormSubmit = async (values) => {
+  firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
+    .then((userCredential) => {
+      // Signed in successfully
+      const user = userCredential.user;
+      console.log(user);
+    })
+    .catch((error) => {
+      // Error occurred
+      const errorMessage = error.message;
+      console.log(errorMessage);
+    });
     setLoading(true);
-
     try {
-      register( values.firstName,values.lastName,values.email, values.password, values.phone,
-      values.streetAddress,values.city,values.region,values.zipCode,values.country,values.parentId,
-      values.UserTypeAutocompleteCombo);
+    const ref = firebase.database().ref('users');
+    const newUserRef = ref.push();
+    await newUserRef.set({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email :values.email,
+      password: values.password,
+      phone: values.phone,
+      streetAddress: values.streetAddress,streetAddressLine2: values.streetAddressLine2,
+      city :values.city,
+      region: values.region,
+      zipCode: values.zipCode,country: values.country,
+      parentId: values.parentId,
+      UserTypeAutocompleteCombo: values.UserTypeAutocompleteCombo});
+      alert('Registration is  successfully!');
       navigate('/');
+      console.log(values)
+      } catch (error) {
+      console.error('Error in  Registering :', error);
+      alert('Error registering . Please try again later.');
+    } finally {
       setLoading(false);
-    } catch (e) {
-      console.log(e);
-      setLoading(false);
-    }
-  };
+     }
+    };
+
 
   return (
     <JWTRegister>
@@ -89,11 +133,10 @@ const JwtRegister = () => {
               <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
-                validationSchema={validationSchema}
+//                validationSchema={validationSchema}
               >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
-
                       <TextField
                         fullWidth
                         size="small"
@@ -151,20 +194,7 @@ const JwtRegister = () => {
                       error={Boolean(errors.phone && touched.phone)}
                       sx={{ mb: 3 }}
                     />
-                    <TextField
-                      fullWidth
-                      size="small"
-                      type="text"
-                      name="streetAddress"
-                      label="Street Address"
-                      variant="outlined"
-                      onBlur={handleBlur}
-                      value={values.streetAddress}
-                      onChange={handleChange}
-                      helperText={touched.streetAddress && errors.streetAddress}
-                      error={Boolean(errors.streetAddress && touched.streetAddress)}
-                      sx={{ mb: 3 }}
-                    />
+
                     <TextField
                       fullWidth
                       size="small"
@@ -191,6 +221,20 @@ const JwtRegister = () => {
                       onChange={handleChange}
                       helperText={touched.streetAddressLine2 && errors.streetAddressLine2}
                       error={Boolean(errors.streetAddressLine2 && touched.streetAddressLine2)}
+                      sx={{ mb: 3 }}
+                    />
+                     <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="country"
+                      label="Country"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.country}
+                      onChange={handleChange}
+                      helperText={touched.country && errors.country}
+                      error={Boolean(errors.country && touched.country)}
                       sx={{ mb: 3 }}
                     />
                     <TextField
@@ -235,20 +279,7 @@ const JwtRegister = () => {
                       error={Boolean(errors.zipCode && touched.zipCode)}
                       sx={{ mb: 3 }}
                     />
-                    <TextField
-                      fullWidth
-                      size="small"
-                      type="text"
-                      name="country"
-                      label="Country"
-                      variant="outlined"
-                      onBlur={handleBlur}
-                      value={values.country}
-                      onChange={handleChange}
-                      helperText={touched.country && errors.country}
-                      error={Boolean(errors.country && touched.country)}
-                      sx={{ mb: 3 }}
-                    />
+
                     <TextField
                       fullWidth
                       size="small"
@@ -263,7 +294,7 @@ const JwtRegister = () => {
                       error={Boolean(errors.parentId && touched.parentId)}
                       sx={{ mb: 3 }}
                     />
-                    <UserTypeAutocompleteCombo />
+                    <UserTypeAutocompleteCombo values={values} onAutocompleteChange={handleAutocompleteChange}/>
                     <TextField
                       fullWidth
                       size="small"
@@ -316,7 +347,6 @@ const JwtRegister = () => {
                     >
                       Regiser
                     </LoadingButton>
-
                     <Paragraph>
                       Already have an account?
                       <NavLink

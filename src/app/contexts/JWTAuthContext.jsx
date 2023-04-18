@@ -1,6 +1,7 @@
 import { createContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { MatxLoading } from 'app/components';
+import firebase from '../../fake-db/db/firebasekey';
 
 const initialState = {
   user: null,
@@ -65,8 +66,11 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/auth/login', { email, password });
-    const { user } = response.data;
+    // const response = await axios.post('/api/auth/login', { email, password });
+    const firebaseUser = await firebase.auth().signInWithEmailAndPassword(email, password);
+
+    const dbemail = firebaseUser.user.email;
+    const user = { ...firebaseUser.user, name: dbemail };
 
     dispatch({ type: 'LOGIN', payload: { user } });
   };
@@ -85,8 +89,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get('/api/auth/profile');
-        dispatch({ type: 'INIT', payload: { isAuthenticated: true, user: data.user } });
+//         const { data } = await axios.get('/api/auth/profile');
+//         dispatch({ type: 'INIT', payload: { isAuthenticated: true, user: data.user } });
+        dispatch({ type: 'INIT', payload: { isAuthenticated: false, user: null } });
       } catch (err) {
         console.error(err);
         dispatch({ type: 'INIT', payload: { isAuthenticated: false, user: null } });

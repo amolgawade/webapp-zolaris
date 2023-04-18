@@ -56,7 +56,7 @@ const routes = [
   { path: '/session/forgot-password', element: <ForgotPassword /> },
 
 
-  { path: '/', element: <Navigate to="dashboard/default" /> },
+  { path: '/', element: <Navigate to="/session/signin" /> },
   { path: '*', element: <NotFound /> }
 ];
 
