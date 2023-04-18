@@ -11,7 +11,7 @@ const NotFound = Loadable(lazy(() => import('app/views/sessions/NotFound')));
 const JwtLogin = Loadable(lazy(() => import('app/views/sessions/JwtLogin')));
 const JwtRegister = Loadable(lazy(() => import('app/views/sessions/JwtRegister')));
 const ForgotPassword = Loadable(lazy(() => import('app/views/sessions/ForgotPassword')));
-const MachineRegister = Loadable(lazy(() => import('app/views/sessions/MachineRegister')));
+const MRegister = Loadable(lazy(() => import('app/views/pages/machineregister/MRegister')));
 
 // echart page
 const AppEchart = Loadable(lazy(() => import('app/views/charts/echarts/AppEchart')));
@@ -40,6 +40,11 @@ const routes = [
         path: '/charts/echarts',
         element: <AppEchart />,
         auth: authRoles.editor
+      },
+      {
+        path: '/pages/machineregister/mregister',
+        element: <MRegister />,
+        auth: authRoles.admin
       }
     ]
   },
@@ -48,7 +53,6 @@ const routes = [
   { path: '/session/404', element: <NotFound /> },
   { path: '/session/signin', element: <JwtLogin /> },
   { path: '/session/signup', element: <JwtRegister /> },
-  { path: '/session/machine-register', element: <MachineRegister /> },
   { path: '/session/forgot-password', element: <ForgotPassword /> },
 
 

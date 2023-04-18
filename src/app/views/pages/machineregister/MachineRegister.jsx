@@ -5,8 +5,8 @@ import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import {  useNavigate } from 'react-router-dom';
-import PositionAutocompleteCombo from '../material-kit/auto-complete/PositionAutocompleteCombo'
-import firebase from '../../../fake-db/db/firebasekey';
+import PositionAutocompleteCombo from '../../material-kit/auto-complete/PositionAutocompleteCombo'
+import firebase from '../../../../fake-db/db/firebasekey';
 
 const Container = styled("div")(({ theme }) => ({
   margin: "30px",
@@ -90,10 +90,10 @@ const MachineRegister = () => {
     };
 
   return (
-    <MachineRoot>
-      <Card className="card">
-        <Grid container>
-            <ContentBox>
+//     <MachineRoot>
+//       <Card className="card">
+//         <Grid container>
+//             <ContentBox>
               <Formik onSubmit={handleFormSubmit} initialValues={initialValues} >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
@@ -229,11 +229,11 @@ const MachineRegister = () => {
                   </form>
                 )}
               </Formik>
-            </ContentBox>
-
-        </Grid>
-      </Card>
-    </MachineRoot>
+//             </ContentBox>
+//
+//         </Grid>
+//       </Card>
+//     </MachineRoot>
   );
 };
 

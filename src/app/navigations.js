@@ -1,5 +1,6 @@
 export const navigations = [
   { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
+  { name: 'Device Registration', icon: 'dashboard', path: '/pages/machineregister/mregister' },
   { label: 'PAGES', type: 'label' },
   {
     name: 'Sessions',
@@ -23,7 +24,7 @@ export const navigations = [
 //      { name: 'Checkbox', path: '/material/checkbox', iconText: 'C' },
 //      { name: 'Dialog', path: '/material/dialog', iconText: 'D' },
 //      { name: 'Expansion Panel', path: '/material/expansion-panel', iconText: 'E' },
-      { name: 'Form', path: '/material/form', iconText: 'F' },
+//      { name: 'Form', path: '/material/form', iconText: 'F' },
 //      { name: 'Icons', path: '/material/icons', iconText: 'I' },
 //      { name: 'Menu', path: '/material/menu', iconText: 'M' },
 //      { name: 'Progress', path: '/material/progress', iconText: 'P' },
@@ -32,7 +33,6 @@ export const navigations = [
 //      { name: 'Slider', path: '/material/slider', iconText: 'S' },
 //      { name: 'Snackbar', path: '/material/snackbar', iconText: 'S' },
       { name: 'Table', path: '/material/table', iconText: 'T' },
-      { name: 'Device Registration', iconText: 'SU', path: '/session/machine-register' },
     ]
   },
   {
