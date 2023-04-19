@@ -47,23 +47,23 @@ const Mangerstable = () => {
   const [userList, setUserList] = useState([]);
   const navigate = useNavigate();
 
-  const columns = [
-      { field: 'id', headerName: 'Id', width: 200, headerClassName: 'header'  },
-      { field: 'firstName', headerName: 'First Name', width: 200, headerClassName: 'header'  },
-      { field: 'email', headerName: 'Email', width: 200, headerClassName: 'header'  },
-      { field: 'userType', headerName: 'User Type', width: 200, headerClassName: 'header' },
-      {
-          field: 'action',
-          headerName: 'Action',
-          width: 150,
-          headerClassName: 'header',
-          renderCell: (params) => (
-            <Button variant="contained" color="primary" onClick={() => rawClick(params.row.id)}>
-              View
-            </Button>
-          ),
-        },
-    ];
+//   const columns = [
+//       { field: 'id', headerName: 'Id', width: 200, headerClassName: 'header'  },
+//       { field: 'firstName', headerName: 'First Name', width: 200, headerClassName: 'header'  },
+//       { field: 'email', headerName: 'Email', width: 200, headerClassName: 'header'  },
+//       { field: 'userType', headerName: 'User Type', width: 200, headerClassName: 'header' },
+//       {
+//           field: 'action',
+//           headerName: 'Action',
+//           width: 150,
+//           headerClassName: 'header',
+//           renderCell: (params) => (
+//             <Button variant="contained" color="primary" onClick={() => rawClick(params.row.id)}>
+//               View
+//             </Button>
+//           ),
+//         },
+//     ];
 
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -192,7 +192,7 @@ const Mangerstable = () => {
       />
     </Box>
     <Box sx={{ height: 400, width: '100%', mb:8 }}>
-    <DataGrid rows={userList} columns={columns} />
+{/*     <DataGrid rows={userList} columns={columns} /> */}
     </Box>
     </Container>
   );
