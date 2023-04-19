@@ -1,6 +1,6 @@
 import { useTheme } from '@emotion/react';
 import { LoadingButton } from '@mui/lab';
-import { Card, Checkbox, Grid, TextField, Box, styled  } from '@mui/material';
+import { Card, Checkbox, Grid, TextField, Box, styled,Select, MenuItem, InputLabel, FormControl, FormHelperText  } from '@mui/material';
 import { Paragraph } from 'app/components/Typography';
 import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
@@ -294,7 +294,26 @@ const JwtRegister = () => {
                       error={Boolean(errors.parentId && touched.parentId)}
                       sx={{ mb: 3 }}
                     />
-                    <UserTypeAutocompleteCombo values={values} onAutocompleteChange={handleAutocompleteChange}/>
+                    <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+                    <InputLabel id="usertype-label">User Type</InputLabel>
+                    <Select
+                      labelId="usertype-label"
+                      id="usertype"
+                      name="usertype"
+                      value={values.usertype}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={Boolean(errors.usertype && touched.usertype)}
+                    >
+                      <MenuItem value="general manager">General Manager</MenuItem>
+                      <MenuItem value="regional manager">Regional Manager</MenuItem>
+                      <MenuItem value="branch manager">Branch Manager</MenuItem>
+                      <MenuItem value="technical incharge">Technical Incharge</MenuItem>
+                    </Select>
+                    {touched.usertype && errors.usertype && (
+                      <FormHelperText error>{errors.usertype}</FormHelperText>
+                    )}
+                  </FormControl>
                     <TextField
                       fullWidth
                       size="small"
