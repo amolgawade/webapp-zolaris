@@ -6,12 +6,14 @@ import Loadable from './components/Loadable';
 import MatxLayout from './components/MatxLayout/MatxLayout';
 import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 
+
 // session pages
 const NotFound = Loadable(lazy(() => import('app/views/sessions/NotFound')));
 const JwtLogin = Loadable(lazy(() => import('app/views/sessions/JwtLogin')));
 const JwtRegister = Loadable(lazy(() => import('app/views/sessions/JwtRegister')));
 const ForgotPassword = Loadable(lazy(() => import('app/views/sessions/ForgotPassword')));
 const MRegister = Loadable(lazy(() => import('app/views/pages/machineregister/MRegister')));
+const MachineDetails = Loadable(lazy(() => import('app/views/pages/machineDetails')));
 
 // echart page
 const AppEchart = Loadable(lazy(() => import('app/views/charts/echarts/AppEchart')));
@@ -35,7 +37,7 @@ const routes = [
         auth: authRoles.admin
       },
 
-      // e-chart rooute
+      // e-chart route
       {
         path: '/charts/echarts',
         element: <AppEchart />,
@@ -45,7 +47,13 @@ const routes = [
         path: '/pages/machineregister/mregister',
         element: <MRegister />,
         auth: authRoles.admin
-      }
+      },
+      // machine details route
+      {
+          path: 'pages/machineDetails',
+          element: <MachineDetails />,
+          auth: authRoles.editor
+        },
     ]
   },
 
