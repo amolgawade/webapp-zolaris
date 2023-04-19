@@ -125,7 +125,7 @@ const MachineRegister = () => {
                      error={Boolean(errors.machineName && touched.machineName)}
                      sx={{ mb: 3 }}
                    />
-                   <Typography>Location</Typography>
+{/*                    <Typography>Location</Typography> */}
 
                    <TextField
                      fullWidth
