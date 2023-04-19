@@ -1,4 +1,6 @@
-import {Box, Icon, Button,styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow,} from "@mui/material";
+import {Box, Icon, Button,styled, Table,} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -52,7 +54,7 @@ const MachineDetails = () => {
               View </Button> ), },
       { field: 'delete', headerName: 'Delete', width: 150, headerClassName: 'header',
                 renderCell: (params) => (
-                  <Button variant="contained" color="secondary" onClick={() => deleteRow(params.row.id)}>
+                  <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={() => deleteRow(params.row.id)}>
                            Delete  </Button> ),}
     ];
 
@@ -111,6 +113,7 @@ const MachineDetails = () => {
     const rawClick = (id) => {
       fetchData(id);
     };
+
     const deleteRow = (id) => {
       const machineRef = firebase.database().ref('machines/' + id);
       machineRef.remove()
@@ -128,24 +131,34 @@ const MachineDetails = () => {
       navigate('/charts/echarts');
     };
 
+    const AddMachine = (id) => {
+
+          navigate('/pages/machineregister/mregister');
+        };
+
     const loadCurrentUserData = (id) => {
       fetchData(id);
     };
 
   return (
-    <Container>
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-     <IconButton
-       color="primary"
-       onClick={() => loadCurrentUserData(loggedInUser?.id)} >
-       <RefreshIcon />
-     </IconButton>
-     </Box>
-    <Box width="100%" overflow="auto"> </Box>
-    <Box sx={{ height: 400, width: '100%', mb:8 }}>
-    <DataGrid rows={machineList} columns={columns} />
-    </Box>
+    <Container sx={{ mt: 4, mb: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+        <Button
+          variant="contained" color="primary"
+          onClick={() => loadCurrentUserData(loggedInUser?.id)} startIcon={<RefreshIcon />}
+          sx={{ mr: 2 }} > Refresh
+        </Button>
+        <Button
+          variant="contained" color="primary"
+          onClick={() => AddMachine()}
+          startIcon={<AddIcon />} > Add Machine
+        </Button>
+      </Box>
+      <Box sx={{ height: 400, width: '100%', mb: 8 }}>
+        <DataGrid rows={machineList} columns={columns} />
+      </Box>
     </Container>
+
   );
 };
 
