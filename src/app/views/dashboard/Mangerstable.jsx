@@ -116,7 +116,7 @@ const Mangerstable = () => {
 
     const dashboardClick = (id) => {
 
-      navigate('/charts/echarts');
+      navigate('/pages/machineDetails');
     };
 
     const loadCurrentUserData = (id) => {
@@ -171,7 +171,7 @@ const Mangerstable = () => {
                   </Button> ) :
                   (<Button type="submit" color="secondary" variant="contained" onClick={() => dashboardClick(user.id)}
                     sx={{ mb: 2, mt: 3 }} >
-                    View Dashboard
+                    View Machines
                   </Button>) }
                 </TableCell>
               </TableRow>
