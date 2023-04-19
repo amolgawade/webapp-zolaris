@@ -46,7 +46,7 @@ const Footer = () => {
             </a>
             <Span sx={{ m: 'auto' }}></Span>
             <Paragraph sx={{ fontSize: '18px' }}>
-              Zolaris Energy Solutions
+              Zolaris Energy Solutions LLP
             </Paragraph>
           </FooterContent>
         </AppFooter>
