@@ -15,10 +15,7 @@ const Container = styled('div')(({ theme }) => ({
 const MRegister = () => {
   return (
     <Container>
-      <Box className="breadcrumb">
-        <Breadcrumb routeSegments={[{ name: 'Machine Register' }]} />
-      </Box>
-
+      <p><strong>Machine Register</strong></p>
       <Stack spacing={3}>
         <SimpleCard>
             <MachineRegister />
