@@ -33,7 +33,7 @@ const MachineDetails = () => {
   const { logout, user } = useAuth();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [userList, setUserList] = useState([]);
+  const [machineList, setmachineList] = useState([]);
   const navigate = useNavigate();
 
   const columns = [
@@ -53,9 +53,9 @@ const MachineDetails = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
-      const usersRef = firebase.database().ref('machines');
-
-      const userRefRes = usersRef.orderByChild('parentId').equalTo(user?.name ?? '')
+      const usersRef = firebase.database().ref('users');
+        console.log(user?.name);
+      const userRefRes = usersRef.orderByChild('email').equalTo(user?.name ?? '')
        userRefRes.on('value', (snapshot) => {
        const userData = snapshot.val();
        if(userData === null) {
@@ -74,10 +74,10 @@ const MachineDetails = () => {
   }, []);
 
   function fetchData(id) {
-      const usersRef = firebase.database().ref('machines').orderByChild('parentId').equalTo(id);;
-      usersRef.on('value', (snapshot) => {
+      const machineRef = firebase.database().ref('machines').orderByChild('parentId').equalTo(id);;
+      machineRef.on('value', (snapshot) => {
         const users = snapshot.val();
-        const userList = [];
+        const machineList = [];
 
           for (let key in users) {
             if (users.hasOwnProperty(key)) {
@@ -87,10 +87,11 @@ const MachineDetails = () => {
                 machineid: users[key].machineid,
                 description: users[key].description,
               };
-              userList.push(row);
+              console.log(row);
+              machineList.push(row);
             }
             }
-        setUserList(userList);
+        setmachineList(machineList);
       });
   }
 
@@ -118,7 +119,7 @@ const MachineDetails = () => {
      </Box>
     <Box width="100%" overflow="auto"> </Box>
     <Box sx={{ height: 400, width: '100%', mb:8 }}>
-    <DataGrid rows={userList} columns={columns} />
+    <DataGrid rows={machineList} columns={columns} />
     </Box>
     </Container>
   );
