@@ -146,7 +146,7 @@ const MachineRegister = () => {
                    <TextField
                      fullWidth
                      size="small"
-                     type="number"
+                     type="string"
                      name="floor"
                      label="Floor"
                      variant="outlined"
@@ -161,7 +161,7 @@ const MachineRegister = () => {
                    <TextField
                      fullWidth
                      size="small"
-                     type="number"
+                     type="string"
                      name="area"
                      label="Area"
                      variant="outlined"
@@ -172,26 +172,40 @@ const MachineRegister = () => {
                      error={Boolean(errors.area && touched.area)}
                      sx={{ mb: 3 }}
                    />
-                    <FormControl fullWidth size="small" sx={{ mb: 3 }}>
-                        <InputLabel id="position-label">Position</InputLabel>
-                        <Select
-                          labelId="position-label"
-                          id="position"
-                          name="position"
-                          value={values.position}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={Boolean(errors.position && touched.position)}
-                        >
-                          <MenuItem value="top">Top</MenuItem>
-                          <MenuItem value="bottom">Bottom</MenuItem>
-                          <MenuItem value="left">Left</MenuItem>
-                          <MenuItem value="right">Right</MenuItem>
-                        </Select>
-                        {touched.position && errors.position && (
-                          <FormHelperText error>{errors.position}</FormHelperText>
-                        )}
-                      </FormControl>
+{/*                     <FormControl fullWidth size="small" sx={{ mb: 3 }}> */}
+{/*                         <InputLabel id="position-label">Position</InputLabel> */}
+{/*                         <Select */}
+{/*                           labelId="position-label" */}
+{/*                           id="position" */}
+{/*                           name="position" */}
+{/*                           value={values.position} */}
+{/*                           onChange={handleChange} */}
+{/*                           onBlur={handleBlur} */}
+{/*                           error={Boolean(errors.position && touched.position)} */}
+{/*                         > */}
+{/*                           <MenuItem value="top">Top</MenuItem> */}
+{/*                           <MenuItem value="bottom">Bottom</MenuItem> */}
+{/*                           <MenuItem value="left">Left</MenuItem> */}
+{/*                           <MenuItem value="right">Right</MenuItem> */}
+{/*                         </Select> */}
+{/*                         {touched.position && errors.position && ( */}
+{/*                           <FormHelperText error>{errors.position}</FormHelperText> */}
+{/*                         )} */}
+{/*                       </FormControl> */}
+                   <TextField
+                     fullWidth
+                     size="small"
+                     type="string"
+                     name="position"
+                     label="Position"
+                     variant="outlined"
+                     onBlur={handleBlur}
+                     value={values.position}
+                     onChange={handleChange}
+                     helperText={touched.position && errors.position}
+                     error={Boolean(errors.position && touched.position)}
+                     sx={{ mb: 3 }}
+                   />
                    <TextField
                      fullWidth
                      size="small"
