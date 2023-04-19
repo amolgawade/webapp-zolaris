@@ -150,11 +150,11 @@ const MachineDetails = () => {
   return (
     <Container sx={{ mt: 4, mb: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-        <Button
-          variant="contained" color="primary"
-          onClick={() => loadCurrentUserData(loggedInUser?.id)} startIcon={<RefreshIcon />}
-          sx={{ mr: 2 }} > Refresh
-        </Button>
+{/*         <Button */}
+{/*           variant="contained" color="primary" */}
+{/*           onClick={() => loadCurrentUserData(loggedInUser?.id)} startIcon={<RefreshIcon />} */}
+{/*           sx={{ mr: 2 }} > Refresh */}
+{/*         </Button> */}
         <Button
           variant="contained" color="primary"
           onClick={() => AddMachine()}
