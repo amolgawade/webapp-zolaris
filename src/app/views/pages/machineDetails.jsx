@@ -111,7 +111,7 @@ const MachineDetails = () => {
   }
 
     const rawClick = (id) => {
-      fetchData(id);
+      navigate('/charts/echarts');
     };
 
     const deleteRow = (id) => {
