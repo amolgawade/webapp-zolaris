@@ -42,17 +42,17 @@ const initialValues = {
 // form field validation schema
 const validationSchema = Yup.object().shape({
   password: Yup.string()
-    .min(6, 'Password must be 6 character length')
+    .min(6, 'Password must be 8 character length')
     .required('Password is required!'),
   email: Yup.string().email('Invalid Email address').required('Email is required!')
 });
 
 const JwtLogin = () => {
-  const theme = useTheme();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+      const theme = useTheme();
+      const navigate = useNavigate();
+      const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth();
+      const { login } = useAuth();
 
   const handleFormSubmit = async (values) => {
     setLoading(true);
@@ -81,7 +81,7 @@ const JwtLogin = () => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
               >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+                {({ values, errors, touched, handleChange, handleBlur, handleSubmit,setError }) => (
                   <form onSubmit={handleSubmit}>
                     <TextField
                       fullWidth
