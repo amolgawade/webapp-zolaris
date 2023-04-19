@@ -133,14 +133,16 @@ const Mangerstable = () => {
   };
 
   return (
-    <Container>
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-     <IconButton
+    <Container >
+    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+     <Button
+       variant="contained"
        color="primary"
        onClick={() => loadCurrentUserData(loggedInUser?.id)}
-     >
-       <RefreshIcon />
-     </IconButton>
+       startIcon={<RefreshIcon />}
+       sx={{ mr: 2 }}>
+       Refresh
+     </Button>
      </Box>
     <Box width="100%" overflow="auto">
       <StyledTable>
