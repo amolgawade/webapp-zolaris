@@ -40,14 +40,20 @@ const MachineDetails = () => {
       { field: 'machineid', headerName: 'Machine Id', width: 200, headerClassName: 'header'  },
       { field: 'machineName', headerName: 'Machine Name', width: 200, headerClassName: 'header'  },
       { field: 'building', headerName: 'building', width: 200, headerClassName: 'header'  },
+      { field: 'floor', headerName: 'Floor', width: 200, headerClassName: 'header'  },
+      { field: 'area', headerName: 'Area', width: 200, headerClassName: 'header'  },
+      { field: 'position', headerName: 'Position', width: 200, headerClassName: 'header'  },
+      { field: 'parentId', headerName: 'Parent Id', width: 200, headerClassName: 'header'  },
+      { field: 'note', headerName: 'Note', width: 200, headerClassName: 'header'  },
       { field: 'description', headerName: 'Description', width: 200, headerClassName: 'header' },
-      { field: 'action', headerName: 'Action', width: 150, headerClassName: 'header',
+      { field: 'action', headerName: 'Dashboard', width: 150, headerClassName: 'header',
           renderCell: (params) => (
             <Button variant="contained" color="primary" onClick={() => rawClick(params.row.id)}>
-              View
-            </Button>
-          ),
-        },
+              View </Button> ), },
+      { field: 'delete', headerName: 'Delete', width: 150, headerClassName: 'header',
+                renderCell: (params) => (
+                  <Button variant="contained" color="secondary" onClick={() => deleteRow(params.row.id)}>
+                           Delete  </Button> ),}
     ];
 
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -85,7 +91,14 @@ const MachineDetails = () => {
                 id: key,
                 machineName: users[key].machineName,
                 machineid: users[key].machineid,
+                building: users[key].building,
+                floor: users[key].floor,
+                area: users[key].area,
+                position: users[key].position,
+                parentId: users[key].parentId,
+                note: users[key].note,
                 description: users[key].description,
+
               };
               console.log(row);
               machineList.push(row);
@@ -97,6 +110,17 @@ const MachineDetails = () => {
 
     const rawClick = (id) => {
       fetchData(id);
+    };
+    const deleteRow = (id) => {
+      const machineRef = firebase.database().ref('machines/' + id);
+      machineRef.remove()
+        .then(() => {
+          console.log('Row deleted successfully!');
+          fetchData(loggedInUser?.id);
+        })
+        .catch((error) => {
+          console.error('Error deleting row:', error);
+        });
     };
 
     const dashboardClick = (id) => {
