@@ -1,8 +1,8 @@
 import { useTheme } from '@emotion/react';
 import { LoadingButton } from '@mui/lab';
-import { Card, Grid, TextField,Typography,Box, styled } from '@mui/material';
+import { Card, Grid, TextField,Typography,Box, styled, Select, MenuItem, InputLabel, FormControl, FormHelperText } from '@mui/material';
 import useAuth from 'app/hooks/useAuth';
-import { Formik } from 'formik';
+import { Formik} from 'formik';
 import { useState } from 'react';
 import {  useNavigate } from 'react-router-dom';
 import PositionAutocompleteCombo from '../../material-kit/auto-complete/PositionAutocompleteCombo'
@@ -80,7 +80,7 @@ const MachineRegister = () => {
           note: values.note,
         });
         alert('Machine registered successfully!');
-        navigate('/');
+        navigate('/dashboard/default');
       } catch (error) {
         console.error('Error in Machine Registering :', error);
         alert('Error registering machine. Please try again later.');
@@ -172,7 +172,26 @@ const MachineRegister = () => {
                      error={Boolean(errors.area && touched.area)}
                      sx={{ mb: 3 }}
                    />
-                   <PositionAutocompleteCombo />
+                    <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+                        <InputLabel id="position-label">Position</InputLabel>
+                        <Select
+                          labelId="position-label"
+                          id="position"
+                          name="position"
+                          value={values.position}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={Boolean(errors.position && touched.position)}
+                        >
+                          <MenuItem value="top">Top</MenuItem>
+                          <MenuItem value="bottom">Bottom</MenuItem>
+                          <MenuItem value="left">Left</MenuItem>
+                          <MenuItem value="right">Right</MenuItem>
+                        </Select>
+                        {touched.position && errors.position && (
+                          <FormHelperText error>{errors.position}</FormHelperText>
+                        )}
+                      </FormControl>
                    <TextField
                      fullWidth
                      size="small"
