@@ -9,6 +9,7 @@ import useAuth from 'app/hooks/useAuth';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import firebase from '../../../fake-db/db/firebasekey';
 import { DataGrid } from "@mui/x-data-grid";
+import { useLocation } from 'react-router-dom';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -32,6 +33,7 @@ const StyledTable = styled(Table)(() => ({
 
 
 const MachineDetails = () => {
+  const location = useLocation();
   const { logout, user } = useAuth();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -61,6 +63,11 @@ const MachineDetails = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
+      const searchParams = new URLSearchParams(location.search);
+      const id = searchParams.get('id');
+      if(id !== null) {
+      fetchData(id);
+      } else {
       const usersRef = firebase.database().ref('users');
         console.log(user?.name);
       const userRefRes = usersRef.orderByChild('email').equalTo(user?.name ?? '')
@@ -78,7 +85,7 @@ const MachineDetails = () => {
        setLoggedInUser(temp);
        fetchData(firstKey);
        });
-
+       }
   }, []);
 
   function fetchData(id) {

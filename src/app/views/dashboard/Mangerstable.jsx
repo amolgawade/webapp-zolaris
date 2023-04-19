@@ -116,7 +116,7 @@ const Mangerstable = () => {
 
     const dashboardClick = (id) => {
 
-      navigate('/pages/machineDetails');
+      navigate('/pages/machineDetails/?id='+ id);
     };
 
     const loadCurrentUserData = (id) => {
