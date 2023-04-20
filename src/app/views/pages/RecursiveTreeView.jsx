@@ -8,14 +8,32 @@ function RecursiveTreeView(props) {
 
   const styles = {
     root: {
-      height: 240,
+      height: '100%',
       flexGrow: 1,
       maxWidth: 400,
+    },
+    label: {
+      fontWeight: 'bold',
+    },
+    treeItem: {
+      '&:hover > $label': {
+        color: 'blue',
+        cursor: 'pointer',
+      },
     },
   };
 
   const renderTree = (nodes) => (
-    <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.label}>
+    <TreeItem
+      key={nodes.id}
+      nodeId={nodes.id}
+      label={
+        <span style={styles.label}>
+          {nodes.label}
+        </span>
+      }
+      classes={{ root: styles.treeItem }}
+    >
       {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
     </TreeItem>
   );
