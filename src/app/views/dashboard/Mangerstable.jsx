@@ -18,6 +18,7 @@ import useAuth from 'app/hooks/useAuth';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import firebase from '../../../fake-db/db/firebasekey';
 import { DataGrid } from "@mui/x-data-grid";
+    import RecursiveTreeView from '../pages/RecursiveTreeView';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -46,6 +47,7 @@ const Mangerstable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userList, setUserList] = useState([]);
   const navigate = useNavigate();
+  const [tree, setTree] = useState([]);
 
 //   const columns = [
 //       { field: 'id', headerName: 'Id', width: 200, headerClassName: 'header'  },
@@ -85,6 +87,51 @@ const Mangerstable = () => {
        console.log(temp);
        setLoggedInUser(temp);
        fetchData(firstKey);
+
+       // Prepare tree data
+       usersRef.once('value').then((snapshot) => {
+         const users = snapshot.val();
+          // Create an object with all the users
+           const userObj = {};
+           Object.keys(users).forEach((key) => {
+             userObj[key] = users[key];
+           });
+
+           // Create a tree structure using the parent-child references
+           const buildTree = (parentId) => {
+             const children = Object.keys(userObj)
+               .filter((key) => userObj[key].parentId === parentId)
+               .map((key) => {
+                 const { firstName, lastName } = userObj[key];
+                 return {
+                   id: key,
+                   label: `${firstName} ${lastName}`,
+                   children: buildTree(key),
+                 };
+               });
+             return children;
+           };
+
+           // Get the tree from a specific node ID
+           const getTreeFromNode = (nodeId) => {
+             const node = userObj[nodeId];
+             if (!node) {
+               return null; // Node not found
+             }
+             return {
+               id: nodeId,
+               label: `${node.firstName} ${node.lastName}`,
+               children: buildTree(nodeId),
+             };
+           };
+
+           // Example usage: get the tree from node "-NSdkVWsY7LUrp88Gf0v"
+           const tree = getTreeFromNode(firstKey);
+           setTree(tree);
+       }).catch((error) => {
+         console.error(error);
+       });
+
        });
 
   }, []);
@@ -195,6 +242,7 @@ const Mangerstable = () => {
     </Box>
     <Box sx={{ height: 400, width: '100%', mb:8 }}>
 {/*     <DataGrid rows={userList} columns={columns} /> */}
+        <RecursiveTreeView data={tree} />
     </Box>
     </Container>
   );
