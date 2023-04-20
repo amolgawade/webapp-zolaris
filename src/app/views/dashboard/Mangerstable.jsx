@@ -240,7 +240,7 @@ const Mangerstable = () => {
         backIconButtonProps={{ "aria-label": "Previous Page" }}
       />
     </Box>
-    <Box sx={{ height: 400, width: '100%', mb:8 }}>
+    <Box sx={{ height: '100%', width: '100%', mb:12 }}>
 {/*     <DataGrid rows={userList} columns={columns} /> */}
         <RecursiveTreeView data={tree} />
     </Box>
