@@ -39,6 +39,7 @@ const MachineDetails = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [machineList, setmachineList] = useState([]);
   const navigate = useNavigate();
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   const columns = [
       { field: 'machineid', headerName: 'Machine Id', width: 200, headerClassName: 'header'  },
@@ -55,13 +56,27 @@ const MachineDetails = () => {
             <Button variant="contained" color="primary" onClick={() => rawClick(params.row.id)}>
               View </Button> ), },
       { field: 'delete', headerName: 'Delete', width: 150, headerClassName: 'header',
-         renderCell: (params) => (
-                  <Button variant="contained" color="secondary" startIcon={<DeleteIcon />}
-                  onClick={() => { const confirmDelete = window.confirm("Are you sure you want to delete the machine?");
-                   if (confirmDelete) { deleteRow(params.row.id); } }} > Delete  </Button> ),}
-    ];
+        renderCell: (params) => {
+          if (loggedInUser?.id === params.row.parentId) {
+            return (
+              <Button variant="contained" color="secondary" startIcon={<DeleteIcon />}
+                onClick={() => {
+                  const confirmDelete = window.confirm("Are you sure you want to delete the machine?");
+                  if (confirmDelete) { deleteRow(params.row.id); }
+                }}
+              >
+                Delete
+              </Button>
+            );
+          } else {
+            return (
+            <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} disabled > Delete </Button>
+            )
+          }
+        }
+      },
 
-  const [loggedInUser, setLoggedInUser] = useState(null);
+    ];
 
   useEffect(() => {
       const searchParams = new URLSearchParams(location.search);
