@@ -20,15 +20,15 @@ const Container = styled('div')(({ theme }) => ({
   }
 }));
 
-const StyledTable = styled(Table)(() => ({
-  whiteSpace: "pre",
-  "& thead": {
-    "& tr": { "& th": { paddingLeft: 10, paddingRight: 10, backgroundColor: "#6082B6", color: "#ffffff", textAlign: "center" } },
-  },
-  "& tbody": {
-    "& tr": { "& td": { paddingLeft: 0, textTransform: "capitalize" } },
-  },
-}));
+// const StyledTable = styled(Table)(() => ({
+//   whiteSpace: "pre",
+//   "& thead": {
+//     "& tr": { "& th": { paddingLeft: 10, paddingRight: 10, backgroundColor: "#6082B6", color: "#ffffff", textAlign: "center" } },
+//   },
+//   "& tbody": {
+//     "& tr": { "& td": { paddingLeft: 0, textTransform: "capitalize" } },
+//   },
+// }));
 
 
 
@@ -45,17 +45,17 @@ const MachineDetails = () => {
       { field: 'machineid', headerName: 'Machine Id', width: 200, headerClassName: 'header'  },
       { field: 'machineName', headerName: 'Machine Name', width: 200, headerClassName: 'header'  },
       { field: 'building', headerName: 'building', width: 200, headerClassName: 'header'  },
-      { field: 'floor', headerName: 'Floor', width: 200, headerClassName: 'header'  },
-      { field: 'area', headerName: 'Area', width: 200, headerClassName: 'header'  },
-      { field: 'position', headerName: 'Position', width: 200, headerClassName: 'header'  },
+      { field: 'floor', headerName: 'Floor', width: 100, headerClassName: 'header'  },
+      { field: 'area', headerName: 'Area', width: 150, headerClassName: 'header'  },
+      { field: 'position', headerName: 'Position', width: 150, headerClassName: 'header'  },
       { field: 'parentId', headerName: 'Parent Id', width: 200, headerClassName: 'header'  },
       { field: 'note', headerName: 'Note', width: 200, headerClassName: 'header'  },
       { field: 'description', headerName: 'Description', width: 200, headerClassName: 'header' },
-      { field: 'action', headerName: 'Dashboard', width: 150, headerClassName: 'header',
+      { field: 'action', headerName: 'Dashboard', width: 100, headerClassName: 'header',
           renderCell: (params) => (
             <Button variant="contained" color="primary" onClick={() => rawClick(params.row.id)}>
               View </Button> ), },
-      { field: 'delete', headerName: 'Delete', width: 150, headerClassName: 'header',
+      { field: 'delete', headerName: 'Delete', width: 125, headerClassName: 'header',
         renderCell: (params) => {
           if (loggedInUser?.id === params.row.parentId) {
             return (
