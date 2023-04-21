@@ -6,7 +6,6 @@ import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import UserTypeAutocompleteCombo from '../material-kit/auto-complete/UserTypeAutocompleteCombo'
 import * as Yup from 'yup';
 import firebase from '../../../fake-db/db/firebasekey';
 
@@ -46,7 +45,7 @@ const initialValues = {
   zipCode: '',
   country: '',
   parentId: '',
-  UserTypeAutocompleteCombo: '',
+  userType: '',
   remember: true
 };
 
@@ -102,7 +101,7 @@ const JwtRegister = () => {
       region: values.region,
       zipCode: values.zipCode,country: values.country,
       parentId: values.parentId,
-      UserTypeAutocompleteCombo: values.UserTypeAutocompleteCombo});
+      userType: values.usertype});
       alert('Registration is  successfully!');
       navigate('/');
       console.log(values)
@@ -307,10 +306,10 @@ const JwtRegister = () => {
                       onBlur={handleBlur}
                       error={Boolean(errors.usertype && touched.usertype)}
                     >
-                      <MenuItem value="general manager">General Manager</MenuItem>
-                      <MenuItem value="regional manager">Regional Manager</MenuItem>
-                      <MenuItem value="branch manager">Branch Manager</MenuItem>
-                      <MenuItem value="technical incharge">Technical Incharge</MenuItem>
+                      <MenuItem value="General manager">General Manager</MenuItem>
+                      <MenuItem value="Regional manager">Regional Manager</MenuItem>
+                      <MenuItem value="Branch manager">Branch Manager</MenuItem>
+                      <MenuItem value="Technical incharge">Technical Incharge</MenuItem>
                     </Select>
                     {touched.usertype && errors.usertype && (
                       <FormHelperText error>{errors.usertype}</FormHelperText>
