@@ -18,7 +18,7 @@ import useAuth from 'app/hooks/useAuth';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import firebase from '../../../fake-db/db/firebasekey';
 import { DataGrid } from "@mui/x-data-grid";
-    import RecursiveTreeView from '../pages/RecursiveTreeView';
+import RecursiveTreeView from '../pages/RecursiveTreeView';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -102,10 +102,10 @@ const Mangerstable = () => {
              const children = Object.keys(userObj)
                .filter((key) => userObj[key].parentId === parentId)
                .map((key) => {
-                 const { firstName, lastName } = userObj[key];
+                 const { firstName, lastName,userType } = userObj[key];
                  return {
                    id: key,
-                   label: `${firstName} ${lastName}`,
+                   label: `${firstName} ${lastName} ${userType}`,
                    children: buildTree(key),
                  };
                });
@@ -120,7 +120,7 @@ const Mangerstable = () => {
              }
              return {
                id: nodeId,
-               label: `${node.firstName} ${node.lastName}`,
+               label: `${node.firstName} ${node.lastName} ${node.userType}`,
                children: buildTree(nodeId),
              };
            };
