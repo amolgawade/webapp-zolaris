@@ -6,6 +6,8 @@ import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem';
 import Collapse from '@mui/material/Collapse';
 import { useSpring, animated } from '@react-spring/web';
 import { TransitionProps } from '@mui/material/transitions';
+import Button from '@mui/material/Button';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 
 function MinusSquare(props: SvgIconProps) {
@@ -59,6 +61,8 @@ function TransitionComponent(props: TransitionProps) {
   );
 }
 
+
+
 const StyledTreeItem = styled((props: TreeItemProps) => (
   <TreeItem {...props} TransitionComponent={TransitionComponent} />
 ))(({ theme }) => ({
@@ -94,16 +98,45 @@ function RecursiveTreeView(props) {
     },
   };
 
-  const renderTree = (nodes) => (
+const handleViewMachine = (node) => {
+  // Code to display machine information or take some other action
+  console.log(`View machine for node with id ${node.id} and value ${node.value}`);
+  navigate('/pages/machineDetails/?id='+ node.id);
+
+}
+const navigate = useNavigate();
+
+const renderTree = (nodes) => {
+  const labelValues = nodes.label?.split(' ');
+//   console.log(labelValues)
+  const lastValue = labelValues?.[labelValues.length - 2];
+  const showViewMachineButton = lastValue === "Technical";
+
+
+  return (
     <StyledTreeItem
       key={nodes.id}
       nodeId={nodes.id}
-      label={nodes.label}
+      label={
+        showViewMachineButton ? (
+          <>
+            {labelValues.slice(0, labelValues.length - 1).join(' ')}
+            <Button variant="contained" color="secondary" sx={{ p: '1px 8px', m: '5px' }} onClick={() => handleViewMachine(nodes)}>
+              View Machine
+            </Button>
+          </>
+        ) : (
+          nodes.label
+        )
+      }
       classes={{ root: styles.treeItem }}
     >
       {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
     </StyledTreeItem>
   );
+};
+
+
 
   return (
     <TreeView
