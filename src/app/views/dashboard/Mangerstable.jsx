@@ -1,15 +1,4 @@
-import {
-  Box,
-  Icon,
-  Button,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from "@mui/material";
+import { Box, Icon, Button, styled, Table, } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -48,24 +37,36 @@ const Mangerstable = () => {
   const [userList, setUserList] = useState([]);
   const navigate = useNavigate();
   const [tree, setTree] = useState([]);
+  const [userType, setUserType] = useState('');
 
-//   const columns = [
-//       { field: 'id', headerName: 'Id', width: 200, headerClassName: 'header'  },
-//       { field: 'firstName', headerName: 'First Name', width: 200, headerClassName: 'header'  },
-//       { field: 'email', headerName: 'Email', width: 200, headerClassName: 'header'  },
-//       { field: 'userType', headerName: 'User Type', width: 200, headerClassName: 'header' },
-//       {
-//           field: 'action',
-//           headerName: 'Action',
-//           width: 150,
-//           headerClassName: 'header',
-//           renderCell: (params) => (
-//             <Button variant="contained" color="primary" onClick={() => rawClick(params.row.id)}>
-//               View
-//             </Button>
-//           ),
-//         },
-//     ];
+  const columns = [
+      { field: 'id', headerName: 'Id', width: 200, headerClassName: 'header'  },
+      { field: 'firstName', headerName: 'First Name', width: 100, headerClassName: 'header'  },
+      { field: 'lastName', headerName: 'Last Name', width: 100, headerClassName: 'header'  },
+      { field: 'email', headerName: 'Email', width: 200, headerClassName: 'header'  },
+      { field: 'phone', headerName: 'Phone', width: 100, headerClassName: 'header'  },
+      { field: 'streetAddress', headerName: 'StreetAddress', width: 200, headerClassName: 'header'  },
+      { field: 'streetAddressLine2', headerName: 'StreetAddressLine2', width: 200, headerClassName: 'header'  },
+      { field: 'country', headerName: 'Country', width: 100, headerClassName: 'header'  },
+      { field: 'city', headerName: 'City', width: 100, headerClassName: 'header'  },
+      { field: 'region', headerName: 'Region', width: 100, headerClassName: 'header'  },
+      { field: 'zipCode', headerName: 'Zip Code', width: 100, headerClassName: 'header'  },
+      { field: 'parentId', headerName: 'Parent Id', width: 200, headerClassName: 'header'  },
+      { field: 'userType', headerName: 'User Type', width: 150, headerClassName: 'header' },
+      { field: 'action', headerName: 'Action', width: 150, headerClassName: 'header',
+         renderCell: (params) => (
+           <>
+              { params.row.userType !== 'Technical Incharge' ?
+              (<Button type="submit" color="primary" variant="contained" onClick={() => rawClick(params.row.id)} sx={{ mb: 2, mt: 3 }} >
+                View Reportees
+              </Button> ) :
+              (<Button type="submit" color="secondary" variant="contained" onClick={() => dashboardClick(params.row.id)} sx={{ mb: 2, mt: 3 }} >
+                View Machines
+              </Button>) }
+           </>
+         ),
+      },
+    ];
 
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -84,8 +85,9 @@ const Mangerstable = () => {
 
        const temp = userData[firstKey];
        temp.id = firstKey;
-       console.log(temp);
+        // console.log(temp);
        setLoggedInUser(temp);
+//        setUserType(temp.userType); // Set the userType state variable
        fetchData(firstKey);
 
        // Prepare tree data
@@ -102,7 +104,7 @@ const Mangerstable = () => {
              const children = Object.keys(userObj)
                .filter((key) => userObj[key].parentId === parentId)
                .map((key) => {
-                 const { firstName, lastName,userType } = userObj[key];
+                 const { firstName, lastName, userType } = userObj[key];
                  return {
                    id: key,
                    label: `${firstName} ${lastName} ${userType}`,
@@ -147,9 +149,19 @@ const Mangerstable = () => {
               const row = {
                 id: key,
                 firstName: users[key].firstName,
+                lastName: users[key].lastName,
                 email: users[key].email,
+                phone: users[key].phone,
+                streetAddress: users[key].streetAddress,
+                streetAddressLine2: users[key].streetAddressLine2,
+                country: users[key].country,
+                city: users[key].city,
+                region: users[key].region,
+                zipCode: users[key].zipCode,
+                parentId: users[key].parentId,
                 userType: users[key].userType,
               };
+//               console.log(row);
               userList.push(row);
             }
             }
@@ -162,7 +174,6 @@ const Mangerstable = () => {
     };
 
     const dashboardClick = (id) => {
-
       navigate('/pages/machineDetails/?id='+ id);
     };
 
@@ -170,78 +181,12 @@ const Mangerstable = () => {
       fetchData(id);
     };
 
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
   return (
     <Container >
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-     <Button
-       variant="contained"
-       color="primary"
-       onClick={() => loadCurrentUserData(loggedInUser?.id)}
-       startIcon={<RefreshIcon />}
-       sx={{ mr: 2 }}>
-       Refresh
-     </Button>
-     </Box>
-    <Box width="100%" overflow="auto">
-      <StyledTable>
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">Id</TableCell>
-            <TableCell align="center">First Name</TableCell>
-            <TableCell align="center">Email</TableCell>
-            <TableCell align="center">User Type</TableCell>
-            <TableCell align="center">View details</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {userList
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((user, index) => (
-              <TableRow key={index}>
-                <TableCell align="left">{user.id}</TableCell>
-                <TableCell align="center">{user.firstName}</TableCell>
-                <TableCell align="center">{user.email}</TableCell>
-                <TableCell align="center">{user.userType}</TableCell>
-                <TableCell align="center">
-                  { user.userType !== 'Technical Incharge' ? (<Button type="submit" color="primary" variant="contained" onClick={() => rawClick(user.id)}
-                    sx={{ mb: 2, mt: 3 }} >
-                    View Reportees
-                  </Button> ) :
-                  (<Button type="submit" color="secondary" variant="contained" onClick={() => dashboardClick(user.id)}
-                    sx={{ mb: 2, mt: 3 }} >
-                    View Machines
-                  </Button>) }
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-
-      </StyledTable>
-
-      <TablePagination
-        sx={{ px: 2 }}
-        page={page}
-        component="div"
-        rowsPerPage={rowsPerPage}
-        count={userList.length}
-        onPageChange={handleChangePage}
-        rowsPerPageOptions={[5, 10, 25]}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        nextIconButtonProps={{ "aria-label": "Next Page" }}
-        backIconButtonProps={{ "aria-label": "Previous Page" }}
-      />
+     <Box sx={{ height: 400, width: '100%', mb: 8 }}>
+        <DataGrid rows={userList} columns={columns} />
     </Box>
     <Box sx={{ height: '100%', width: '100%', mb:12 }}>
-{/*     <DataGrid rows={userList} columns={columns} /> */}
         <RecursiveTreeView data={tree} />
     </Box>
     </Container>
