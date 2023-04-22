@@ -133,7 +133,7 @@ const renderTree = (nodes) => {
           {userType === 'Technical Incharge' && `${firstName} ${lastName} `}
         </span>
         <span style={{fontSize: '0.75rem'}}>
-          ({userType})({machineCount})
+          ({userType}) <span style={{fontWeight: 'bold'}}> ({"Active Machines: " + machineCount})</span>
         </span>
           {showViewMachineButton ? (
             <Button

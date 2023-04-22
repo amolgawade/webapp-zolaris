@@ -71,8 +71,34 @@ const Mangerstable = () => {
 
   const [loggedInUser, setLoggedInUser] = useState(null);
 
+    function findNodeById(node, id) {
+      if (node.id === id) {
+        return node;
+      } else if (node.children) {
+        for (let i = 0; i < node.children.length; i++) {
+          const found = findNodeById(node.children[i], id);
+          if (found) {
+            return found;
+          }
+        }
+      }
+      return null;
+    }
+
   function getMachineCountById(parentId) {
-        return Object.values(machineList).filter(machine => machine.parentId === parentId).length;
+     const node = findNodeById(tree, parentId);
+     console.log(node);
+       if (!node) {
+         return 0;
+       }
+       let currentCount = Object.values(machineList).filter(machine => machine.parentId === parentId).length;
+      if (node.children) {
+        node.children.forEach(childNode => {
+        console.log(childNode.id);
+          currentCount = currentCount + getMachineCountById(childNode.id);
+        });
+      }
+      return currentCount;
   }
 
   useEffect(() => {
