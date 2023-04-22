@@ -111,9 +111,8 @@ const renderTree = (nodes) => {
   const firstName = labelValues?.[0];
   const lastName = labelValues?.[1];
   const userType = labelValues?.[2];
+  const machineCount = labelValues?.length > 3 ?  labelValues?.[3] : 0;
   const showViewMachineButton = userType === "Technical Incharge";
-  console.log(firstName)
-  console.log(lastName)
 
   return (
     <StyledTreeItem
@@ -134,7 +133,7 @@ const renderTree = (nodes) => {
           {userType === 'Technical Incharge' && `${firstName} ${lastName} `}
         </span>
         <span style={{fontSize: '0.75rem'}}>
-          ({userType})
+          ({userType})({machineCount})
         </span>
           {showViewMachineButton ? (
             <Button

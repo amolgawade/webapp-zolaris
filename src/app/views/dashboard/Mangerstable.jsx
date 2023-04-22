@@ -35,6 +35,7 @@ const Mangerstable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userList, setUserList] = useState([]);
+  const [machineList, setMachineList] = useState([]);
   const navigate = useNavigate();
   const [tree, setTree] = useState([]);
   const [userType, setUserType] = useState('');
@@ -70,6 +71,10 @@ const Mangerstable = () => {
 
   const [loggedInUser, setLoggedInUser] = useState(null);
 
+  function getMachineCountById(parentId) {
+        return Object.values(machineList).filter(machine => machine.parentId === parentId).length;
+  }
+
   useEffect(() => {
       const usersRef = firebase.database().ref('users');
 
@@ -90,6 +95,12 @@ const Mangerstable = () => {
 //        setUserType(temp.userType); // Set the userType state variable
        fetchData(firstKey);
 
+       const machinesRef = firebase.database().ref('machines');
+       machinesRef.once('value').then((snapshot) => {
+            const machines = snapshot.val();
+            setMachineList(machines)
+        });
+
        // Prepare tree data
        usersRef.once('value').then((snapshot) => {
          const users = snapshot.val();
@@ -105,9 +116,10 @@ const Mangerstable = () => {
                .filter((key) => userObj[key].parentId === parentId)
                .map((key) => {
                  const { firstName, lastName, userType } = userObj[key];
+                 const machineCount = getMachineCountById(key);
                  return {
                    id: key,
-                   label: `${firstName}~${lastName}~${userType}`,
+                   label: `${firstName}~${lastName}~${userType}~${machineCount}`,
                    children: buildTree(key),
                  };
                });
@@ -120,9 +132,10 @@ const Mangerstable = () => {
              if (!node) {
                return null; // Node not found
              }
+             const machineCount = getMachineCountById(nodeId);
              return {
                id: nodeId,
-               label: `${node.firstName}~${node.lastName}~${node.userType}`,
+               label: `${node.firstName}~${node.lastName}~${node.userType}~${machineCount}`,
                children: buildTree(nodeId),
              };
            };
