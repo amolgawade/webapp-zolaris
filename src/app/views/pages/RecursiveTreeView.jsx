@@ -10,34 +10,34 @@ import Button from '@mui/material/Button';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 
-function MinusSquare(props: SvgIconProps) {
+function PlusSquare(props) {
   return (
-    <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
-      {/* tslint:disable-next-line: max-line-length */}
-      <path d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 11.023h-11.826q-.375 0-.669.281t-.294.682v0q0 .401.294 .682t.669.281h11.826q.375 0 .669-.281t.294-.682v0q0-.401-.294-.682t-.669-.281z" />
-    </SvgIcon>
+    <svg viewBox="0 0 24 24" width="24" height="24" {...props}>
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path d="M12 6v12M6 12h12" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
-function PlusSquare(props: SvgIconProps) {
+function MinusSquare(props) {
   return (
-    <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
-      {/* tslint:disable-next-line: max-line-length */}
-      <path d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 12.977h-4.923v4.896q0 .401-.281.682t-.682.281v0q-.375 0-.669-.281t-.294-.682v-4.896h-4.923q-.401 0-.682-.294t-.281-.669v0q0-.401.281-.682t.682-.281h4.923v-4.896q0-.401.294-.682t.669-.281v0q.401 0 .682.281t.281.682v4.896h4.923q.401 0 .682.281t.281.682v0q0 .375-.281.669t-.682.294z" />
-    </SvgIcon>
+    <svg viewBox="0 0 24 24" width="24" height="24" {...props}>
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path d="M6 12h12" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
+
 
 function CloseSquare(props: SvgIconProps) {
   return (
     <SvgIcon
-      className="close"
       fontSize="inherit"
       style={{ width: 14, height: 14 }}
       {...props}
     >
-      {/* tslint:disable-next-line: max-line-length */}
-      <path d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682zM22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0z" />
+      <circle cx="12" cy="12" r="11" />
+      <path d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682z" fill="#FFF" />
     </SvgIcon>
   );
 }
@@ -121,7 +121,21 @@ const renderTree = (nodes) => {
       nodeId={nodes.id}
       label={
        <span>
-        {firstName} {lastName}
+        <span style={{fontSize: '1.75rem', fontWeight: 'bold', color: userType === 'General manager' ? '#593C73' : 'black'}}>
+          {userType === 'General manager' && `${firstName} ${lastName} `}
+        </span>
+        <span style={{fontSize: '1.5rem', fontWeight: 'bold', color: userType === 'Regional manager' ? '#e3742f' : 'black'}}>
+          {userType === 'Regional manager' && `${firstName} ${lastName} `}
+        </span>
+        <span style={{fontSize: '1.25rem', fontWeight: 'bold', color: userType === 'Branch manager' ? '#a250f5' : 'black'}}>
+          {userType === 'Branch manager' && `${firstName} ${lastName} `}
+        </span>
+        <span style={{fontSize: '1rem', color: userType === 'Technical Incharge' ? '#3c8039' : 'black'}}>
+          {userType === 'Technical Incharge' && `${firstName} ${lastName} `}
+        </span>
+        <span style={{fontSize: '0.75rem'}}>
+          ({userType})
+        </span>
           {showViewMachineButton ? (
             <Button
               variant="contained"
