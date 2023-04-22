@@ -42,20 +42,20 @@ const MachineDetails = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   const columns = [
-      { field: 'machineid', headerName: 'Machine Id', width: 200, headerClassName: 'header'  },
-      { field: 'machineName', headerName: 'Machine Name', width: 200, headerClassName: 'header'  },
-      { field: 'building', headerName: 'building', width: 200, headerClassName: 'header'  },
-      { field: 'floor', headerName: 'Floor', width: 100, headerClassName: 'header'  },
-      { field: 'area', headerName: 'Area', width: 150, headerClassName: 'header'  },
-      { field: 'position', headerName: 'Position', width: 150, headerClassName: 'header'  },
-      { field: 'parentId', headerName: 'Parent Id', width: 200, headerClassName: 'header'  },
-      { field: 'note', headerName: 'Note', width: 200, headerClassName: 'header'  },
-      { field: 'description', headerName: 'Description', width: 200, headerClassName: 'header' },
-      { field: 'action', headerName: 'Dashboard', width: 100, headerClassName: 'header',
+      { field: 'machineid', headerName: 'Machine Id', width: 200, headerClassName: 'headerColor'  },
+      { field: 'machineName', headerName: 'Machine Name', width: 200, headerClassName: 'headerColor'  },
+      { field: 'building', headerName: 'building', width: 200, headerClassName: 'headerColor'  },
+      { field: 'floor', headerName: 'Floor', width: 100, headerClassName: 'headerColor'  },
+      { field: 'area', headerName: 'Area', width: 150, headerClassName: 'headerColor'  },
+      { field: 'position', headerName: 'Position', width: 150, headerClassName: 'headerColor'  },
+      { field: 'parentId', headerName: 'Parent Id', width: 200, headerClassName: 'headerColor'  },
+      { field: 'note', headerName: 'Note', width: 200, headerClassName: 'headerColor'  },
+      { field: 'description', headerName: 'Description', width: 200, headerClassName: 'headerColor' },
+      { field: 'action', headerName: 'Dashboard', width: 100, headerClassName: 'headerColor',
           renderCell: (params) => (
             <Button variant="contained" color="primary" onClick={() => rawClick(params.row.id)}>
               View </Button> ), },
-      { field: 'delete', headerName: 'Delete', width: 125, headerClassName: 'header',
+      { field: 'delete', headerName: 'Delete', width: 125, headerClassName: 'headerColor',
         renderCell: (params) => {
           if (loggedInUser?.id === params.row.parentId) {
             return (
@@ -177,7 +177,7 @@ const MachineDetails = () => {
           startIcon={<AddIcon />} > Add Machine
         </Button>
       </Box>
-      <Box sx={{ height: 400, width: '100%', mb: 8 }}>
+      <Box sx={{ height: 400, width: '100%', mb: 8,'& .headerColor': { backgroundColor: '#EFBDF5',}, }}>
         <DataGrid rows={machineList} columns={columns} />
       </Box>
     </Container>

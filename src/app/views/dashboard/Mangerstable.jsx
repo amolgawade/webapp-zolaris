@@ -18,18 +18,6 @@ const Container = styled('div')(({ theme }) => ({
   }
 }));
 
-const StyledTable = styled(Table)(() => ({
-  whiteSpace: "pre",
-  "& thead": {
-    "& tr": { "& th": { paddingLeft: 10, paddingRight: 10, backgroundColor: "#6082B6", color: "#ffffff", textAlign: "center" } },
-  },
-  "& tbody": {
-    "& tr": { "& td": { paddingLeft: 0, textTransform: "capitalize" } },
-  },
-}));
-
-
-
 const Mangerstable = () => {
   const { logout, user } = useAuth();
   const [page, setPage] = useState(0);
@@ -40,21 +28,22 @@ const Mangerstable = () => {
   const [tree, setTree] = useState([]);
   const [userType, setUserType] = useState('');
 
+
   const columns = [
-      { field: 'id', headerName: 'Id', width: 200, headerClassName: 'header'  },
-      { field: 'firstName', headerName: 'First Name', width: 100, headerClassName: 'header'  },
-      { field: 'lastName', headerName: 'Last Name', width: 100, headerClassName: 'header'  },
-      { field: 'email', headerName: 'Email', width: 200, headerClassName: 'header'  },
-      { field: 'phone', headerName: 'Phone', width: 100, headerClassName: 'header'  },
-      { field: 'streetAddress', headerName: 'StreetAddress', width: 200, headerClassName: 'header'  },
-      { field: 'streetAddressLine2', headerName: 'StreetAddressLine2', width: 200, headerClassName: 'header'  },
-      { field: 'country', headerName: 'Country', width: 100, headerClassName: 'header'  },
-      { field: 'city', headerName: 'City', width: 100, headerClassName: 'header'  },
-      { field: 'region', headerName: 'Region', width: 100, headerClassName: 'header'  },
-      { field: 'zipCode', headerName: 'Zip Code', width: 100, headerClassName: 'header'  },
-      { field: 'parentId', headerName: 'Parent Id', width: 200, headerClassName: 'header'  },
-      { field: 'userType', headerName: 'User Type', width: 150, headerClassName: 'header' },
-      { field: 'action', headerName: 'Action', width: 150, headerClassName: 'header',
+      { field: 'id', headerName: 'Id', width: 200, headerClassName: 'headerColor'  },
+      { field: 'firstName', headerName: 'First Name', width: 100, headerClassName: 'headerColor'  },
+      { field: 'lastName', headerName: 'Last Name', width: 100, headerClassName: 'headerColor'  },
+      { field: 'email', headerName: 'Email', width: 200, headerClassName: 'headerColor'  },
+      { field: 'phone', headerName: 'Phone', width: 100, headerClassName: 'headerColor'  },
+      { field: 'streetAddress', headerName: 'StreetAddress', width: 200, headerClassName: 'headerColor'  },
+      { field: 'streetAddressLine2', headerName: 'StreetAddressLine2', width: 200, headerClassName: 'headerColor'  },
+      { field: 'country', headerName: 'Country', width: 100, headerClassName: 'headerColor'  },
+      { field: 'city', headerName: 'City', width: 100, headerClassName: 'headerColor'  },
+      { field: 'region', headerName: 'Region', width: 100, headerClassName: 'headerColor'  },
+      { field: 'zipCode', headerName: 'Zip Code', width: 100, headerClassName: 'headerColor'  },
+      { field: 'parentId', headerName: 'Parent Id', width: 200, headerClassName: 'headerColor'  },
+      { field: 'userType', headerName: 'User Type', width: 150, headerClassName: 'headerColor' },
+      { field: 'action', headerName: 'Action', width: 150, headerClassName: 'headerColor',
          renderCell: (params) => (
            <>
               { params.row.userType !== 'Technical Incharge' ?
@@ -224,7 +213,9 @@ const Mangerstable = () => {
 
   return (
     <Container >
-     <Box sx={{ height: 400, width: '100%', mb: 8 }}>
+     <Box sx={{ height: 400, width: '100%', mb: 8,
+     '& .headerColor': { backgroundColor: '#EFBDF5',},
+      }}>
         <DataGrid rows={userList} columns={columns} />
     </Box>
     <Box sx={{ height: '100%', width: '100%', mb:12 }}>
