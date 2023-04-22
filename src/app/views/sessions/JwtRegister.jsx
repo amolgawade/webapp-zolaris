@@ -309,7 +309,7 @@ const JwtRegister = () => {
                       <MenuItem value="General manager">General Manager</MenuItem>
                       <MenuItem value="Regional manager">Regional Manager</MenuItem>
                       <MenuItem value="Branch manager">Branch Manager</MenuItem>
-                      <MenuItem value="Technical incharge">Technical Incharge</MenuItem>
+                      <MenuItem value="Technical Incharge">Technical Incharge</MenuItem>
                     </Select>
                     {touched.usertype && errors.usertype && (
                       <FormHelperText error>{errors.usertype}</FormHelperText>
