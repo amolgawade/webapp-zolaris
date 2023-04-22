@@ -107,27 +107,34 @@ const handleViewMachine = (node) => {
 const navigate = useNavigate();
 
 const renderTree = (nodes) => {
-  const labelValues = nodes.label?.split(' ');
-//   console.log(labelValues)
-  const lastValue = labelValues?.[labelValues.length - 2];
-  const showViewMachineButton = lastValue === "Technical";
-
+  const labelValues = nodes.label?.split('~');
+  const firstName = labelValues?.[0];
+  const lastName = labelValues?.[1];
+  const userType = labelValues?.[2];
+  const showViewMachineButton = userType === "Technical Incharge";
+  console.log(firstName)
+  console.log(lastName)
 
   return (
     <StyledTreeItem
       key={nodes.id}
       nodeId={nodes.id}
       label={
-        showViewMachineButton ? (
-          <>
-            {labelValues.slice(0, labelValues.length - 1).join(' ')}
-            <Button variant="contained" color="secondary" sx={{ p: '1px 8px', m: '5px' }} onClick={() => handleViewMachine(nodes)}>
+       <span>
+        {firstName} {lastName}
+          {showViewMachineButton ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ p: '1px 8px', m: '5px' }}
+              onClick={() => handleViewMachine(nodes)}
+            >
               View Machine
             </Button>
-          </>
-        ) : (
-          nodes.label
-        )
+          ) : (
+           <p/>
+          )}
+          </span>
       }
       classes={{ root: styles.treeItem }}
     >

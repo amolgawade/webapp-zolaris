@@ -107,7 +107,7 @@ const Mangerstable = () => {
                  const { firstName, lastName, userType } = userObj[key];
                  return {
                    id: key,
-                   label: `${firstName} ${lastName} ${userType}`,
+                   label: `${firstName}~${lastName}~${userType}`,
                    children: buildTree(key),
                  };
                });
@@ -122,7 +122,7 @@ const Mangerstable = () => {
              }
              return {
                id: nodeId,
-               label: `${node.firstName} ${node.lastName} ${node.userType}`,
+               label: `${node.firstName}~${node.lastName}~${node.userType}`,
                children: buildTree(nodeId),
              };
            };
