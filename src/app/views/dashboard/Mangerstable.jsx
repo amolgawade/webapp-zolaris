@@ -98,51 +98,53 @@ const Mangerstable = () => {
        const machinesRef = firebase.database().ref('machines');
        machinesRef.once('value').then((snapshot) => {
             const machines = snapshot.val();
-            setMachineList(machines)
+            setMachineList(machines);
+
+            // Prepare tree data
+           usersRef.once('value').then((snapshot) => {
+             const users = snapshot.val();
+              // Create an object with all the users
+               const userObj = {};
+               Object.keys(users).forEach((key) => {
+                 userObj[key] = users[key];
+               });
+
+               // Create a tree structure using the parent-child references
+               const buildTree = (parentId) => {
+                 const children = Object.keys(userObj)
+                   .filter((key) => userObj[key].parentId === parentId)
+                   .map((key) => {
+                     const { firstName, lastName, userType } = userObj[key];
+                     const machineCount = getMachineCountById(key);
+                     return {
+                       id: key,
+                       label: `${firstName}~${lastName}~${userType}~${machineCount}`,
+                       children: buildTree(key),
+                     };
+                   });
+                 return children;
+               };
+
+               // Get the tree from a specific node ID
+               const getTreeFromNode = (nodeId) => {
+                 const node = userObj[nodeId];
+                 if (!node) {
+                   return null; // Node not found
+                 }
+                 const machineCount = getMachineCountById(nodeId);
+                 return {
+                   id: nodeId,
+                   label: `${node.firstName}~${node.lastName}~${node.userType}~${machineCount}`,
+                   children: buildTree(nodeId),
+                 };
+               };
+
+               // Example usage: get the tree from node "-NSdkVWsY7LUrp88Gf0v"
+               const tree = getTreeFromNode(firstKey);
+               setTree(tree);
+
         });
 
-       // Prepare tree data
-       usersRef.once('value').then((snapshot) => {
-         const users = snapshot.val();
-          // Create an object with all the users
-           const userObj = {};
-           Object.keys(users).forEach((key) => {
-             userObj[key] = users[key];
-           });
-
-           // Create a tree structure using the parent-child references
-           const buildTree = (parentId) => {
-             const children = Object.keys(userObj)
-               .filter((key) => userObj[key].parentId === parentId)
-               .map((key) => {
-                 const { firstName, lastName, userType } = userObj[key];
-                 const machineCount = getMachineCountById(key);
-                 return {
-                   id: key,
-                   label: `${firstName}~${lastName}~${userType}~${machineCount}`,
-                   children: buildTree(key),
-                 };
-               });
-             return children;
-           };
-
-           // Get the tree from a specific node ID
-           const getTreeFromNode = (nodeId) => {
-             const node = userObj[nodeId];
-             if (!node) {
-               return null; // Node not found
-             }
-             const machineCount = getMachineCountById(nodeId);
-             return {
-               id: nodeId,
-               label: `${node.firstName}~${node.lastName}~${node.userType}~${machineCount}`,
-               children: buildTree(nodeId),
-             };
-           };
-
-           // Example usage: get the tree from node "-NSdkVWsY7LUrp88Gf0v"
-           const tree = getTreeFromNode(firstKey);
-           setTree(tree);
        }).catch((error) => {
          console.error(error);
        });
