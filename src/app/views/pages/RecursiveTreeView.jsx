@@ -1,4 +1,6 @@
 import React from 'react';
+import Icon from '@mui/material/Icon';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 import { alpha, styled } from '@mui/material/styles';
 import TreeView from '@mui/lab/TreeView';
@@ -132,8 +134,10 @@ const renderTree = (nodes) => {
         <span style={{fontSize: '1rem', color: userType === 'Technical Incharge' ? '#3c8039' : 'black'}}>
           {userType === 'Technical Incharge' && `${firstName} ${lastName} `}
         </span>
-        <span style={{fontSize: '0.75rem'}}>
-          ({userType}) <span style={{fontWeight: 'bold'}}> ({"Active Machines: " + machineCount})</span>
+        <span style={{ fontSize: '0.75rem' }}>
+          ({userType}) <span style={{ fontWeight: 'bold' }}> ({"Active Machines: "}
+            {machineCount} <CheckCircleOutlineRoundedIcon sx={{ color: '#2abe25', fontSize: '15px',verticalAlign: 'text-bottom' }} />
+          )</span>
         </span>
           {showViewMachineButton ? (
             <Button
