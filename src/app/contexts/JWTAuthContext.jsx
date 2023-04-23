@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { MatxLoading } from 'app/components';
 import firebase from '../../fake-db/db/firebasekey';
 
@@ -40,6 +41,7 @@ const reducer = (state, action) => {
     }
 
     case 'LOGOUT': {
+      Cookies.remove('user');
       return { ...state, isAuthenticated: false, user: null };
     }
 
@@ -71,8 +73,15 @@ export const AuthProvider = ({ children }) => {
 
     const dbemail = firebaseUser.user.email;
     const user = { ...firebaseUser.user, name: dbemail };
+    const user2 = {
+    "avatar": "/assets/images/avatars/001-man.svg",
+    "email": dbemail,
+    "name": dbemail,
+    }
+    // Set user data in cookies
+    Cookies.set('user', JSON.stringify(user2));
 
-    dispatch({ type: 'LOGIN', payload: { user } });
+    dispatch({ type: 'LOGIN', payload: { isAuthenticated: true, user: user } });
   };
 
   const register = async (email, username, password) => {
@@ -83,6 +92,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    Cookies.remove('user');
     dispatch({ type: 'LOGOUT' });
   };
 
@@ -90,8 +100,16 @@ export const AuthProvider = ({ children }) => {
     (async () => {
       try {
 //         const { data } = await axios.get('/api/auth/profile');
+//         console.log(data.user);
 //         dispatch({ type: 'INIT', payload: { isAuthenticated: true, user: data.user } });
-        dispatch({ type: 'INIT', payload: { isAuthenticated: false, user: null } });
+        const storedUser = Cookies.get('user');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          console.log(user);
+          dispatch({ type: 'INIT', payload: { isAuthenticated: true, user: user } });
+        } else {
+          dispatch({ type: 'INIT', payload: { isAuthenticated: false, user: null } });
+        }
       } catch (err) {
         console.error(err);
         dispatch({ type: 'INIT', payload: { isAuthenticated: false, user: null } });
