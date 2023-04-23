@@ -177,7 +177,7 @@ const MachineDetails = () => {
           startIcon={<AddIcon />} > Add Machine
         </Button>
       </Box>
-      <Box sx={{ height: 400, width: '100%', mb: 8,'& .headerColor': { backgroundColor: '#EFBDF5',}, }}>
+      <Box sx={{ height: 400, width: '100%', mb: 8,'& .headerColor': { backgroundColor: '#232a44', color:'#ffffff'}, }}>
         <DataGrid rows={machineList} columns={columns} />
       </Box>
     </Container>

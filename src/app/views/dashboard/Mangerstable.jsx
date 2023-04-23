@@ -238,7 +238,7 @@ function prepareTree(hierarchy, tempTree) {
   return (
     <Container >
      <Box sx={{ height: 400, width: '100%', mb: 8,
-     '& .headerColor': { backgroundColor: '#EFBDF5',},
+     '& .headerColor': { backgroundColor: '#232a44', color:'#ffffff'},
       }}>
         <DataGrid rows={userList} columns={columns} />
     </Box>
