@@ -74,17 +74,18 @@ const Mangerstable = () => {
       return null;
     }
 
-  function getMachineCountById(machines, parentId) {
-     const node = findNodeById(tree, parentId);
-     console.log(node);
+  function getMachineCountById(machines, parentId, tempTree) {
+//     console.log(tempTree + "   "+ parentId);
+     const node = findNodeById(tempTree, parentId);
+//      console.log(node);
        if (!node) {
          return 0;
        }
        let currentCount = Object.values(machines).filter(machine => machine.parentId === parentId).length;
       if (node.children) {
         node.children.forEach(childNode => {
-        console.log(childNode.id);
-          currentCount = currentCount + getMachineCountById(childNode.id);
+//         console.log(childNode.id);
+          currentCount = currentCount + getMachineCountById(machines, childNode.id, tempTree);
         });
       }
       return currentCount;
@@ -94,83 +95,102 @@ const Mangerstable = () => {
         return Object.values(machines).filter(machine => machine.parentId === parentId).length;
     }
 
-  useEffect(() => {
-      const usersRef = firebase.database().ref('users');
+function prepareTree(hierarchy, tempTree) {
+//   if (hierarchy) {console.log(tempTree); }
+  return new Promise((resolve, reject) => {
+    const usersRef = firebase.database().ref('users');
 
-      const userRefRes = usersRef.orderByChild('email').equalTo(user?.name ?? '')
-       userRefRes.on('value', (snapshot) => {
-       const userData = snapshot.val();
-       if(userData === null) {
-       return
-       }
+    const userRefRes = usersRef.orderByChild('email').equalTo(user?.name ?? '');
+    userRefRes.on('value', (snapshot) => {
+      const userData = snapshot.val();
+      if(userData === null) {
+        reject(new Error('User data is null'));
+        return;
+      }
 
-       const keys = Object.keys(userData);
-       const firstKey = keys[0];
+      const keys = Object.keys(userData);
+      const firstKey = keys[0];
 
-       const temp = userData[firstKey];
-       temp.id = firstKey;
-        // console.log(temp);
-       setLoggedInUser(temp);
-//        setUserType(temp.userType); // Set the userType state variable
-       fetchData(firstKey);
+      const temp = userData[firstKey];
+      temp.id = firstKey;
+      setLoggedInUser(temp);
+      fetchData(firstKey);
 
-       const machinesRef = firebase.database().ref('machines');
-       machinesRef.once('value').then((snapshot) => {
-            const machines = snapshot.val();
-            setMachineList(machines);
+      const machinesRef = firebase.database().ref('machines');
+      machinesRef.once('value').then((snapshot) => {
+        const machines = snapshot.val();
+        setMachineList(machines);
 
-            // Prepare tree data
-           usersRef.once('value').then((snapshot) => {
-             const users = snapshot.val();
-              // Create an object with all the users
-               const userObj = {};
-               Object.keys(users).forEach((key) => {
-                 userObj[key] = users[key];
-               });
+        usersRef.once('value').then((snapshot) => {
+          const users = snapshot.val();
+          const userObj = {};
+          Object.keys(users).forEach((key) => {
+            userObj[key] = users[key];
+          });
 
-               // Create a tree structure using the parent-child references
-               const buildTree = (parentId) => {
-                 const children = Object.keys(userObj)
-                   .filter((key) => userObj[key].parentId === parentId)
-                   .map((key) => {
-                     const { firstName, lastName, userType } = userObj[key];
-                     const machineCount = getOwnMachineCountById(machines, key);
-                     return {
-                       id: key,
-                       label: `${firstName}~${lastName}~${userType}~${machineCount}`,
-                       children: buildTree(key),
-                     };
-                   });
-                 return children;
-               };
+          const buildTree = (parentId) => {
+            const children = Object.keys(userObj)
+              .filter((key) => userObj[key].parentId === parentId)
+              .map((key) => {
+                const { firstName, lastName, userType } = userObj[key];
+                let machineCount;
+                if(hierarchy) {
+//                   console.log("passing tempTree : " +  tempTree);
+                  machineCount = getMachineCountById(machines, key, tempTree);
+                } else {
+                  machineCount = getOwnMachineCountById(machines, key);
+                }
 
-               // Get the tree from a specific node ID
-               const getTreeFromNode = (nodeId) => {
-                 const node = userObj[nodeId];
-                 if (!node) {
-                   return null; // Node not found
-                 }
-                 const machineCount = getOwnMachineCountById(machines, nodeId);
-                 return {
-                   id: nodeId,
-                   label: `${node.firstName}~${node.lastName}~${node.userType}~${machineCount}`,
-                   children: buildTree(nodeId),
-                 };
-               };
+                return {
+                  id: key,
+                  label: `${firstName}~${lastName}~${userType}~${machineCount}`,
+                  children: buildTree(key),
+                };
+              });
+            return children;
+          };
 
-               // Example usage: get the tree from node "-NSdkVWsY7LUrp88Gf0v"
-               const tree = getTreeFromNode(firstKey);
-               setTree(tree);
+          const getTreeFromNode = (nodeId) => {
+            const node = userObj[nodeId];
+            if (!node) {
+              return null;
+            }
+            let machineCount;
+            if(hierarchy) {
+//             console.log("passing tempTree : " +  tempTree);
+              machineCount = getMachineCountById(machines, nodeId, tempTree);
+            } else {
+              machineCount = getOwnMachineCountById(machines, nodeId);
+            }
+            return {
+              id: nodeId,
+              label: `${node.firstName}~${node.lastName}~${node.userType}~${machineCount}`,
+              children: buildTree(nodeId),
+            };
+          };
 
+          const tree = getTreeFromNode(firstKey);
+          resolve(tree);
+        }).catch((error) => {
+          reject(error);
         });
 
-       }).catch((error) => {
-         console.error(error);
-       });
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  });
+}
 
-       });
-
-  }, []);
+    useEffect(() => {
+      prepareTree(false, null)
+          .then((tempTree) => {
+            prepareTree(true, tempTree)
+              .then((tree) => {
+                    setTree(tree);
+                });
+            });
+    }, []);
 
   function fetchData(id) {
       const usersRef = firebase.database().ref('users').orderByChild('parentId').equalTo(id);;
