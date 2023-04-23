@@ -74,13 +74,13 @@ const Mangerstable = () => {
       return null;
     }
 
-  function getMachineCountById(parentId) {
+  function getMachineCountById(machines, parentId) {
      const node = findNodeById(tree, parentId);
      console.log(node);
        if (!node) {
          return 0;
        }
-       let currentCount = Object.values(machineList).filter(machine => machine.parentId === parentId).length;
+       let currentCount = Object.values(machines).filter(machine => machine.parentId === parentId).length;
       if (node.children) {
         node.children.forEach(childNode => {
         console.log(childNode.id);
@@ -89,6 +89,10 @@ const Mangerstable = () => {
       }
       return currentCount;
   }
+
+    function getOwnMachineCountById(machines, parentId) {
+        return Object.values(machines).filter(machine => machine.parentId === parentId).length;
+    }
 
   useEffect(() => {
       const usersRef = firebase.database().ref('users');
@@ -130,7 +134,7 @@ const Mangerstable = () => {
                    .filter((key) => userObj[key].parentId === parentId)
                    .map((key) => {
                      const { firstName, lastName, userType } = userObj[key];
-                     const machineCount = getMachineCountById(key);
+                     const machineCount = getOwnMachineCountById(machines, key);
                      return {
                        id: key,
                        label: `${firstName}~${lastName}~${userType}~${machineCount}`,
@@ -146,7 +150,7 @@ const Mangerstable = () => {
                  if (!node) {
                    return null; // Node not found
                  }
-                 const machineCount = getMachineCountById(nodeId);
+                 const machineCount = getOwnMachineCountById(machines, nodeId);
                  return {
                    id: nodeId,
                    label: `${node.firstName}~${node.lastName}~${node.userType}~${machineCount}`,
