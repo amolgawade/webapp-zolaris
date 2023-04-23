@@ -147,7 +147,7 @@ const Layout1Topbar = () => {
             }
           >
             <StyledItem>
-              <Link to="/">
+              <Link to="/dashboard/default">
                 <Icon> home </Icon>
                 <Span> Home </Span>
               </Link>
