@@ -208,7 +208,7 @@ function prepareTree(hierarchy, tempTree) {
           .then((tempTree) => {
             prepareTree(true, tempTree)
               .then((tree) => {
-                    console.log(tree)
+                    //console.log(tree)
                     setTree(tree);
                 });
             });
@@ -259,11 +259,11 @@ function prepareTree(hierarchy, tempTree) {
 
   return (
     <Container >
-     <Box sx={{ height: 400, width: '100%', mb: 8,
-     '& .headerColor': { backgroundColor: '#232a44', color:'#ffffff'},
-      }}>
-        <DataGrid rows={userList} columns={columns} />
-    </Box>
+{/*      <Box sx={{ height: 400, width: '100%', mb: 8, */}
+{/*      '& .headerColor': { backgroundColor: '#232a44', color:'#ffffff'}, */}
+{/*       }}> */}
+{/*         <DataGrid rows={userList} columns={columns} /> */}
+{/*     </Box> */}
     <Box sx={{ height: '100%', width: '100%', mb:12 }}>
         <RecursiveTreeView data={tree} />
     </Box>
