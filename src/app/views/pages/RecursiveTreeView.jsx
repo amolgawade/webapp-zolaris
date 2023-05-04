@@ -110,18 +110,35 @@ const navigate = useNavigate();
 
 const renderTree = (nodes) => {
   const labelValues = nodes.label?.split('~');
-  const firstName = labelValues?.[0];
-  const lastName = labelValues?.[1];
-  const userType = labelValues?.[2];
-  const machineCount = labelValues?.length > 3 ?  labelValues?.[3] : 0;
-  const machineString = labelValues?.[4];
-  const showViewMachineButton = userType === "Technical Incharge";
+  const nodeType = labelValues?.[0];
+
+  let firstName;
+  let lastName;
+  let userType;
+  let machineCount;
+  let showViewMachineButton;
+  if (nodeType === 'userNode') {
+     firstName = labelValues?.[1];
+     lastName = labelValues?.[2];
+     userType = labelValues?.[3];
+     machineCount = labelValues?.length > 4 ?  labelValues?.[4] : 0;
+     showViewMachineButton = userType === "Technical Incharge";
+  }
+    let machineId;
+    let machineName;
+  if(nodeType === 'machineNode') {
+      machineId = labelValues?.[1];
+      machineName = labelValues?.[2];
+  }
+
 
   return (
     <StyledTreeItem
       key={nodes.id}
       nodeId={nodes.id}
       label={
+      <span>
+      { nodeType === 'userNode' &&
        <span>
         <span style={{fontSize: '1.75rem', fontWeight: 'bold', color: userType === 'General manager' ? '#593C73' : 'black'}}>
           {userType === 'General manager' && `${firstName} ${lastName} `}
@@ -137,7 +154,7 @@ const renderTree = (nodes) => {
         </span>
         <span style={{ fontSize: '0.75rem' }}>
           ({userType}) <span style={{ fontWeight: 'bold' }}> ({"Active Machines: "}
-            {machineCount} {machineString} <CheckCircleOutlineRoundedIcon sx={{ color: '#2abe25', fontSize: '15px',verticalAlign: 'text-bottom' }} />
+            {machineCount} <CheckCircleOutlineRoundedIcon sx={{ color: '#2abe25', fontSize: '15px',verticalAlign: 'text-bottom' }} />
           )</span>
         </span>
           {showViewMachineButton ? (
@@ -152,7 +169,14 @@ const renderTree = (nodes) => {
           ) : (
            <p/>
           )}
-          </span>
+          </span> }
+
+         { nodeType === 'machineNode' &&
+         <span style={{fontSize: '0.75rem', color: 'black'}}>
+           {machineId} {machineName}
+         </span>
+         }
+       </span>
       }
       classes={{ root: styles.treeItem }}
     >

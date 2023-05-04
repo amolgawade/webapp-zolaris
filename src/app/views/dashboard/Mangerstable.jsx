@@ -142,17 +142,30 @@ function prepareTree(hierarchy, tempTree) {
                 }
                 let matchingMachineIds = [];
                 let machineIdsString = '';
+                let currentMachines = [];
                 if(userType === 'Technical Incharge') {
-                    matchingMachineIds = Object.keys(machines).filter(
-                            (machineId) => machines[machineId].parentId === key
-                          );
-                    machineIdsString = matchingMachineIds.join(', ');
+                    currentMachines = Object.keys(machines)
+                      .filter((mId) => machines[mId].parentId === key)
+                      .map((mId2) => {
+                        const { machineid, machineName } = machines[mId2];
+                        return {
+                          id: machineid,
+                          label: `machineNode~${machineid}~${machineName}`,
+                          children: [],
+                        };
+                      });
+                }
+                let finalChild;
+                if(userType === 'Technical Incharge') {
+                    finalChild = currentMachines;
+                } else {
+                    finalChild = buildTree(key);
                 }
 
                 return {
                   id: key,
-                  label: `${firstName}~${lastName}~${userType}~${machineCount}~${machineIdsString}`,
-                  children: buildTree(key),
+                  label: `userNode~${firstName}~${lastName}~${userType}~${machineCount}`,
+                  children: finalChild,
                 };
               });
             return children;
@@ -172,7 +185,7 @@ function prepareTree(hierarchy, tempTree) {
             }
             return {
               id: nodeId,
-              label: `${node.firstName}~${node.lastName}~${node.userType}~${machineCount}`,
+              label: `userNode~${node.firstName}~${node.lastName}~${node.userType}~${machineCount}`,
               children: buildTree(nodeId),
             };
           };
@@ -195,6 +208,7 @@ function prepareTree(hierarchy, tempTree) {
           .then((tempTree) => {
             prepareTree(true, tempTree)
               .then((tree) => {
+                    console.log(tree)
                     setTree(tree);
                 });
             });
