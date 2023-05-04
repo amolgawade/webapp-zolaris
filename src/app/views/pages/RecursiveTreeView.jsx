@@ -10,7 +10,8 @@ import { useSpring, animated } from '@react-spring/web';
 import { TransitionProps } from '@mui/material/transitions';
 import Button from '@mui/material/Button';
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import { useState,useEffect } from "react";
+import firebase from '../../../fake-db/db/firebasekey';
 
 function PlusSquare(props) {
   return (
@@ -100,15 +101,39 @@ function RecursiveTreeView(props) {
     },
   };
 
-const handleViewMachine = (node) => {
-  // Code to display machine information or take some other action
-  console.log(`View machine for node with id ${node.id} and value ${node.value}`);
-  navigate('/pages/machineDetails/?id='+ node.id);
+const handleClick = (node) => {
+  const currentUser = node.label?.split('~');
+  console.log(currentUser);
+  if (currentUser && currentUser[3] === 'Technical Incharge') {
+    const userId = node.id;
+    console.log(`Is Technical Incharge: ${userId}`);
+    const RefDb = firebase.database().ref(`UsersData/${userId}`);
 
-}
+    RefDb.once('value').then((snapshot) => {
+      const data = snapshot.val();
+      console.log('Data from UsersData:', data);
+      Object.entries(data).forEach(([machineId, machineData]) => {
+        Object.entries(machineData).forEach(([dataType, readings]) => {
+            console.log(dataType)
+          Object.entries(readings).forEach(([sensorId, sensorData]) => {
+            console.log(`Sensor ID: ${sensorId}`);
+            console.log(`Latest reading: ${JSON.stringify(sensorData)}`);
+             const keys = sensorId.split(':');
+              console.log(`Keys: ${JSON.stringify(keys)}`);
+          });
+        });
+      });
+    }).catch((error) => {
+      console.error('Error reading data from UsersData:', error);
+    });
+  } else {
+    console.log("Not Technical Incharge");
+  }
+};
+
 const navigate = useNavigate();
 
-const renderTree = (nodes) => {
+const renderTree = (nodes, handleClick, sensorData) => {
   const labelValues = nodes.label?.split('~');
   const nodeType = labelValues?.[0];
 
@@ -173,14 +198,15 @@ const renderTree = (nodes) => {
 
          { nodeType === 'machineNode' &&
          <span style={{fontSize: '0.75rem', color: 'black'}}>
-           {machineId} {machineName}
+           {machineId} {machineName} {sensorData && `Latest reading: ${JSON.stringify(sensorData)}`}
          </span>
          }
        </span>
       }
       classes={{ root: styles.treeItem }}
+       onClick={() => handleClick(nodes)}
     >
-      {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
+      {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node, handleClick, sensorData)) : null}
     </StyledTreeItem>
   );
 };
@@ -196,7 +222,7 @@ const renderTree = (nodes) => {
       defaultEndIcon={<CloseSquare />}
       sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto' }}
     >
-      {renderTree(data)}
+      {renderTree(data, handleClick)}
     </TreeView>
   );
 }
