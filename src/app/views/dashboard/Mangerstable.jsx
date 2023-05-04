@@ -140,10 +140,18 @@ function prepareTree(hierarchy, tempTree) {
                 } else {
                   machineCount = getOwnMachineCountById(machines, key);
                 }
+                let matchingMachineIds = [];
+                let machineIdsString = '';
+                if(userType === 'Technical Incharge') {
+                    matchingMachineIds = Object.keys(machines).filter(
+                            (machineId) => machines[machineId].parentId === key
+                          );
+                    machineIdsString = matchingMachineIds.join(', ');
+                }
 
                 return {
                   id: key,
-                  label: `${firstName}~${lastName}~${userType}~${machineCount}`,
+                  label: `${firstName}~${lastName}~${userType}~${machineCount}~${machineIdsString}`,
                   children: buildTree(key),
                 };
               });

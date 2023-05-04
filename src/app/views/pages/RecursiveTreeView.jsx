@@ -114,6 +114,7 @@ const renderTree = (nodes) => {
   const lastName = labelValues?.[1];
   const userType = labelValues?.[2];
   const machineCount = labelValues?.length > 3 ?  labelValues?.[3] : 0;
+  const machineString = labelValues?.[4];
   const showViewMachineButton = userType === "Technical Incharge";
 
   return (
@@ -136,7 +137,7 @@ const renderTree = (nodes) => {
         </span>
         <span style={{ fontSize: '0.75rem' }}>
           ({userType}) <span style={{ fontWeight: 'bold' }}> ({"Active Machines: "}
-            {machineCount} <CheckCircleOutlineRoundedIcon sx={{ color: '#2abe25', fontSize: '15px',verticalAlign: 'text-bottom' }} />
+            {machineCount} {machineString} <CheckCircleOutlineRoundedIcon sx={{ color: '#2abe25', fontSize: '15px',verticalAlign: 'text-bottom' }} />
           )</span>
         </span>
           {showViewMachineButton ? (
