@@ -128,7 +128,7 @@ const renderTree = (nodes) => {
     let machineName;
   if(nodeType === 'machineNode') {
       machineId = labelValues?.[1];
-      machineName = labelValues?.[2];
+     // machineName = labelValues?.[2];
   }
 
 
@@ -157,18 +157,18 @@ const renderTree = (nodes) => {
             {machineCount} <CheckCircleOutlineRoundedIcon sx={{ color: '#2abe25', fontSize: '15px',verticalAlign: 'text-bottom' }} />
           )</span>
         </span>
-          {showViewMachineButton ? (
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{ p: '1px 8px', m: '5px' }}
-              onClick={() => handleViewMachine(nodes)}
-            >
-              View Machine
-            </Button>
-          ) : (
-           <p/>
-          )}
+{/*           {showViewMachineButton ? ( */}
+{/*             <Button */}
+{/*               variant="contained" */}
+{/*               color="secondary" */}
+{/*               sx={{ p: '1px 8px', m: '5px' }} */}
+{/*               onClick={() => handleViewMachine(nodes)} */}
+{/*             > */}
+{/*               View Machine */}
+{/*             </Button> */}
+{/*           ) : ( */}
+{/*            <p/> */}
+{/*           )} */}
           </span> }
 
          { nodeType === 'machineNode' &&
