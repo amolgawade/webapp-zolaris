@@ -135,7 +135,7 @@ function prepareTree(hierarchy, tempTree) {
                 const { firstName, lastName, userType } = userObj[key];
                 let machineCount;
                 if(hierarchy) {
-//                   console.log("passing tempTree : " +  tempTree);
+                  // console.log("passing tempTree : " +  tempTree);
                   machineCount = getMachineCountById(machines, key, tempTree);
                 } else {
                   machineCount = getOwnMachineCountById(machines, key);
