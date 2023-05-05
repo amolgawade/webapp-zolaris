@@ -120,7 +120,12 @@ const handleClick = (node) => {
             Object.entries(readings).forEach(([sensorId, sensorData]) => {
               //console.log(`Sensor ID: ${sensorId}`);
               //console.log(`Latest reading: ${JSON.stringify(sensorData)}`);
-              const jsonString = JSON.stringify(sensorData);
+              const jsonString = JSON.stringify(sensorData, (key, value) => {
+                if (key === 'timestamp') {
+                    return undefined;
+                }
+                  return value;
+                });
                console.log(jsonString);
                 const obj = JSON.parse(jsonString);
                 setSensorData(obj);
@@ -128,7 +133,6 @@ const handleClick = (node) => {
           }
         });
       });
-
     }).catch((error) => {
       console.error('Error reading data from UsersData:', error);
     });
