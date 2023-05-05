@@ -83,6 +83,7 @@ const StyledTreeItem = styled((props: TreeItemProps) => (
 
 function RecursiveTreeView(props) {
   const { data } = props;
+  const [sensorData, setSensorData] = useState(null);
 
   const styles = {
     root: {
@@ -104,7 +105,7 @@ function RecursiveTreeView(props) {
 const handleClick = (node) => {
   const currentUser = node.label?.split('~');
   console.log(currentUser);
-  if (currentUser && currentUser[3] === 'Technical Incharge') {
+  if (currentUser[3] === 'Technical Incharge') {
     const userId = node.id;
     console.log(`Is Technical Incharge: ${userId}`);
     const RefDb = firebase.database().ref(`UsersData/${userId}`);
@@ -113,16 +114,21 @@ const handleClick = (node) => {
       const data = snapshot.val();
       console.log('Data from UsersData:', data);
       Object.entries(data).forEach(([machineId, machineData]) => {
+        console.log(machineId)
         Object.entries(machineData).forEach(([dataType, readings]) => {
-            console.log(dataType)
-          Object.entries(readings).forEach(([sensorId, sensorData]) => {
-            console.log(`Sensor ID: ${sensorId}`);
-            console.log(`Latest reading: ${JSON.stringify(sensorData)}`);
-             const keys = sensorId.split(':');
-              console.log(`Keys: ${JSON.stringify(keys)}`);
-          });
+          if (dataType === 'sensor') {
+            Object.entries(readings).forEach(([sensorId, sensorData]) => {
+              //console.log(`Sensor ID: ${sensorId}`);
+              //console.log(`Latest reading: ${JSON.stringify(sensorData)}`);
+              const jsonString = JSON.stringify(sensorData);
+               console.log(jsonString);
+                const obj = JSON.parse(jsonString);
+                setSensorData(obj);
+            });
+          }
         });
       });
+
     }).catch((error) => {
       console.error('Error reading data from UsersData:', error);
     });
@@ -182,23 +188,11 @@ const renderTree = (nodes, handleClick, sensorData) => {
             {machineCount} <CheckCircleOutlineRoundedIcon sx={{ color: '#2abe25', fontSize: '15px',verticalAlign: 'text-bottom' }} />
           )</span>
         </span>
-{/*           {showViewMachineButton ? ( */}
-{/*             <Button */}
-{/*               variant="contained" */}
-{/*               color="secondary" */}
-{/*               sx={{ p: '1px 8px', m: '5px' }} */}
-{/*               onClick={() => handleViewMachine(nodes)} */}
-{/*             > */}
-{/*               View Machine */}
-{/*             </Button> */}
-{/*           ) : ( */}
-{/*            <p/> */}
-{/*           )} */}
           </span> }
 
          { nodeType === 'machineNode' &&
          <span style={{fontSize: '0.75rem', color: 'black'}}>
-           {machineId} {machineName} {sensorData && `Latest reading: ${JSON.stringify(sensorData)}`}
+           {machineId} {machineName} {`${JSON.stringify(sensorData)}`}
          </span>
          }
        </span>
@@ -211,8 +205,6 @@ const renderTree = (nodes, handleClick, sensorData) => {
   );
 };
 
-
-
   return (
     <TreeView
       aria-label="customized"
@@ -222,7 +214,7 @@ const renderTree = (nodes, handleClick, sensorData) => {
       defaultEndIcon={<CloseSquare />}
       sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto' }}
     >
-      {renderTree(data, handleClick)}
+      {renderTree(data, handleClick,sensorData)}
     </TreeView>
   );
 }
