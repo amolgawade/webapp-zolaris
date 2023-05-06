@@ -28,6 +28,13 @@ const Mangerstable = () => {
   const [tree, setTree] = useState([]);
   const [userType, setUserType] = useState('');
 
+  const handleNodeData = (nodeData) => {
+    // Process the sensor data in the parent component
+    console.log('Selected node data:', nodeData);
+    // Perform any other actions with the sensor data
+  };
+
+
 
   const columns = [
       { field: 'id', headerName: 'Id', width: 200, headerClassName: 'headerColor'  },
@@ -128,6 +135,7 @@ function prepareTree(hierarchy, tempTree) {
             userObj[key] = users[key];
           });
 
+
           const buildTree = (parentId) => {
             const children = Object.keys(userObj)
               .filter((key) => userObj[key].parentId === parentId)
@@ -178,7 +186,7 @@ function prepareTree(hierarchy, tempTree) {
             }
             let machineCount;
             if(hierarchy) {
-//             console.log("passing tempTree : " +  tempTree);
+            // console.log("passing tempTree : " +  tempTree);
               machineCount = getMachineCountById(machines, nodeId, tempTree);
             } else {
               machineCount = getOwnMachineCountById(machines, nodeId);
@@ -237,7 +245,7 @@ function prepareTree(hierarchy, tempTree) {
                 parentId: users[key].parentId,
                 userType: users[key].userType,
               };
-//               console.log(row);
+               //console.log(row);
               userList.push(row);
             }
             }
@@ -265,7 +273,7 @@ function prepareTree(hierarchy, tempTree) {
 {/*         <DataGrid rows={userList} columns={columns} /> */}
 {/*     </Box> */}
     <Box sx={{ height: '100%', width: '100%', mb:12 }}>
-        <RecursiveTreeView data={tree} />
+        <RecursiveTreeView data={tree} machineNodeData={handleNodeData}/>
     </Box>
     </Container>
   );

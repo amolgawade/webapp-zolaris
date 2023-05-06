@@ -82,8 +82,8 @@ const StyledTreeItem = styled((props: TreeItemProps) => (
 }));
 
 function RecursiveTreeView(props) {
-  const { data } = props;
-  const [sensorData, setSensorData] = useState(null);
+  const { data, machineNodeData } = props;
+
 
   const styles = {
     root: {
@@ -111,28 +111,9 @@ const handleClick = (node) => {
     const RefDb = firebase.database().ref(`UsersData/${userId}`);
 
     RefDb.once('value').then((snapshot) => {
-      const data = snapshot.val();
-      console.log('Data from UsersData:', data);
-      Object.entries(data).forEach(([machineId, machineData]) => {
-        console.log(machineId)
-        Object.entries(machineData).forEach(([dataType, readings]) => {
-          if (dataType === 'sensor') {
-            Object.entries(readings).forEach(([sensorId, sensorData]) => {
-              //console.log(`Sensor ID: ${sensorId}`);
-              //console.log(`Latest reading: ${JSON.stringify(sensorData)}`);
-              const jsonString = JSON.stringify(sensorData, (key, value) => {
-                if (key === 'timestamp') {
-                    return undefined;
-                }
-                  return value;
-                });
-               console.log(jsonString);
-                const obj = JSON.parse(jsonString);
-                setSensorData(obj);
-            });
-          }
-        });
-      });
+      const nodeData = snapshot.val();
+      //console.log('Data from UsersData:', nodeData);
+      machineNodeData(nodeData);
     }).catch((error) => {
       console.error('Error reading data from UsersData:', error);
     });
@@ -141,9 +122,10 @@ const handleClick = (node) => {
   }
 };
 
+
 const navigate = useNavigate();
 
-const renderTree = (nodes, handleClick, sensorData) => {
+const renderTree = (nodes, handleClick) => {
   const labelValues = nodes.label?.split('~');
   const nodeType = labelValues?.[0];
 
@@ -196,7 +178,7 @@ const renderTree = (nodes, handleClick, sensorData) => {
 
          { nodeType === 'machineNode' &&
          <span style={{fontSize: '0.75rem', color: 'black'}}>
-           {machineId} {machineName} {`${JSON.stringify(sensorData)}`}
+           {machineId} {machineName}
          </span>
          }
        </span>
@@ -204,7 +186,7 @@ const renderTree = (nodes, handleClick, sensorData) => {
       classes={{ root: styles.treeItem }}
        onClick={() => handleClick(nodes)}
     >
-      {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node, handleClick, sensorData)) : null}
+      {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node, handleClick)) : null}
     </StyledTreeItem>
   );
 };
@@ -218,7 +200,7 @@ const renderTree = (nodes, handleClick, sensorData) => {
       defaultEndIcon={<CloseSquare />}
       sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto' }}
     >
-      {renderTree(data, handleClick,sensorData)}
+      {renderTree(data, handleClick)}
     </TreeView>
   );
 }
