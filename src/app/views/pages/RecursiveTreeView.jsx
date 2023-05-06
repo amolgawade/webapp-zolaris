@@ -83,7 +83,11 @@ const StyledTreeItem = styled((props: TreeItemProps) => (
 
 function RecursiveTreeView(props) {
   const { data, machineNodeData } = props;
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
+  const handleRefresh = () => {
+    setRefreshFlag((prevRefreshFlag) => !prevRefreshFlag);
+  };
 
   const styles = {
     root: {
@@ -115,7 +119,7 @@ const handleClick = (node) => {
       //console.log('Data from UsersData:', nodeData);
       machineNodeData(nodeData);
     }).catch((error) => {
-      console.error('Error reading data from UsersData:', error);
+      console.error('Error reading nodeData from UsersData:', error);
     });
   } else {
     console.log("Not Technical Incharge");
@@ -124,6 +128,18 @@ const handleClick = (node) => {
 
 
 const navigate = useNavigate();
+useEffect(() => {
+   // Function to refresh the data
+     const refreshData = () => {
+       // Perform the data refresh logic here
+       console.log('Refreshing data...');
+
+       // Call the handleRefresh function after a time limit (e.g., 5 seconds)
+       const timeLimit = 20000; // 5 seconds
+       setTimeout(handleRefresh, timeLimit);
+       };
+       refreshData();
+}, [data]);
 
 const renderTree = (nodes, handleClick) => {
   const labelValues = nodes.label?.split('~');
@@ -143,9 +159,11 @@ const renderTree = (nodes, handleClick) => {
   }
     let machineId;
     let machineName;
+    let humidity;
   if(nodeType === 'machineNode') {
       machineId = labelValues?.[1];
-     // machineName = labelValues?.[2];
+     machineName = labelValues?.[2];
+
   }
 
 
@@ -198,6 +216,7 @@ const renderTree = (nodes, handleClick) => {
       defaultCollapseIcon={<MinusSquare />}
       defaultExpandIcon={<PlusSquare />}
       defaultEndIcon={<CloseSquare />}
+      refreshFlag={refreshFlag}
       sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto' }}
     >
       {renderTree(data, handleClick)}
