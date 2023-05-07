@@ -6,23 +6,21 @@ import { Breadcrumb, SimpleCard } from 'app/components';
 import firebase from '../../../fake-db/db/firebasekey';
 import RecursiveTreeView from '../pages/RecursiveTreeView';
 
-const Container = styled('div')(({ theme }) => ({
-  margin: '30px',
-  [theme.breakpoints.down('sm')]: { margin: '16px' },
-  '& .breadcrumb': {
-    marginBottom: '30px',
+//
+const Container = styled('div')(({ theme }) => ({ margin: '30px',
+      [theme.breakpoints.down('sm')]: { margin: '16px' },
+      '& .breadcrumb': { marginBottom: '30px',
     [theme.breakpoints.down('sm')]: { marginBottom: '16px' }
   }
 }));
 
-const Mangerstable = () => {
+const MangersTree = () => {
   const { logout, user } = useAuth();
   const [machineList, setMachineList] = useState([]);
   const [tree, setTree] = useState([]);
   const [userType, setUserType] = useState('');
 
   const handleNodeData = (nodeData) => {
-
     console.log('Selected node data:', nodeData);
     Object.keys(nodeData).forEach((id) => {
         console.log('populating node id: ', id);
@@ -236,4 +234,4 @@ function prepareTree(hierarchy, tempTree) {
   );
 };
 
-export default Mangerstable;
+export default MangersTree;

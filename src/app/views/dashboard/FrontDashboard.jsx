@@ -1,7 +1,7 @@
 import { Card, Grid, styled, useTheme } from '@mui/material';
 import { Fragment } from 'react';
 import { Breadcrumb, SimpleCard } from "app/components";
-import Mangerstable from './Mangerstable';
+import MangersTree from './MangersTree';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -35,7 +35,7 @@ const FrontDashboard = () => {
     <Fragment>
       <ContentBox className="FrontDashboard">
       <SimpleCard title="">
-        <Mangerstable />
+        <MangersTree />
       </SimpleCard>
 
 
