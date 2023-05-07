@@ -90,20 +90,9 @@ function RecursiveTreeView(props) {
   };
 
   const styles = {
-    root: {
-      height: '100%',
-      flexGrow: 1,
-      maxWidth: 400,
-    },
-    label: {
-      fontWeight: 'bold',
-    },
-    treeItem: {
-      '&:hover > $label': {
-        color: 'blue',
-        cursor: 'pointer',
-      },
-    },
+    root: { height: '100%', flexGrow: 1, maxWidth: 400, },
+    label: { fontWeight: 'bold', },
+    treeItem: { '&:hover > $label': { color: 'blue', cursor: 'pointer', }, },
   };
 
 const handleClick = (node) => {
@@ -134,8 +123,8 @@ useEffect(() => {
        // Perform the data refresh logic here
        console.log('Refreshing data...');
 
-       // Call the handleRefresh function after a time limit (e.g., 5 seconds)
-       const timeLimit = 20000; // 5 seconds
+       // Call the handleRefresh function after a time limit (e.g., 20 seconds)
+       const timeLimit = 20000; // 20 seconds
        setTimeout(handleRefresh, timeLimit);
        };
        refreshData();
