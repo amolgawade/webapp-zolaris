@@ -15,6 +15,9 @@ const ForgotPassword = Loadable(lazy(() => import('app/views/sessions/ForgotPass
 const MRegister = Loadable(lazy(() => import('app/views/pages/machineregister/MRegister')));
 const MachineDetails = Loadable(lazy(() => import('app/views/pages/machineDetails')));
 
+// DashBoard page
+const DashBoard = Loadable(lazy(() => import('app/views/dashboard/DashBoard/Dashboard.jsx')));
+
 // echart page
 const AppEchart = Loadable(lazy(() => import('app/views/charts/echarts/AppEchart')));
 
@@ -52,6 +55,11 @@ const routes = [
       {
           path: 'pages/machineDetails',
           element: <MachineDetails />,
+          auth: authRoles.editor
+        },
+         {
+          path: 'views/dashboard/DashBoard/Dashboard',
+          element: <DashBoard />,
           auth: authRoles.editor
         },
     ]
