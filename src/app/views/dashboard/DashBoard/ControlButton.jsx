@@ -10,6 +10,10 @@ export function ControlButton() {
   const reactBoxStyle = { width: '500px', height: '100px', backgroundColor: '#FFFFFF', border: '1px solid #000000',justifyContent: 'center'};
   const headerStyle = { display: 'flex', justifyContent: 'center',backgroundColor: '#f0f0f0',border: '1px solid #000000',margin: '-1px 0 0 0', }
   const buttonStyle = { margin: '1px 10px 10px 100px', padding: '8px 15px' };
+  const Box = { margin: '20px 20px 40px 15px', height: '100px', backgroundColor: '#FFFFFF', border: '1px solid #000000',
+                justifyContent: 'center',width: '1020px' };
+  const messageHeaderStyle = { display: 'flex', justifyContent: 'center', backgroundColor: '#f0f0f0', border: '1px solid #000000', margin: '-1px 0 0 0',};
+
 
   return (
        <div style={containerStyle}>
@@ -45,6 +49,16 @@ export function ControlButton() {
               </div>
             </div>
           </div>
+          <div style={Box}>
+            <h2 style={messageHeaderStyle}>Input Message</h2>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <input style={{ width: '75%',margin: '20px 0 0 0' }} placeholder=" Enter your message" />
+            </div>
+          </div>
+           <div style={Box}>
+            <h2 style={messageHeaderStyle}>Latest update</h2>
+            <div style={{ display: 'flex', justifyContent: 'center' }}></div>
+          </div>
       </div>
   );
 }
@@ -74,7 +88,6 @@ export function InteModeButton() {
 }
 
 const BrightnessMode = styled("div")(({ theme }) => ({ marginLeft: '30px', marginRight: '30px', marginTop: '10px', }));
-
 const brightnessMarks = Array.from(Array(11).keys()).map((value) => ({ value: value * 10, label: `${value * 10}%`, }));
 
 export function BrightnessButton() {
@@ -84,4 +97,3 @@ export function BrightnessButton() {
     </BrightnessMode>
   );
 }
-
