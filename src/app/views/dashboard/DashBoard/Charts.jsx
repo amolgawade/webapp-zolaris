@@ -1,6 +1,10 @@
 import React from 'react';
-
-
+import TemperatureGauge from './TempratureGauge';
+import HumidityGauge from './HumidityGauge';
+import PressureGauge from './PressureGauge'
+import RealTimeTemperatureChart from './TempratureChart'
+import RealTimeHumidityChart from './HumidityChart'
+import RealTimePressureChart from './PressureChart'
 
 export function Charts() {
     const containerStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center',};
@@ -16,6 +20,7 @@ export function Charts() {
            <div style={containerColumnStyle}>
              <div style={{ ...Box, height: '100px' }}>
                <h2 style={headerStyle}>Temperature</h2>
+
              </div>
            </div>
            <div style={containerColumnStyle}>
@@ -33,16 +38,19 @@ export function Charts() {
            <div style={containerColumnStyle}>
              <div style={{ ...Box, height: '350px' }}>
                <h2 style={headerStyle}>Temperature gauge</h2>
+                <TemperatureGauge />
              </div>
            </div>
            <div style={containerColumnStyle}>
              <div style={{ ...Box, height: '350px' }}>
                <h2 style={headerStyle}>Humidity gauge</h2>
+               <HumidityGauge />
              </div>
            </div>
            <div style={containerColumnStyle}>
              <div style={{ ...Box, height: '350px' }}>
                <h2 style={headerStyle}>Pressure gauge</h2>
+               <PressureGauge />
              </div>
            </div>
          </div>
@@ -50,16 +58,19 @@ export function Charts() {
            <div style={containerColumnStyle}>
              <div style={{ ...Box, height: '350px' }}>
                <h2 style={headerStyle}>Temperature Chart</h2>
+               <RealTimeTemperatureChart />
              </div>
            </div>
            <div style={containerColumnStyle}>
              <div style={{ ...Box, height: '350px' }}>
                <h2 style={headerStyle}>Humidity Chart</h2>
+               <RealTimeHumidityChart />
              </div>
            </div>
            <div style={containerColumnStyle}>
              <div style={{ ...Box, height: '350px' }}>
                <h2 style={headerStyle}>Pressure Chart</h2>
+               <RealTimePressureChart />
              </div>
            </div>
          </div>
