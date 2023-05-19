@@ -2,7 +2,7 @@ export const navigations = [
   { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
   { name: 'Machine Registration', icon: 'add', path: '/pages/machineregister/mregister' },
   { name: 'Machine Details', icon: 'info_outline', path: '/pages/machineDetails' },
-  { name: 'DashBoard', icon: 'info_outline', path: 'views/dashboard/DashBoard/Dashboard' },
+//  { name: 'DashBoard', icon: 'info_outline', path: 'views/dashboard/DashBoard/Dashboard' },
 //  { label: 'PAGES', type: 'label' },
 //  {
 //    name: 'Sessions',
