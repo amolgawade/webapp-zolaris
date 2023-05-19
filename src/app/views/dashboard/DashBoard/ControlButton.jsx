@@ -1,71 +1,64 @@
 import { Box, Button, Fab, Icon, IconButton, styled,Typography} from '@mui/material';
 import { Slider} from "@mui/material";
 import React from 'react';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 
+
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(2),
+  textAlign: 'center',
+  height: '100px',
+  color: theme.palette.text.secondary,
+  flexGrow: 1,
+  borderRadius: '10px',
+  border: '2px solid #ccc',
+}));
 
 
 export function ControlButton() {
-  const containerStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center', };
-  const containerRowStyle = { display: 'flex', flexDirection: 'row', justifyContent: 'center', };
-  const containerColumnStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '10px', };
-  const reactBoxStyle = { width: '500px', height: '100px', backgroundColor: '#FFFFFF', border: '1px solid #000000',justifyContent: 'center'};
-  const headerStyle = { display: 'flex', justifyContent: 'center',backgroundColor: '#f0f0f0',border: '1px solid #000000',margin: '-1px 0 0 0', }
-  const Box = { margin: '20px 20px 40px 15px', height: '100px', backgroundColor: '#FFFFFF', border: '1px solid #000000',
-                justifyContent: 'center',width: '1020px' };
-  const messageHeaderStyle = { display: 'flex', justifyContent: 'center', backgroundColor: '#f0f0f0', border: '1px solid #000000', margin: '-1px 0 0 0',};
-  const [message, setMessage] = React.useState(" your message");
 
   return (
-       <div style={containerStyle}>
-          <div style={containerRowStyle}>
-            <div style={containerColumnStyle}>
-              <div style={reactBoxStyle}>
-              <h2 style={headerStyle}>Smart control</h2>
-              <div style={{ display: 'flex', justifyContent: 'center' }}> Current State : </div>
-              <div style={{ display: 'flex', justifyContent: 'center'}}>
-              <button style={{  padding: '8px 8px' }}>TURN ON</button>
-              <button style={{  padding: '8px 8px' }}>TURN OFF</button>
-              </div>
-              </div>
-            </div>
-            <div style={containerColumnStyle}>
-              <div style={reactBoxStyle}>
-              <h2 style={headerStyle}>AC Power</h2>
-              <div style={{ display: 'flex', justifyContent: 'center' }}> Current State : </div>
-              <div style={{ display: 'flex', justifyContent: 'center'}}>
-                <button style={{  padding: '8px 8px' }}>TURN ON</button>
-                <button style={{  padding: '8px 8px' }}>TURN OFF</button>
-               </div>
-              </div>
-            </div>
-          </div>
-          <div style={containerRowStyle}>
-            <div style={containerColumnStyle}>
-              <div style={reactBoxStyle}>
-              <h2 style={headerStyle}>Intelligent Mode</h2>
-              <InteModeButton />
-              </div>
-            </div>
-            <div style={containerColumnStyle}>
-              <div style={reactBoxStyle}>
-              <h2 style={headerStyle}>Display Brightness</h2>
-              <BrightnessButton />
-              </div>
-            </div>
-          </div>
-          <div style={Box}>
-            <h2 style={messageHeaderStyle}>Input Message</h2>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <span style={{ width: '75%', margin: '20px 0 0 0' }}>{message}</span>
-            </div>
-          </div>
-           <div style={Box}>
-            <h2 style={messageHeaderStyle}>Latest update</h2>
-            <div style={{ display: 'flex', justifyContent: 'center' }}></div>
-          </div>
-      </div>
+<Box sx={{ width: '100%' }}>
+      <Stack spacing={{ xs: 0, sm: 0 }} direction="row" useFlexGap flexWrap="wrap">
+        <Item>
+          <strong>SMART CONTROL</strong>
+           <div>
+            <button style={{padding : '8px 8px',marginRight: '25px'}}>TURN ON </button>
+            <button style={{padding : '8px 8px'}}>TURN OFF </button>
+           </div>
+        </Item>
+        <Item>
+          <strong>AC POWER</strong>
+           <div>
+             <button style={{padding : '8px 8px', marginRight: '25px'}}>TURN ON </button>
+             <button style={{padding : '8px 8px'}}>TURN OFF </button>
+           </div>
+        </Item>
+      </Stack>
+      <Stack spacing={{ xs: 0, sm: 0 }} direction="row" useFlexGap flexWrap="wrap">
+        <Item>
+          <strong>INTELLIGENT MODE</strong>
+           <InteModeButton />
+        </Item>
+        <Item>
+          <strong>BRIGHTNESS MODE</strong>
+          <BrightnessButton />
+        </Item>
+      </Stack>
+      <Item>
+         <strong>Input Message</strong>
+      </Item>
+      <Item>
+        <strong>Latest Update</strong>
+      </Item>
+    </Box>
   );
 }
+
 
 
 

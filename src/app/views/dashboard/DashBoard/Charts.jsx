@@ -5,76 +5,79 @@ import PressureGauge from './PressureGauge'
 import RealTimeTemperatureChart from './TempratureChart'
 import RealTimeHumidityChart from './HumidityChart'
 import RealTimePressureChart from './PressureChart'
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  flexGrow: 1,
+  borderRadius: '10px',
+  border: '2px solid #ccc',
+}));
 
 export function Charts() {
-    const containerStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center',};
-    const containerRowStyle = { display: 'flex',flexDirection: 'row', justifyContent: 'center',};
-    const containerColumnStyle = {display: 'flex', flexDirection: 'column',alignItems: 'center',margin: '10px',};
-    const Box = { width: '325px', backgroundColor: '#FFFFFF',border: '1px solid #000000',justifyContent: 'center',};
-    const headerStyle = { display: 'flex', justifyContent: 'center', backgroundColor: '#f0f0f0', border: '1px solid #000000',margin: '-1px 0 0 0',};
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-
-   return (
-       <div style={containerStyle}>
-         <div style={containerRowStyle}>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '100px' }}>
-               <h2 style={headerStyle}>Temperature</h2>
-
-             </div>
-           </div>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '100px' }}>
-               <h2 style={headerStyle}>Humidity</h2>
-             </div>
-           </div>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '100px' }}>
-               <h2 style={headerStyle}>Pressure</h2>
-             </div>
-           </div>
-         </div>
-         <div style={containerRowStyle}>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '350px' }}>
-               <h2 style={headerStyle}>Temperature gauge</h2>
-                <TemperatureGauge />
-             </div>
-           </div>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '350px' }}>
-               <h2 style={headerStyle}>Humidity gauge</h2>
-               <HumidityGauge />
-             </div>
-           </div>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '350px' }}>
-               <h2 style={headerStyle}>Pressure gauge</h2>
-               <PressureGauge />
-             </div>
-           </div>
-         </div>
-         <div style={containerRowStyle}>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '350px' }}>
-               <h2 style={headerStyle}>Temperature Chart</h2>
-               <RealTimeTemperatureChart />
-             </div>
-           </div>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '350px' }}>
-               <h2 style={headerStyle}>Humidity Chart</h2>
-               <RealTimeHumidityChart />
-             </div>
-           </div>
-           <div style={containerColumnStyle}>
-             <div style={{ ...Box, height: '350px' }}>
-               <h2 style={headerStyle}>Pressure Chart</h2>
-               <RealTimePressureChart />
-             </div>
-           </div>
-         </div>
-       </div>
-     );
-   }
-
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Stack
+        spacing={{ xs: 1, sm: 0 }}
+        direction={isMobile ? 'column' : 'row'}
+        useFlexGap
+        flexWrap="wrap"
+      >
+        <Item sx={{ height: '90px',width: isMobile ? '100%' : '420px', flexGrow: isMobile ? 1 : 0 }}>
+          <strong>TEMPERATURE</strong>
+        </Item>
+        <Item sx={{ height: '90px',width: isMobile ? '100%' : '420px', flexGrow: isMobile ? 1 : 0 }}>
+          <strong>HUMIDITY</strong>
+        </Item>
+        <Item sx={{ height: '90px',width: isMobile ? '100%' : '420px', flexGrow: isMobile ? 1 : 0 }}>
+          <strong>PRESSURE</strong>
+        </Item>
+      </Stack>
+      <Stack
+        spacing={{ xs: 2, sm: 0 }}
+        direction={isMobile ? 'column' : 'row'}
+        useFlexGap
+        flexWrap="wrap"
+      >
+        <Item sx={{ width: isMobile ? '100%' : '100px' }}>
+          <strong>TEMPERATURE GAUGE</strong>
+          <TemperatureGauge />
+        </Item>
+        <Item sx={{ width: isMobile ? '100%' : '100px' }}>
+          <strong>HUMIDITY GAUGE</strong>
+          <HumidityGauge />
+        </Item>
+        <Item sx={{ width: isMobile ? '100%' : '100px' }}>
+          <strong>PRESSURE GAUGE</strong>
+          <PressureGauge />
+        </Item>
+      </Stack>
+      <Stack spacing={{ xs: 2, sm: 0 }} direction={isMobile ? 'column' : 'row'} useFlexGap flexWrap="wrap" >
+          <Item sx={{ width: isMobile ? '100%' : '100px' }}>
+            <strong>TEMPERATURE CHART</strong>
+            <RealTimeTemperatureChart />
+          </Item>
+          <Item sx={{ width: isMobile ? '100%' : '100px' }}>
+            <strong>HUMIDITY CHART</strong>
+            <RealTimeHumidityChart />
+          </Item>
+          <Item sx={{ width: isMobile ? '100%' : '100px' }}>
+            <strong>PRESSURE CHART</strong>
+            <RealTimePressureChart />
+          </Item>
+        </Stack>
+    </Box>
+  );
+}
