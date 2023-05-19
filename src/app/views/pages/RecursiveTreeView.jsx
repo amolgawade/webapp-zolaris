@@ -126,15 +126,25 @@ useEffect(() => {
        console.log('Refreshing data...');
 
        // Call the handleRefresh function after a time limit (e.g., 20 seconds)
-       const timeLimit = 20000; // 20 seconds
+       const timeLimit = 10000; // 20 seconds
        setTimeout(handleRefresh, timeLimit);
        };
        refreshData();
 }, [data]);
 
+const handleMachineNodeClick = (id) => {
+    console.log(`Clicked on machineNode with ID: ${id}`);
+    // Remove the unwanted prefix from the path
+      const newPath = '/views/dashboard/DashBoard/Dashboard'.replace('/dashboard/default', '');
+
+      // Call a navigation function or component to handle the navigation
+      navigate(newPath);
+  };
+
 const renderTree = (nodes, handleClick) => {
   const labelValues = nodes.label?.split('~');
   const nodeType = labelValues?.[0];
+
 
   let firstName;
   let lastName;
@@ -186,7 +196,8 @@ const renderTree = (nodes, handleClick) => {
           </span> }
 
          { nodeType === 'machineNode' &&
-         <span style={{fontSize: '0.75rem', color: 'black'}}>
+         <span style={{fontSize: '0.75rem', color: 'black'}}
+         onClick={() => handleMachineNodeClick(machineId)}>
            {machineId} {machineName}
          </span>
          }

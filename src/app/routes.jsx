@@ -16,12 +16,12 @@ const MRegister = Loadable(lazy(() => import('app/views/pages/machineregister/MR
 const MachineDetails = Loadable(lazy(() => import('app/views/pages/machineDetails')));
 
 // DashBoard page
-const DashBoard = Loadable(lazy(() => import('app/views/dashboard/DashBoard/Dashboard.jsx')));
+const DashBoard = Loadable(lazy(() => import('app/views/dashboard/DashBoard/Dashboard')));
 
 // echart page
 const AppEchart = Loadable(lazy(() => import('app/views/charts/echarts/AppEchart')));
 
-// dashboard page
+// Frontdashboard page
 const FrontDashboard = Loadable(lazy(() => import('app/views/dashboard/FrontDashboard')));
 
 const routes = [
