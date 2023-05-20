@@ -23,7 +23,7 @@ export function ControlButton() {
 
   return (
 <Box sx={{ width: '100%' }}>
-      <Stack spacing={{ xs: 0, sm: 0 }} direction="row" useFlexGap flexWrap="wrap">
+      <Stack spacing={{ xs: 2, sm: 3 }} direction="row" useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
         <Item>
           <strong>SMART CONTROL</strong>
            <div>
@@ -39,7 +39,7 @@ export function ControlButton() {
            </div>
         </Item>
       </Stack>
-      <Stack spacing={{ xs: 0, sm: 0 }} direction="row" useFlexGap flexWrap="wrap">
+      <Stack spacing={{ xs: 2, sm: 3 }} direction="row" useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
         <Item>
           <strong>INTELLIGENT MODE</strong>
            <InteModeButton />
@@ -49,10 +49,10 @@ export function ControlButton() {
           <BrightnessButton />
         </Item>
       </Stack>
-      <Item>
+      <Item sx={{ margin: '20px 20px 20px 20px'}}>
          <strong>Input Message</strong>
       </Item>
-      <Item>
+      <Item sx={{ margin: '20px 20px 20px 20px'}}>
         <strong>Latest Update</strong>
       </Item>
     </Box>
