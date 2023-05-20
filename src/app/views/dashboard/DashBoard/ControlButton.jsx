@@ -3,6 +3,7 @@ import { Slider} from "@mui/material";
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
@@ -20,10 +21,11 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export function ControlButton() {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   return (
 <Box sx={{ width: '100%' }}>
-      <Stack spacing={{ xs: 2, sm: 3 }} direction="row" useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
+      <Stack spacing={{ xs: 2, sm: 3 }} direction={isMobile ? 'column' : 'row'} useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
         <Item>
           <strong>SMART CONTROL</strong>
            <div>
@@ -39,7 +41,7 @@ export function ControlButton() {
            </div>
         </Item>
       </Stack>
-      <Stack spacing={{ xs: 2, sm: 3 }} direction="row" useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
+      <Stack spacing={{ xs: 2, sm: 3 }} direction={isMobile ? 'column' : 'row'} useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
         <Item>
           <strong>INTELLIGENT MODE</strong>
            <InteModeButton />
