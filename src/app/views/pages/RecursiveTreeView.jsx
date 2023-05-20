@@ -133,17 +133,19 @@ useEffect(() => {
        refreshData();
 }, [data]);
 
-const handleMachineNodeClick = (id) => {
-    console.log(`Clicked on machineNode with ID: ${id}`);
-    // Remove the unwanted prefix from the path
-      const newPath = '/views/dashboard/DashBoard/Dashboard'.replace('/dashboard/default', '');
-      navigate(newPath);
+const handleMachineNodeClick = (id, parentId) => {
+  console.log(`Clicked on machineNode with ID: ${id} parentId : ${parentId}`);
 
-      const userRef = firebase.database().ref('UsersData');
-      userRef.once('value').then((snapshot) => {
-        const users = snapshot.val();
-        console.log(users);
+  // Remove the unwanted prefix from the path
+  const newPath = '/views/dashboard/DashBoard/Dashboard'.replace('/dashboard/default', '');
+  navigate(newPath);
 
+  const userRef = firebase.database().ref(`UsersData/${parentId}/${id}`);
+  userRef.once('value')
+    .then((snapshot) => {
+      const machine = snapshot.val();
+      console.log(`ID :${id}`)
+      console.log(`This is the machine data:`, machine);
       });
 
   };
@@ -206,7 +208,7 @@ const renderTree = (nodes, handleClick) => {
 
          { nodeType === 'machineNode' &&
          <span style={{fontSize: '0.75rem', color: 'black'}}
-         onClick={() => handleMachineNodeClick(machineId)}>
+         onClick={() => handleMachineNodeClick(machineId, parentId)}>
            {machineId} {machineName} {parentId}
          </span>
          }
