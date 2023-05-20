@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Icon from '@mui/material/Icon';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
@@ -108,7 +108,8 @@ const handleClick = (node) => {
     RefDb.once('value').then((snapshot) => {
       const nodeData = snapshot.val();
       //console.log('Data from UsersData:', nodeData);
-      machineNodeData(nodeData);
+      const nodeDataWithParentId = {parentId: userId, nodeData: nodeData}
+      machineNodeData(nodeDataWithParentId);
     }).catch((error) => {
       console.error('Error reading nodeData from UsersData:', error);
     });
@@ -136,9 +137,15 @@ const handleMachineNodeClick = (id) => {
     console.log(`Clicked on machineNode with ID: ${id}`);
     // Remove the unwanted prefix from the path
       const newPath = '/views/dashboard/DashBoard/Dashboard'.replace('/dashboard/default', '');
-
-      // Call a navigation function or component to handle the navigation
       navigate(newPath);
+
+      const userRef = firebase.database().ref('UsersData');
+      userRef.once('value').then((snapshot) => {
+        const users = snapshot.val();
+        console.log(users);
+
+      });
+
   };
 
 const renderTree = (nodes, handleClick) => {
@@ -161,9 +168,11 @@ const renderTree = (nodes, handleClick) => {
     let machineId;
     let machineName;
     let humidity;
+    let parentId;
   if(nodeType === 'machineNode') {
       machineId = labelValues?.[1];
      machineName = labelValues?.[2];
+     parentId = labelValues?.[3];
 
   }
 
@@ -198,7 +207,7 @@ const renderTree = (nodes, handleClick) => {
          { nodeType === 'machineNode' &&
          <span style={{fontSize: '0.75rem', color: 'black'}}
          onClick={() => handleMachineNodeClick(machineId)}>
-           {machineId} {machineName}
+           {machineId} {machineName} {parentId}
          </span>
          }
        </span>

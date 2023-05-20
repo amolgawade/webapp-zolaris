@@ -24,13 +24,15 @@ const MangersTree = () => {
 
   const handleNodeData = (nodeData) => {
     console.log('Selected node data:', nodeData);
-    Object.keys(nodeData).forEach((id) => {
+    const parentId = nodeData.parentId;
+    const nodeDataValue = nodeData.nodeData;
+    Object.keys(nodeDataValue).forEach((id) => {
         console.log('populating node id: ', id);
-        console.log('populating node: ', nodeData[id]);
-         console.log('populating node sensor data: ', nodeData[id].sensor);
+        console.log('populating node: ', nodeDataValue[id]);
+         console.log('populating node sensor data: ', nodeDataValue[id].sensor);
          let sensorData;
-          Object.keys(nodeData[id].sensor).forEach((key) => {
-            sensorData = nodeData[id].sensor[key];
+          Object.keys(nodeDataValue[id].sensor).forEach((key) => {
+            sensorData = nodeDataValue[id].sensor[key];
           });
           const sensorDataJson = JSON.stringify(sensorData, (key, value) => {
             if (key === 'timestamp') {
@@ -39,7 +41,7 @@ const MangersTree = () => {
             return value;
           });
           console.log('populating node sensorData data: ', sensorData.humidity);
-          let newLabel = `machineNode~${id}~${sensorDataJson}`;
+          let newLabel = `machineNode~${id}~${sensorDataJson}~${parentId}`;
 
           const updateLabelById = (id, newLabel) => {
 
@@ -158,7 +160,7 @@ function prepareTree(hierarchy, tempTree) {
                           const { machineid, machineName,humidity } = machines[mId2];
                           return {
                             id: machineid,
-                            label: `machineNode~${machineid}~${machineName}`,
+                            label: `machineNode~${machineid}~${machineName}~${key}`,
                             children: [],
                           };
                         });
