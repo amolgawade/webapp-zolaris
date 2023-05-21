@@ -5,11 +5,16 @@ import { AuthProvider } from './contexts/JWTAuthContext';
 import { SettingsProvider } from './contexts/SettingsContext';
 import routes from './routes';
 import '../fake-db';
+import MachineProvider from './MachineContext'
+
+
 
 const App = () => {
   const content = useRoutes(routes);
 
   return (
+
+  <MachineProvider>
     <SettingsProvider>
       <AuthProvider>
         <MatxTheme>
@@ -18,6 +23,7 @@ const App = () => {
         </MatxTheme>
       </AuthProvider>
     </SettingsProvider>
+  </MachineProvider>
   );
 };
 

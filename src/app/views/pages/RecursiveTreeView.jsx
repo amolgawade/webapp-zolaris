@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState,useEffect } from "react";
 import firebase from '../../../fake-db/db/firebasekey';
+import { MachineContext } from '../../MachineContext';
 
 function PlusSquare(props) {
   return (
@@ -132,11 +133,9 @@ useEffect(() => {
        };
        refreshData();
 }, [data]);
-
+const { setMachine } = useContext(MachineContext);
 const handleMachineNodeClick = (id, parentId) => {
   console.log(`Clicked on machineNode with ID: ${id} parentId : ${parentId}`);
-
-  // Remove the unwanted prefix from the path
   const newPath = '/views/dashboard/DashBoard/Dashboard'.replace('/dashboard/default', '');
   navigate(newPath);
 
@@ -146,8 +145,8 @@ const handleMachineNodeClick = (id, parentId) => {
       const machine = snapshot.val();
       console.log(`ID :${id}`)
       console.log(`This is the machine data:`, machine);
+       setMachine(machine);
       });
-
   };
 
 const renderTree = (nodes, handleClick) => {
