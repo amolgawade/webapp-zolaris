@@ -35,41 +35,54 @@ const RealTimeHumidityChart = () => {
 
 const { machineData } = useContext(MachineContext);
 
-  useEffect(() => {
-    // Simulating real-time data update
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const time = new Date(now).getTime();
-      const SensorReading = Object.values(machineData.sensor)
-       const humidityReadings = SensorReading.map((reading) => ({
-          humidity: reading.humidity,
-          timestamp: reading.timestamp,
-        }));
-       const latestHumidityReadings = humidityReadings.slice(-10);
-        //console.log("latest Humidity Readings:", latestHumidityReadings);
-      setChartOptions((prevOptions) => {
-        const updatedData = [...prevOptions.series[0].data, [time, latestHumidityReadings]];
-        if (updatedData.length > 10) {
-          updatedData.shift();
-        }
-         const updatedChartData = latestHumidityReadings.map((reading) => [
-          new Date(reading.timestamp)?.getTime(),
-          parseFloat(reading.humidity),
-        ]);
-        return {
-          ...prevOptions,
-          series: [
-            {
-              ...prevOptions.series[0],
-              data: updatedChartData,
-            },
-          ],
-        };
-      });
-    }, 10000); // Update the chart every second
+useEffect(() => {
+  // Simulating real-time data update
+  const initialDelay = 1000; // 1 second
+  const updateInterval = 30000; // 30 seconds
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, []);
+  const updateChart = () => {
+    const now = Date.now();
+    const time = new Date(now).getTime();
+    const SensorReading = Object.values(machineData.sensor);
+    const humidityReadings = SensorReading.map((reading) => ({
+      humidity: reading.humidity,
+      timestamp: reading.timestamp,
+    }));
+    const latestHumidityReadings = humidityReadings.slice(-10);
+    //console.log("latest humidity Readings:", latestPressureReadings);
+    console.log(`Refreshing humidity chart`);
+
+    setChartOptions((prevOptions) => {
+      const updatedData = [...prevOptions.series[0].data, [time, latestHumidityReadings]];
+      if (updatedData.length > 10) {
+        updatedData.shift();
+      }
+      const updatedChartData = latestHumidityReadings.map((reading) => [
+        new Date(reading.timestamp)?.getTime(),
+        parseFloat(reading.humidity),
+      ]);
+      return {
+        ...prevOptions,
+        series: [
+          {
+            ...prevOptions.series[0],
+            data: updatedChartData,
+          },
+        ],
+      };
+    });
+  };
+
+  // Initial update after 1 second
+  setTimeout(updateChart, initialDelay);
+
+  // Update the chart every 30 seconds
+  const interval = setInterval(updateChart, updateInterval);
+
+  return () => {
+    clearInterval(interval); // Cleanup the interval on component unmount
+  };
+}, []);
 
   return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
 };

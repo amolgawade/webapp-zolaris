@@ -36,16 +36,20 @@ const RealTimePressureChart = () => {
   const { machineData } = useContext(MachineContext);
   useEffect(() => {
     // Simulating real-time data update
-    const interval = setInterval(() => {
+    const initialDelay = 1000; // 1 second
+    const updateInterval = 30000; // 30 seconds
+
+    const updateChart = () => {
       const now = Date.now();
       const time = new Date(now).getTime();
-      const SensorReading = Object.values(machineData.sensor)
+      const SensorReading = Object.values(machineData.sensor);
       const pressureReadings = SensorReading.map((reading) => ({
-          pressure: reading.pressure,
-          timestamp: reading.timestamp,
+        pressure: reading.pressure,
+        timestamp: reading.timestamp,
       }));
       const latestPressureReadings = pressureReadings.slice(-10);
-       //console.log("latest Pressure Readings:", latestPressureReadings);
+      //console.log("latest Pressure Readings:", latestPressureReadings);
+      console.log(`Refreshing Pressure chart`);
 
       setChartOptions((prevOptions) => {
         const updatedData = [...prevOptions.series[0].data, [time, latestPressureReadings]];
@@ -66,11 +70,18 @@ const RealTimePressureChart = () => {
           ],
         };
       });
-    }, 10000); // Update the chart every second
+    };
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
+    // Initial update after 1 second
+    setTimeout(updateChart, initialDelay);
+
+    // Update the chart every 30 seconds
+    const interval = setInterval(updateChart, updateInterval);
+
+    return () => {
+      clearInterval(interval); // Cleanup the interval on component unmount
+    };
   }, []);
-
   return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
 };
 

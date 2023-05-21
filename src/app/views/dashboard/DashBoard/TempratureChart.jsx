@@ -36,45 +36,57 @@ const RealTimeTemperatureChart = () => {
 const { machineData } = useContext(MachineContext);
 
 
-  useEffect(() => {
-    // Simulating real-time data update
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const time = new Date(now).getTime();
-      const SensorReading = Object.values(machineData.sensor)
-      const temperatureReadings = SensorReading.map((reading) => ({
-        temperature: reading.temperature,
-        timestamp: reading.timestamp,
-      }));
-      const latestTemperatureReadings = temperatureReadings.slice(-10);
-      //console.log("latest Temperature Readings:", latestTemperatureReadings);
+useEffect(() => {
+  // Simulating real-time data update
+  const initialDelay = 1000; // 1 second
+  const updateInterval = 30000; // 30 seconds
 
-       setChartOptions((prevOptions) => {
-             const updatedData = [...prevOptions.series[0].data, [time, latestTemperatureReadings]];
-             if (updatedData.length > 10) {
-               updatedData.shift();
-             }
-            const updatedChartData = latestTemperatureReadings.map((reading) => [
-              new Date(reading.timestamp)?.getTime(),
-              parseFloat(reading.temperature),
-            ]);
-             return {
-               ...prevOptions,
-               series: [
-                 {
-                   ...prevOptions.series[0],
-                   data: updatedChartData,
-                 },
-               ],
-             };
+  const updateChart = () => {
+    const now = Date.now();
+    const time = new Date(now).getTime();
+    const SensorReading = Object.values(machineData.sensor);
+    const temperatureReadings = SensorReading.map((reading) => ({
+      temperature: reading.temperature,
+      timestamp: reading.timestamp,
+    }));
+    const latestTemperatureReadings = temperatureReadings.slice(-10);
+     //console.log("latest temperature Readings:", latestTemperatureReadings);
+    console.log(`Refreshing temperature chart`)
 
-            });
-          }, 10000); // Update the chart every second
+    setChartOptions((prevOptions) => {
+      const updatedData = [...prevOptions.series[0].data, [time, latestTemperatureReadings]];
+      if (updatedData.length > 10) {
+        updatedData.shift();
+      }
+      const updatedChartData = latestTemperatureReadings.map((reading) => [
+        new Date(reading.timestamp)?.getTime(),
+        parseFloat(reading.temperature),
+      ]);
+      return {
+        ...prevOptions,
+        series: [
+          {
+            ...prevOptions.series[0],
+            data: updatedChartData,
+          },
+        ],
+      };
+    });
+  };
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, []);
+  // Initial update after 1 second
+  setTimeout(updateChart, initialDelay);
 
-  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  // Update the chart every 30 seconds
+  const interval = setInterval(updateChart, updateInterval);
+
+  return () => {
+    clearInterval(interval); // Cleanup the interval on component unmount
+  };
+}, []);
+
+return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+
 };
 
 export default RealTimeTemperatureChart;
