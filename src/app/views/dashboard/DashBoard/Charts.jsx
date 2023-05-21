@@ -31,10 +31,15 @@ export function Charts() {
   const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
    //console.log(`This is latestSensorReading: `, latestSensorReading);
 
-  const { temperature, humidity, pressure } = latestSensorReading;
+  const { temperature, humidity, pressure, timestamp } = latestSensorReading;
+  const formattedTimestamp = new Date(timestamp).toLocaleString();
 
   return (
     <Box sx={{ width: '100%' }}>
+      <Item sx={{ height: '100px', margin: '20px 20px 20px 20px'}}>
+        <strong>Latest Update</strong>
+        <p><strong>{formattedTimestamp}</strong></p>
+      </Item>
       <Stack spacing={{ xs: 2, sm: 3}} direction={isMobile ? 'column' : 'row'} useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
         <Item sx={{ height: '90px',width: isMobile ? '100%' : '100px'}}>
           <strong>TEMPERATURE</strong>

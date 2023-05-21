@@ -54,9 +54,7 @@ export function ControlButton() {
       <Item sx={{ margin: '20px 20px 20px 20px'}}>
          <strong>Input Message</strong>
       </Item>
-      <Item sx={{ margin: '20px 20px 20px 20px'}}>
-        <strong>Latest Update</strong>
-      </Item>
+
     </Box>
   );
 }
