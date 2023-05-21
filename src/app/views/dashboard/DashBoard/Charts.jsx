@@ -29,7 +29,7 @@ export function Charts() {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const { machineData } = useContext(MachineContext);
   const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
-  console.log(`This is latestSensorReading: `, latestSensorReading);
+   //console.log(`This is latestSensorReading: `, latestSensorReading);
 
   const { temperature, humidity, pressure } = latestSensorReading;
 

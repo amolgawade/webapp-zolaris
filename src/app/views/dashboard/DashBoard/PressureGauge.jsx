@@ -10,10 +10,10 @@ const PressureGauge = () => {
 
   const { machineData } = useContext(MachineContext);
   const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
-  console.log(`This is latestSensorReading: `, latestSensorReading);
+   //console.log(`This is latestSensorReading: `, latestSensorReading);
 
   const { pressure } = latestSensorReading;
-  console.log(`pressure gauge:`, pressure);
+   //console.log(`pressure gauge:`, pressure);
 
   const minPressure = 900; // Define the desired min temperature
   const maxPressure = 1100;

@@ -100,10 +100,10 @@ function RecursiveTreeView(props) {
 
 const handleClick = (node) => {
   const currentUser = node.label?.split('~');
-  console.log(currentUser);
+    // console.log(currentUser);
   if (currentUser[3] === 'Technical Incharge') {
     const userId = node.id;
-    console.log(`Is Technical Incharge: ${userId}`);
+       console.log(`Is Technical Incharge`);
     const RefDb = firebase.database().ref(`UsersData/${userId}`);
 
     RefDb.once('value').then((snapshot) => {
@@ -134,8 +134,9 @@ useEffect(() => {
        refreshData();
 }, [data]);
 const { setMachine } = useContext(MachineContext);
+
 const handleMachineNodeClick = (id, parentId) => {
-  console.log(`Clicked on machineNode with ID: ${id} parentId : ${parentId}`);
+    //console.log(`Clicked on machineNode with ID: ${id} parentId : ${parentId}`);
   const newPath = '/views/dashboard/DashBoard/Dashboard'.replace('/dashboard/default', '');
   navigate(newPath);
 
@@ -143,10 +144,14 @@ const handleMachineNodeClick = (id, parentId) => {
   userRef.once('value')
     .then((snapshot) => {
       const machine = snapshot.val();
-      console.log(`ID :${id}`)
-      console.log(`This is the machine data:`, machine);
-       setMachine(machine);
-      });
+       //console.log(`ID :${id}`)
+       //console.log(`This is the machine data:`, machine);
+      if (machine === null) {
+           alert('Machine not found');
+      } else {
+        setMachine(machine);
+      }
+     });
   };
 
 const renderTree = (nodes, handleClick) => {

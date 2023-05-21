@@ -23,13 +23,13 @@ const MangersTree = () => {
   const [userType, setUserType] = useState('');
 
   const handleNodeData = (nodeData) => {
-    console.log('Selected node data:', nodeData);
+     //console.log('Selected node data:', nodeData);
     const parentId = nodeData.parentId;
     const nodeDataValue = nodeData.nodeData;
     Object.keys(nodeDataValue).forEach((id) => {
-        console.log('populating node id: ', id);
-        console.log('populating node: ', nodeDataValue[id]);
-         console.log('populating node sensor data: ', nodeDataValue[id].sensor);
+        // console.log('populating node id: ', id);
+        // console.log('populating node: ', nodeDataValue[id]);
+         // console.log('populating node sensor data: ', nodeDataValue[id].sensor);
          let sensorData;
           Object.keys(nodeDataValue[id].sensor).forEach((key) => {
             sensorData = nodeDataValue[id].sensor[key];
@@ -40,7 +40,7 @@ const MangersTree = () => {
             }
             return value;
           });
-          console.log('populating node sensorData data: ', sensorData.humidity);
+          // console.log('populating node sensorData data: ', sensorData.humidity);
           let newLabel = `machineNode~${id}~${sensorDataJson}~${parentId}`;
 
           const updateLabelById = (id, newLabel) => {
@@ -49,7 +49,7 @@ const MangersTree = () => {
             function updateNodeLabelById(node, id, newLabel) {
 
               if (node.id === id) {
-                console.log('checking for id : ' + node.id + ' value : ' + newLabel);
+                // console.log('checking for id : ' + node.id + ' value : ' + newLabel);
                 node.label = newLabel; // Update the label of the node
                 return;
               } else if (node.children) {
@@ -64,7 +64,7 @@ const MangersTree = () => {
           updateLabelById(id, newLabel);
 
       });
-      console.log(tree);
+       //console.log(tree);
       setTree(tree);
   };
 
@@ -140,7 +140,7 @@ function prepareTree(hierarchy, tempTree) {
               });
 
               const buildTree = (parentId, nodeData) => {
-                console.log( nodeData);
+                 //console.log( nodeData);
                 const children = Object.keys(userObj)
                   .filter((key) => userObj[key].parentId === parentId)
                   .map((key) => {
