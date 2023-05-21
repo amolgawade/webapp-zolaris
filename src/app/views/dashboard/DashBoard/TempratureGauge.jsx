@@ -1,23 +1,34 @@
-import React from 'react';
+import React,{ useContext } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMore from 'highcharts/highcharts-more';
+import { MachineContext } from '../../../MachineContext';
 
 HighchartsMore(Highcharts);
 
 const TemperatureGauge = () => {
+  const { machineData } = useContext(MachineContext);
+  const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
+  //console.log(`This is latestSensorReading: `, latestSensorReading);
+
+  const { temperature } = latestSensorReading;
+  //console.log(`temperature gauge:`, temperature);
+
+  const minTemperature = 0; // Define the desired min temperature
+  const maxTemperature = 40; // Define the desired max temperature
+
   const options = {
     chart: {
       type: 'gauge',
       height: '300px',
     },
-     title: null,
+    title: null,
     credits: {
-          enabled: false, // Disable the Highcharts credits
+      enabled: false,
     },
     pane: {
-      startAngle: -130,
-      endAngle: 130,
+      startAngle: -150,
+      endAngle: 150,
       background: [
         {
           backgroundColor: {
@@ -45,21 +56,21 @@ const TemperatureGauge = () => {
       ],
     },
     yAxis: {
-      min: -20,
-      max: 40,
-      minorTickInterval: 'auto',
-      minorTickWidth: 1,
-      minorTickLength: 10,
+      min: minTemperature,
+      max: maxTemperature,
+      minorTickInterval: 1,
+      minorTickWidth: 2,
+      minorTickLength: 5,
       minorTickPosition: 'inside',
       minorTickColor: '#666',
-      tickPixelInterval: 30,
+      tickPixelInterval: 10,
       tickWidth: 2,
       tickPosition: 'inside',
-      tickLength: 10,
-      tickColor: '#666',
+      tickLength: 15,
+      tickColor: '#000000',
       labels: {
-        step: 2,
-        rotation: 'auto',
+        step: 5,
+        rotation: 0,
       },
       title: {
         text: '°C',
@@ -85,7 +96,7 @@ const TemperatureGauge = () => {
     series: [
       {
         name: 'Temperature',
-        data: [15],
+        data: [((temperature - minTemperature) / (maxTemperature - minTemperature)) * 40],
         tooltip: {
           valueSuffix: ' °C',
         },
@@ -97,3 +108,4 @@ const TemperatureGauge = () => {
 };
 
 export default TemperatureGauge;
+

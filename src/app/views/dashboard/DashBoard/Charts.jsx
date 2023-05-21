@@ -35,11 +35,7 @@ export function Charts() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Stack
-        spacing={{ xs: 2, sm: 3}}
-        direction={isMobile ? 'column' : 'row'}
-        useFlexGap
-        flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
+      <Stack spacing={{ xs: 2, sm: 3}} direction={isMobile ? 'column' : 'row'} useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
         <Item sx={{ height: '90px',width: isMobile ? '100%' : '100px'}}>
           <strong>TEMPERATURE</strong>
           <p><strong>{temperature} °C</strong></p>
@@ -53,11 +49,7 @@ export function Charts() {
           <p><strong>{pressure} Pa</strong></p>
         </Item>
       </Stack>
-      <Stack
-        spacing={{ xs: 2, sm: 3 }}
-        direction={isMobile ? 'column' : 'row'}
-        useFlexGap
-        flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
+      <Stack spacing={{ xs: 2, sm: 3 }} direction={isMobile ? 'column' : 'row'} useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
         <Item sx={{ width: isMobile ? '100%' : '100px' }}>
           <strong>TEMPERATURE GAUGE</strong>
           <TemperatureGauge />

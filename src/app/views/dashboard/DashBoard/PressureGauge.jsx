@@ -1,11 +1,24 @@
-import React from 'react';
+import React,{ useContext } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMore from 'highcharts/highcharts-more';
+import { MachineContext } from '../../../MachineContext';
 
 HighchartsMore(Highcharts);
 
 const PressureGauge = () => {
+
+  const { machineData } = useContext(MachineContext);
+  const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
+  console.log(`This is latestSensorReading: `, latestSensorReading);
+
+  const { pressure } = latestSensorReading;
+  console.log(`pressure gauge:`, pressure);
+
+  const minPressure = 900; // Define the desired min temperature
+  const maxPressure = 1100;
+
+
   const options = {
     chart: {
       type: 'gauge',
@@ -45,8 +58,8 @@ const PressureGauge = () => {
     ],
     },
     yAxis: {
-      min: 900,
-      max: 1100,
+      min: minPressure,
+      max: maxPressure,
       minorTickInterval: 'auto',
       minorTickWidth: 1,
       minorTickLength: 10,
@@ -85,7 +98,7 @@ const PressureGauge = () => {
     series: [
       {
         name: 'Pressure',
-        data: [1000],
+        data:[((pressure - minPressure) / (maxPressure - minPressure)) * (1100 - 900) + 900],
         tooltip: {
           valueSuffix: ' hPa',
         },

@@ -1,11 +1,23 @@
-import React from 'react';
+import React,{ useContext } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMore from 'highcharts/highcharts-more';
+import { MachineContext } from '../../../MachineContext';
 
 HighchartsMore(Highcharts);
 
 const HumidityGauge = () => {
+
+  const { machineData } = useContext(MachineContext);
+  const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
+  //console.log(`This is latestSensorReading: `, latestSensorReading);
+
+  const { humidity } = latestSensorReading;
+  //console.log(`Humidity gauge:`, humidity);
+
+  const minHumidity = 0; // Define the desired min temperature
+  const maxHumidity = 100;
+
   const options = {
     chart: {
       type: 'gauge',
@@ -46,8 +58,8 @@ const HumidityGauge = () => {
     ],
     },
     yAxis: {
-      min: 0,
-      max: 100,
+      min: minHumidity,
+      max: maxHumidity,
       minorTickInterval: 'auto',
       minorTickWidth: 1,
       minorTickLength: 10,
@@ -86,7 +98,7 @@ const HumidityGauge = () => {
     series: [
       {
         name: 'Humidity',
-        data: [50],
+        data: [((humidity - minHumidity) / (maxHumidity - minHumidity)) * 100],
         tooltip: {
           valueSuffix: ' %',
         },
