@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { MachineContext } from '../../../MachineContext';
 
 const RealTimeHumidityChart = () => {
   const [chartOptions, setChartOptions] = useState({
@@ -32,28 +33,40 @@ const RealTimeHumidityChart = () => {
     ],
   });
 
+const { machineData } = useContext(MachineContext);
+
   useEffect(() => {
     // Simulating real-time data update
     const interval = setInterval(() => {
       const now = Date.now();
       const time = new Date(now).getTime();
-      const humidity = Math.random() * 100; // Generate random humidity value
+      const SensorReading = Object.values(machineData.sensor)
+       const humidityReadings = SensorReading.map((reading) => ({
+          humidity: reading.humidity,
+          timestamp: reading.timestamp,
+        }));
+       const latestHumidityReadings = humidityReadings.slice(-10);
+        //console.log("latest Humidity Readings:", latestHumidityReadings);
       setChartOptions((prevOptions) => {
-        const updatedData = [...prevOptions.series[0].data, [time, humidity]];
+        const updatedData = [...prevOptions.series[0].data, [time, latestHumidityReadings]];
         if (updatedData.length > 10) {
-          updatedData.shift(); // Remove the oldest data point if exceeding the limit
+          updatedData.shift();
         }
+         const updatedChartData = latestHumidityReadings.map((reading) => [
+          new Date(reading.timestamp)?.getTime(),
+          parseFloat(reading.humidity),
+        ]);
         return {
           ...prevOptions,
           series: [
             {
               ...prevOptions.series[0],
-              data: updatedData,
+              data: updatedChartData,
             },
           ],
         };
       });
-    }, 3000); // Update the chart every second
+    }, 10000); // Update the chart every second
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, []);

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { MachineContext } from '../../../MachineContext';
 
 const RealTimeTemperatureChart = () => {
   const [chartOptions, setChartOptions] = useState({
@@ -32,28 +33,43 @@ const RealTimeTemperatureChart = () => {
     ],
   });
 
+const { machineData } = useContext(MachineContext);
+
+
   useEffect(() => {
     // Simulating real-time data update
     const interval = setInterval(() => {
       const now = Date.now();
       const time = new Date(now).getTime();
-      const temperature = Math.random() * 30; // Generate random temperature value
+      const SensorReading = Object.values(machineData.sensor)
+      const temperatureReadings = SensorReading.map((reading) => ({
+        temperature: reading.temperature,
+        timestamp: reading.timestamp,
+      }));
+      const latestTemperatureReadings = temperatureReadings.slice(-10);
+      //console.log("latest Temperature Readings:", latestTemperatureReadings);
+
        setChartOptions((prevOptions) => {
-              const updatedData = [...prevOptions.series[0].data, [time, temperature]];
-              if (updatedData.length > 10) {
-                updatedData.shift(); // Remove the oldest data point if exceeding the limit
-              }
-              return {
-                ...prevOptions,
-                series: [
-                  {
-                    ...prevOptions.series[0],
-                    data: updatedData,
-                  },
-                ],
-              };
+             const updatedData = [...prevOptions.series[0].data, [time, latestTemperatureReadings]];
+             if (updatedData.length > 10) {
+               updatedData.shift();
+             }
+            const updatedChartData = latestTemperatureReadings.map((reading) => [
+              new Date(reading.timestamp)?.getTime(),
+              parseFloat(reading.temperature),
+            ]);
+             return {
+               ...prevOptions,
+               series: [
+                 {
+                   ...prevOptions.series[0],
+                   data: updatedChartData,
+                 },
+               ],
+             };
+
             });
-          }, 5000); // Update the chart every second
+          }, 10000); // Update the chart every second
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, []);
