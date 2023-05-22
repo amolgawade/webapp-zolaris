@@ -139,19 +139,9 @@ const handleMachineNodeClick = (id, parentId) => {
     //console.log(`Clicked on machineNode with ID: ${id} parentId : ${parentId}`);
   const newPath = '/views/dashboard/DashBoard/Dashboard'.replace('/dashboard/default', '');
   navigate(newPath);
-
-  const userRef = firebase.database().ref(`UsersData/${parentId}/${id}`);
-  userRef.once('value')
-    .then((snapshot) => {
-      const machine = snapshot.val();
-       //console.log(`ID :${id}`)
-       //console.log(`This is the machine data:`, machine);
-      if (machine === null) {
-           alert('Machine not found');
-      } else {
-        setMachine(machine);
-      }
-     });
+  // Create a toFindMachine object to give to useContext
+  const toFindMachine = { id, parentId };
+  setMachine(toFindMachine);
   };
 
 const renderTree = (nodes, handleClick) => {

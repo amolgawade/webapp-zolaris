@@ -8,8 +8,11 @@ const MachineProvider = ({ children }) => {
   const [machineData, setMachineData] = useState(null);
 
   const setMachine = (data) => {
-    setMachineData(data);
+    const machine = { data };
+    setMachineData(machine);
+    //console.log(`In machine context:`, machine);
   };
+   //console.log(`In machine context machineData:`,machineData);
 
   return (
     <MachineContext.Provider value={{ machineData, setMachine }}>

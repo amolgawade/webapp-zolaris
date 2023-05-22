@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { MachineContext } from '../../../MachineContext';
+import firebase from '../../../../fake-db/db/firebasekey';
 
 const RealTimeHumidityChart = () => {
   const [chartOptions, setChartOptions] = useState({
@@ -36,21 +37,35 @@ const RealTimeHumidityChart = () => {
 const { machineData } = useContext(MachineContext);
 
 useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const { parentId, id } = machineData.data;
+      const dataRef = firebase.database().ref(`UsersData/${parentId}/${id}`);
+      const snapshot = await dataRef.once('value');
+      const machine = snapshot.val();
+
+      const humidityReadings = Object.values(machine.sensor).map((reading) => ({
+        humidity: reading.humidity,
+        timestamp: reading.timestamp,
+      }));
+
+      // Update the chart with fetched humidity readings
+      updateChart(humidityReadings);
+    } catch (error) {
+      console.error('Error fetching data from Firebase:', error);
+    }
+  };
+
   // Simulating real-time data update
   const initialDelay = 1000; // 1 second
-  const updateInterval = 30000; // 30 seconds
+  const updateInterval = 15000; // 15 seconds
 
-  const updateChart = () => {
+  const updateChart = (humidityReadings) => {
     const now = Date.now();
     const time = new Date(now).getTime();
-    const SensorReading = Object.values(machineData.sensor);
-    const humidityReadings = SensorReading.map((reading) => ({
-      humidity: reading.humidity,
-      timestamp: reading.timestamp,
-    }));
     const latestHumidityReadings = humidityReadings.slice(-10);
-    //console.log("latest humidity Readings:", latestPressureReadings);
-    console.log(`Refreshing humidity chart`);
+    console.log('Latest humidity readings:', latestHumidityReadings);
+    console.log('Refreshing humidity chart');
 
     setChartOptions((prevOptions) => {
       const updatedData = [...prevOptions.series[0].data, [time, latestHumidityReadings]];
@@ -74,10 +89,10 @@ useEffect(() => {
   };
 
   // Initial update after 1 second
-  setTimeout(updateChart, initialDelay);
+  setTimeout(fetchData, initialDelay);
 
-  // Update the chart every 30 seconds
-  const interval = setInterval(updateChart, updateInterval);
+  // Update the chart every 15 seconds
+  const interval = setInterval(fetchData, updateInterval);
 
   return () => {
     clearInterval(interval); // Cleanup the interval on component unmount

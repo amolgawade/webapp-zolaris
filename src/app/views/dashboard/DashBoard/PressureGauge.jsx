@@ -1,19 +1,39 @@
-import React,{ useContext } from 'react';
+import React,{ useContext, useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMore from 'highcharts/highcharts-more';
 import { MachineContext } from '../../../MachineContext';
+import firebase from '../../../../fake-db/db/firebasekey';
 
 HighchartsMore(Highcharts);
 
 const PressureGauge = () => {
-
   const { machineData } = useContext(MachineContext);
-  const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
-   //console.log(`This is latestSensorReading: `, latestSensorReading);
+  const [latestPressure, setLatestPressure] = useState(null);
+   //console.log(`This is selected machine id and parentId :`, machineData);
+  const { parentId, id } = machineData.data;
+  const dataRef = firebase.database().ref(`UsersData/${parentId}/${id}`);
 
-  const { pressure } = latestSensorReading;
-   //console.log(`pressure gauge:`, pressure);
+  const fetchData = () => {
+     dataRef.once('value').then((snapshot) => {
+       const machine = snapshot.val();
+       const latestSensorReading = Object.values(machine.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
+       setLatestPressure(latestSensorReading.pressure);
+       console.log(`This is latestSensorReading:`, latestSensorReading.pressure);
+     });
+   };
+
+   useEffect(() => {
+     fetchData();
+     const intervalId = setInterval(fetchData, 15000); // Refresh every 15 seconds
+     return () => {
+       clearInterval(intervalId); // Clean up the interval on component unmount
+     };
+   }, []);;
+
+  if (!latestPressure) {
+    return <div>Loading...</div>;
+  }
 
   const minPressure = 900; // Define the desired min temperature
   const maxPressure = 1100;
@@ -98,7 +118,7 @@ const PressureGauge = () => {
     series: [
       {
         name: 'Pressure',
-        data:[((pressure - minPressure) / (maxPressure - minPressure)) * (1100 - 900) + 900],
+        data:[((latestPressure - minPressure) / (maxPressure - minPressure)) * (1100 - 900) + 900],
         tooltip: {
           valueSuffix: ' hPa',
         },

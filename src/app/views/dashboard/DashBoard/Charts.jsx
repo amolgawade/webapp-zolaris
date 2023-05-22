@@ -1,4 +1,4 @@
-import React,{ useContext } from 'react';
+import React,{ useContext, useState, useEffect } from 'react';
 import TemperatureGauge from './TempratureGauge';
 import HumidityGauge from './HumidityGauge';
 import PressureGauge from './PressureGauge'
@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { MachineContext } from '../../../MachineContext';
+import firebase from '../../../../fake-db/db/firebasekey';
 
 
 
@@ -26,32 +27,57 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export function Charts() {
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const { machineData } = useContext(MachineContext);
-  const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
-   //console.log(`This is latestSensorReading: `, latestSensorReading);
+   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+   const { machineData } = useContext(MachineContext);
+   const [latestReading, setLatestReading] = useState(null);
 
-  const { temperature, humidity, pressure, timestamp } = latestSensorReading;
-  const formattedTimestamp = new Date(timestamp).toLocaleString();
+   //console.log(`This is selected machine id and parentId :`, machineData);
+   const { parentId, id } = machineData.data;
+   const dataRef = firebase.database().ref(`UsersData/${parentId}/${id}`);
+
+   const fetchData = () => {
+     dataRef.once('value').then((snapshot) => {
+       const machine = snapshot.val();
+       const latestSensorReading = Object.values(machine.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
+       setLatestReading(latestSensorReading);
+       //console.log(`This is latestSensorReading:`, latestSensorReading);
+     });
+   };
+
+   useEffect(() => {
+     fetchData();
+     const intervalId = setInterval(fetchData, 15000); // Refresh every 15 seconds
+     return () => {
+       clearInterval(intervalId); // Clean up the interval on component unmount
+     };
+   }, []);
+
+   if (!latestReading) {
+     return <div>Loading...</div>;
+   }
+
+   const formattedTimestamp = new Date(latestReading.timestamp).toLocaleTimeString();
+   const formattedDate = new Date(latestReading.timestamp).toLocaleDateString();
+  //console.log(`Readings are:`, latestReading);
 
   return (
     <Box sx={{ width: '100%' }}>
       <Item sx={{ height: '100px', margin: '20px 20px 20px 20px'}}>
         <strong>Latest Update</strong>
-        <p><strong>{formattedTimestamp}</strong></p>
+        <p><strong>{formattedDate} {formattedTimestamp}</strong></p>
       </Item>
       <Stack spacing={{ xs: 2, sm: 3}} direction={isMobile ? 'column' : 'row'} useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>
         <Item sx={{ height: '90px',width: isMobile ? '100%' : '100px'}}>
           <strong>TEMPERATURE</strong>
-          <p><strong>{temperature} °C</strong></p>
+          <p><strong>{latestReading.temperature} °C</strong></p>
         </Item>
         <Item sx={{ height: '90px',width: isMobile ? '100%' : '100px' }}>
           <strong>HUMIDITY</strong>
-          <p><strong>{humidity} %</strong></p>
+          <p><strong>{latestReading.humidity} %</strong></p>
         </Item>
         <Item sx={{ height: '90px',width: isMobile ? '100%' : '100px'}}>
           <strong>PRESSURE</strong>
-          <p><strong>{pressure} Pa</strong></p>
+          <p><strong>{latestReading.pressure} Pa</strong></p>
         </Item>
       </Stack>
       <Stack spacing={{ xs: 2, sm: 3 }} direction={isMobile ? 'column' : 'row'} useFlexGap flexWrap="wrap" sx={{ margin: '20px 20px 20px 20px'}}>

@@ -1,19 +1,39 @@
-import React,{ useContext } from 'react';
+import React,{ useContext, useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMore from 'highcharts/highcharts-more';
 import { MachineContext } from '../../../MachineContext';
+import firebase from '../../../../fake-db/db/firebasekey';
 
 HighchartsMore(Highcharts);
 
 const HumidityGauge = () => {
-
   const { machineData } = useContext(MachineContext);
-  const latestSensorReading = Object.values(machineData.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
-  //console.log(`This is latestSensorReading: `, latestSensorReading);
+  const [latestHumidity, setLatestHumidity] = useState(null);
+   //console.log(`This is selected machine id and parentId :`, machineData);
+   const { parentId, id } = machineData.data;
+   const dataRef = firebase.database().ref(`UsersData/${parentId}/${id}`);
 
-  const { humidity } = latestSensorReading;
-  //console.log(`Humidity gauge:`, humidity);
+  const fetchData = () => {
+     dataRef.once('value').then((snapshot) => {
+       const machine = snapshot.val();
+       const latestSensorReading = Object.values(machine.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
+       setLatestHumidity(latestSensorReading.humidity);
+       console.log(`This is latestSensorReading:`, latestSensorReading.humidity);
+     });
+   };
+
+   useEffect(() => {
+     fetchData();
+     const intervalId = setInterval(fetchData, 15000); // Refresh every 15 seconds
+     return () => {
+       clearInterval(intervalId); // Clean up the interval on component unmount
+     };
+   }, []);;
+
+  if (!latestHumidity) {
+    return <div>Loading...</div>;
+  }
 
   const minHumidity = 0; // Define the desired min temperature
   const maxHumidity = 100;
@@ -98,7 +118,7 @@ const HumidityGauge = () => {
     series: [
       {
         name: 'Humidity',
-        data: [((humidity - minHumidity) / (maxHumidity - minHumidity)) * 100],
+        data: [((latestHumidity - minHumidity) / (maxHumidity - minHumidity)) * 100],
         tooltip: {
           valueSuffix: ' %',
         },
