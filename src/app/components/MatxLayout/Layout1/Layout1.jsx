@@ -39,11 +39,12 @@ const LayoutContainer = styled(Box)(({ width, open }) => ({
   flexGrow: '1',
   flexDirection: 'column',
   verticalAlign: 'top',
-  marginLeft: width,
+  marginRight: width,
+  marginLeft: 0,
   position: 'relative',
   overflow: 'hidden',
   transition: 'all 0.3s ease',
-  marginRight: open ? 50 : 0
+  //marginRight: open ? 50 : 0
 }));
 
 const Layout1 = () => {

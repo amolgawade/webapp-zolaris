@@ -106,9 +106,6 @@ const Layout1Topbar = () => {
     <TopbarRoot>
       <TopbarContainer>
         <Box display="flex">
-          <StyledIconButton onClick={handleSidebarToggle}>
-            <Icon>menu</Icon>
-          </StyledIconButton>
 
 {/*           <IconBox> */}
 {/*             <StyledIconButton> */}
@@ -170,6 +167,9 @@ const Layout1Topbar = () => {
               <Span> Logout </Span>
             </StyledItem>
           </MatxMenu>
+            <StyledIconButton onClick={handleSidebarToggle}>
+              <Icon>menu</Icon>
+            </StyledIconButton>
         </Box>
       </TopbarContainer>
     </TopbarRoot>

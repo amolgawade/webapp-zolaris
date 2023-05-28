@@ -10,7 +10,7 @@ import Sidenav from '../../Sidenav';
 const SidebarNavRoot = styled(Box)(({ theme, width, bg, image }) => ({
   position: 'fixed',
   top: 0,
-  left: 0,
+  right: 0,
   height: '100vh',
   width: width,
   boxShadow: themeShadows[8],
