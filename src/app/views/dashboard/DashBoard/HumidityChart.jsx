@@ -64,8 +64,8 @@ useEffect(() => {
     const now = Date.now();
     const time = new Date(now).getTime();
     const latestHumidityReadings = humidityReadings.slice(-10);
-    console.log('Latest humidity readings:', latestHumidityReadings);
-    console.log('Refreshing humidity chart');
+       //console.log('Latest humidity readings:', latestHumidityReadings);
+       //console.log('Refreshing humidity chart');
 
     setChartOptions((prevOptions) => {
       const updatedData = [...prevOptions.series[0].data, [time, latestHumidityReadings]];

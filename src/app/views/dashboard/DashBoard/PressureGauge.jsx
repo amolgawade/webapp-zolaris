@@ -19,7 +19,7 @@ const PressureGauge = () => {
        const machine = snapshot.val();
        const latestSensorReading = Object.values(machine.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
        setLatestPressure(latestSensorReading.pressure);
-       console.log(`This is latestSensorReading:`, latestSensorReading.pressure);
+       //console.log(`This is latestSensorReading:`, latestSensorReading.pressure);
      });
    };
 

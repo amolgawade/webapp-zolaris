@@ -19,7 +19,7 @@ const TemperatureGauge = () => {
        const machine = snapshot.val();
        const latestSensorReading = Object.values(machine.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
        setLatestTemperature(latestSensorReading.temperature);
-       console.log(`This is latestSensorReading:`, latestSensorReading.temperature);
+       //console.log(`This is latestSensorReading:`, latestSensorReading.temperature);
      });
    };
 

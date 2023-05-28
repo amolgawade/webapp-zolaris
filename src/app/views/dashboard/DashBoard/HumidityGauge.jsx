@@ -19,7 +19,7 @@ const HumidityGauge = () => {
        const machine = snapshot.val();
        const latestSensorReading = Object.values(machine.sensor).sort((a, b) => b.timestamp - a.timestamp).pop();
        setLatestHumidity(latestSensorReading.humidity);
-       console.log(`This is latestSensorReading:`, latestSensorReading.humidity);
+       //console.log(`This is latestSensorReading:`, latestSensorReading.humidity);
      });
    };
 

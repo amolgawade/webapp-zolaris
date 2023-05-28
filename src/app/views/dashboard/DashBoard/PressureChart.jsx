@@ -64,8 +64,8 @@ const RealTimePressureChart = () => {
       const now = Date.now();
       const time = new Date(now).getTime();
       const latestPressureReadings = pressureReadings.slice(-10);
-      console.log('Latest pressure readings:', latestPressureReadings);
-      console.log('Refreshing pressure chart');
+         //console.log('Latest pressure readings:', latestPressureReadings);
+         //console.log('Refreshing pressure chart');
 
       setChartOptions((prevOptions) => {
         const updatedData = [...prevOptions.series[0].data, [time, latestPressureReadings]];
