@@ -203,7 +203,7 @@ const renderTree = (nodes, handleClick) => {
          { nodeType === 'machineNode' &&
          <span style={{fontSize: '0.75rem', color: 'black'}}
          onClick={() => handleMachineNodeClick(machineId, parentId)}>
-           {machineId} {machineName} {parentId}
+           {machineId} {machineName}
          </span>
          }
        </span>
