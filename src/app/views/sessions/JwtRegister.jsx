@@ -57,6 +57,13 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
     .required('Confirm password is required'),
   email: Yup.string().email('Invalid email address').required('Email is required'),
+  phone: Yup.string().required('Phone number is required').matches(/^\d{10}$/, 'Phone number must be 10 digits'),
+  parentId: Yup.string().test('parentId-match', 'Invalid parent ID', async function (value) {
+        // Check if the parent ID exists in the Firebase database
+        const userSnapshot = await firebase.database().ref('users').child(value).once('value');
+        const userExists = userSnapshot.exists();
+        return userExists;
+      }),
 });
 
 const JwtRegister = () => {
@@ -279,7 +286,7 @@ const JwtRegister = () => {
                       size="small"
                       type="number"
                       name="zipCode"
-                      label="Postal/Zip Code"
+                      label="Postal Code"
                       variant="outlined"
                       onBlur={handleBlur}
                       value={values.zipCode}
