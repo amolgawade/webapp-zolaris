@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { MatxLoading } from 'app/components';
@@ -66,22 +66,29 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [error, setError] = useState(null);
 
   const login = async (email, password) => {
-    // const response = await axios.post('/api/auth/login', { email, password });
-    const firebaseUser = await firebase.auth().signInWithEmailAndPassword(email, password);
+    try {
+        // const response = await axios.post('/api/auth/login', { email, password });
+        const firebaseUser = await firebase.auth().signInWithEmailAndPassword(email, password);
 
-    const dbemail = firebaseUser.user.email;
-    const user = { ...firebaseUser.user, name: dbemail };
-    const user2 = {
-    "avatar": "/assets/images/avatars/001-man.svg",
-    "email": dbemail,
-    "name": dbemail,
-    }
-    // Set user data in cookies
-    Cookies.set('user', JSON.stringify(user2));
+        const dbemail = firebaseUser.user.email;
+        const user = { ...firebaseUser.user, name: dbemail };
+        const user2 = {
+        "avatar": "/assets/images/avatars/001-man.svg",
+        "email": dbemail,
+        "name": dbemail,
+        }
+        // Set user data in cookies
+        Cookies.set('user', JSON.stringify(user2));
 
-    dispatch({ type: 'LOGIN', payload: { isAuthenticated: true, user: user } });
+        dispatch({ type: 'LOGIN', payload: { isAuthenticated: true, user: user } });
+    } catch(error) {
+        setError('Email and password do not match');
+        //console.log("Email and password do not match");
+        alert('Email and password do not match');
+     }
   };
 
   const register = async (email, username, password) => {
