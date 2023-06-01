@@ -41,7 +41,7 @@ const MachineRoot = styled(JustifyBox)(() => ({
   }
 }));
 
-// inital login credentials
+// initial login credentials
 const initialValues = {
   machineid: '',
    machineName: '',
@@ -172,26 +172,6 @@ const MachineRegister = () => {
                      error={Boolean(errors.area && touched.area)}
                      sx={{ mb: 3 }}
                    />
-{/*                     <FormControl fullWidth size="small" sx={{ mb: 3 }}> */}
-{/*                         <InputLabel id="position-label">Position</InputLabel> */}
-{/*                         <Select */}
-{/*                           labelId="position-label" */}
-{/*                           id="position" */}
-{/*                           name="position" */}
-{/*                           value={values.position} */}
-{/*                           onChange={handleChange} */}
-{/*                           onBlur={handleBlur} */}
-{/*                           error={Boolean(errors.position && touched.position)} */}
-{/*                         > */}
-{/*                           <MenuItem value="top">Top</MenuItem> */}
-{/*                           <MenuItem value="bottom">Bottom</MenuItem> */}
-{/*                           <MenuItem value="left">Left</MenuItem> */}
-{/*                           <MenuItem value="right">Right</MenuItem> */}
-{/*                         </Select> */}
-{/*                         {touched.position && errors.position && ( */}
-{/*                           <FormHelperText error>{errors.position}</FormHelperText> */}
-{/*                         )} */}
-{/*                       </FormControl> */}
                    <TextField
                      fullWidth
                      size="small"
