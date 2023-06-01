@@ -134,7 +134,7 @@ const JwtRegister = () => {
               <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
-//                validationSchema={validationSchema}
+                validationSchema={validationSchema}
               >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
@@ -151,6 +151,7 @@ const JwtRegister = () => {
                         helperText={touched.firstName && errors.firstName}
                         error={Boolean(errors.firstName && touched.firstName)}
                         sx={{ mb: 3 }}
+                        required
                       />
                     <TextField
                       fullWidth
@@ -165,6 +166,7 @@ const JwtRegister = () => {
                       helperText={touched.lastName && errors.lastName}
                       error={Boolean(errors.lastName && touched.lastName)}
                       sx={{ mb: 3 }}
+                      required
                     />
 
                     <TextField
@@ -180,6 +182,7 @@ const JwtRegister = () => {
                       helperText={touched.email && errors.email}
                       error={Boolean(errors.email && touched.email)}
                       sx={{ mb: 3 }}
+                      required
                     />
                     <TextField
                       fullWidth
@@ -194,6 +197,7 @@ const JwtRegister = () => {
                       helperText={touched.phone && errors.phone}
                       error={Boolean(errors.phone && touched.phone)}
                       sx={{ mb: 3 }}
+                      required
                     />
 
                     <TextField
@@ -209,6 +213,7 @@ const JwtRegister = () => {
                       helperText={touched.streetAddress && errors.streetAddress}
                       error={Boolean(errors.streetAddress && touched.streetAddress)}
                       sx={{ mb: 3 }}
+                      required
                     />
                     <TextField
                       fullWidth
@@ -237,6 +242,7 @@ const JwtRegister = () => {
                       helperText={touched.country && errors.country}
                       error={Boolean(errors.country && touched.country)}
                       sx={{ mb: 3 }}
+                      required
                     />
                     <TextField
                       fullWidth
@@ -251,6 +257,7 @@ const JwtRegister = () => {
                       helperText={touched.city && errors.city}
                       error={Boolean(errors.city && touched.city)}
                       sx={{ mb: 3 }}
+                      required
                     />
                     <TextField
                       fullWidth
@@ -265,6 +272,7 @@ const JwtRegister = () => {
                       helperText={touched.region && errors.region}
                       error={Boolean(errors.region && touched.region)}
                       sx={{ mb: 3 }}
+                      required
                     />
                     <TextField
                       fullWidth
@@ -279,6 +287,7 @@ const JwtRegister = () => {
                       helperText={touched.zipCode && errors.zipCode}
                       error={Boolean(errors.zipCode && touched.zipCode)}
                       sx={{ mb: 3 }}
+                      required
                     />
 
                     <TextField
@@ -294,27 +303,29 @@ const JwtRegister = () => {
                       helperText={touched.parentId && errors.parentId}
                       error={Boolean(errors.parentId && touched.parentId)}
                       sx={{ mb: 3 }}
+                      required
                     />
                     <FormControl fullWidth size="small" sx={{ mb: 3 }}>
-                    <InputLabel id="usertype-label">User Type</InputLabel>
-                    <Select
-                      labelId="usertype-label"
-                      id="usertype"
-                      name="usertype"
-                      value={values.usertype}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={Boolean(errors.usertype && touched.usertype)}
-                    >
-                      <MenuItem value="General manager">General Manager</MenuItem>
-                      <MenuItem value="Regional manager">Regional Manager</MenuItem>
-                      <MenuItem value="Branch manager">Branch Manager</MenuItem>
-                      <MenuItem value="Technical Incharge">Technical Incharge</MenuItem>
-                    </Select>
-                    {touched.usertype && errors.usertype && (
-                      <FormHelperText error>{errors.usertype}</FormHelperText>
-                    )}
-                  </FormControl>
+                      <InputLabel id="usertype-label">User Type</InputLabel>
+                      <Select
+                        labelId="usertype-label"
+                        id="usertype"
+                        name="usertype"
+                        value={values.usertype}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={Boolean(errors.usertype && touched.usertype)}
+                        required
+                      >
+                        <MenuItem value="General manager">General Manager</MenuItem>
+                        <MenuItem value="Regional manager">Regional Manager</MenuItem>
+                        <MenuItem value="Branch manager">Branch Manager</MenuItem>
+                        <MenuItem value="Technical Incharge">Technical Incharge</MenuItem>
+                      </Select>
+                      {touched.usertype && errors.usertype && (
+                        <FormHelperText error>{errors.usertype}</FormHelperText>
+                      )}
+                    </FormControl>
                     <TextField
                       fullWidth
                       size="small"
@@ -328,6 +339,7 @@ const JwtRegister = () => {
                       helperText={touched.password && errors.password}
                       error={Boolean(errors.password && touched.password)}
                       sx={{ mb: 2 }}
+                      required
                     />
                     <TextField
                       fullWidth
@@ -342,6 +354,7 @@ const JwtRegister = () => {
                       helperText={touched.confirmPassword && errors.confirmPassword}
                       error={Boolean(errors.confirmPassword && touched.confirmPassword)}
                       sx={{ mb: 2 }}
+                      required
                     />
 
                     <FlexBox gap={1} alignItems="center">

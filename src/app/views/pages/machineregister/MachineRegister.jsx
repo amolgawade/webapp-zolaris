@@ -72,6 +72,7 @@ const MachineRegister = () => {
            helperText={touched.machineid && errors.machineid}
            error={Boolean(errors.machineid && touched.machineid)}
            sx={{ mb: 3 }}
+           required
          />
        <TextField
          fullWidth
@@ -86,6 +87,7 @@ const MachineRegister = () => {
          helperText={touched.machineName && errors.machineName}
          error={Boolean(errors.machineName && touched.machineName)}
          sx={{ mb: 3 }}
+         required
        />
        <TextField
          fullWidth
@@ -100,6 +102,7 @@ const MachineRegister = () => {
          helperText={touched.building && errors.building}
          error={Boolean(errors.building && touched.building)}
          sx={{ mb: 3 }}
+         required
        />
        <TextField
          fullWidth
@@ -114,6 +117,7 @@ const MachineRegister = () => {
          helperText={touched.floor && errors.floor}
          error={Boolean(errors.floor && touched.floor)}
          sx={{ mb: 3 }}
+         required
        />
        <TextField
          fullWidth
@@ -128,6 +132,7 @@ const MachineRegister = () => {
          helperText={touched.area && errors.area}
          error={Boolean(errors.area && touched.area)}
          sx={{ mb: 3 }}
+         required
        />
        <TextField
          fullWidth
@@ -142,6 +147,7 @@ const MachineRegister = () => {
          helperText={touched.position && errors.position}
          error={Boolean(errors.position && touched.position)}
          sx={{ mb: 3 }}
+         required
        />
        <TextField
          fullWidth
@@ -156,6 +162,7 @@ const MachineRegister = () => {
          helperText={touched.parentId && errors.parentId}
          error={Boolean(errors.parentId && touched.parentId)}
          sx={{ mb: 3 }}
+         required
        />
        <TextField
          fullWidth
@@ -184,6 +191,7 @@ const MachineRegister = () => {
        helperText={touched.description && errors.description}
        error={Boolean(errors.description && touched.description)}
        sx={{ mb: 3 }}
+       required
      />
        <LoadingButton
          type="submit"

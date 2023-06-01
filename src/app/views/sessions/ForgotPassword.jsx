@@ -28,7 +28,7 @@ const ForgotPasswordRoot = styled(JustifyBox)(() => ({
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('admin@example.com');
+  const [email, setEmail] = useState('');
 
   const handleFormSubmit = () => {
     console.log(email);
@@ -54,6 +54,7 @@ const ForgotPassword = () => {
                   variant="outlined"
                   onChange={(e) => setEmail(e.target.value)}
                   sx={{ mb: 3, width: '100%' }}
+                  required
                 />
 
                 <Button fullWidth variant="contained" color="primary" type="submit">
