@@ -4,6 +4,7 @@ import { Card, Grid, TextField,Typography,Box, styled, Select, MenuItem, InputLa
 import useAuth from 'app/hooks/useAuth';
 import { Formik} from 'formik';
 import { useState } from 'react';
+import * as Yup from 'yup';
 import {  useNavigate } from 'react-router-dom';
 import PositionAutocompleteCombo from '../../material-kit/auto-complete/PositionAutocompleteCombo'
 import firebase from '../../../../fake-db/db/firebasekey';
@@ -45,6 +46,16 @@ const initialValues = {
    parentId: '',
    note:'',
 };
+
+const validationSchema = Yup.object().shape({
+    parentId: Yup.string().test('parentId-match', 'Invalid parent ID', async function (value) {
+       // Check if the parent ID exists in the Firebase database
+       const userSnapshot = await firebase.database().ref('users').child(value).once('value');
+       const userExists = userSnapshot.exists();
+       return userExists;
+    }),
+});
+
 
 const MachineRegister = () => {
   const theme = useTheme();
@@ -96,7 +107,7 @@ const MachineRegister = () => {
 
             <Grid item sm={6} xs={12}>
               <Box p={4} height="100%">
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} >
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={validationSchema} >
                   {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                     <form onSubmit={handleSubmit}>
                        <TextField
