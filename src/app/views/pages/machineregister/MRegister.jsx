@@ -17,9 +17,7 @@ const MRegister = () => {
     <Container>
       <p><strong>Machine Register</strong></p>
       <Stack spacing={3}>
-        <SimpleCard>
-            <MachineRegister />
-        </SimpleCard>
+         <MachineRegister />
       </Stack>
     </Container>
   );
